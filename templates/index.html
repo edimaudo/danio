@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>danio | The Loan Data Standard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --ink: #0F172A; --accent: #4F46E5; --muted: #64748B; }
+        body { font-family: 'Inter', sans-serif; margin: 0; color: var(--ink); background: #fff; }
+        .nav { display: flex; justify-content: space-between; padding: 30px 10%; align-items: center; }
+        .hero { padding: 100px 10%; text-align: center; }
+        .hero h1 { font-size: 4.5rem; letter-spacing: -3px; margin: 0; line-height: 0.9; }
+        .hero p { font-size: 1.25rem; color: var(--muted); max-width: 600px; margin: 25px auto; }
+        .btn-prime { background: var(--ink); color: white; padding: 20px 40px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .btn-prime:hover { background: var(--accent); transform: translateY(-2px); }
+        .visual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #E2E8F0; margin-top: 80px; border: 1px solid #E2E8F0; }
+        .v-card { background: white; padding: 60px 40px; }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div style="font-weight: 800; font-size: 24px;">danio.</div>
+        <a href="/workbench" class="btn-prime">Enter Workbench</a>
+    </nav>
+    <section class="hero">
+        <h1>Institutional <br><span style="color: var(--accent);">Credit Integrity.</span></h1>
+        <p>The only interoperable protocol for LMA and LSTA loan lifecycles. Real-time compliance, verified by legal logic.</p>
+        <a href="/workbench" class="btn-prime">Launch Digital Twin</a>
+    </section>
+    <div class="visual-grid">
+        <div class="v-card"><strong>01. Digitize</strong><p>Convert PDF prose into machine-readable JSON golden records.</p></div>
+        <div class="v-card"><strong>02. Verify</strong><p>Automated LMA standard deviation checks for credit agreements.</p></div>
+        <div class="v-card"><strong>03. Track</strong><p>Predictive covenant monitoring and ESG margin ratchets.</p></div>
+    </div>
+</body>
+</html>
