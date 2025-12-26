@@ -2,117 +2,108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>danio Workbench</title>
+    <title>danio | Workbench</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --bg: #06090F; --card: #0D1117; --border: #30363D; --primary: #58a6ff; --success: #238636; --warning: #d29922; --danger: #da3633; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; display: flex; }
-        aside { width: 260px; border-right: 1px solid var(--border); height: 100vh; padding: 40px 20px; position: fixed; }
-        main { margin-left: 260px; padding: 60px; width: 100%; box-sizing: border-box; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        input, textarea { background: #06090F; border: 1px solid var(--border); color: white; padding: 12px; border-radius: 6px; width: 100%; margin-bottom: 12px; font-family: monospace; }
-        .btn-prime { background: var(--success); color: white; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; }
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid transparent; }
-        .locked { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
-        #json-view { background: #000; padding: 15px; border-radius: 6px; font-size: 12px; color: #7ee787; max-height: 200px; overflow-y: auto; }
+        :root { --bg: #0B0F19; --card: #111827; --border: #1F2937; --primary: #6366F1; --text: #F9FAFB; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; }
+        aside { width: 260px; background: #06090F; border-right: 1px solid var(--border); height: 100vh; padding: 40px 24px; position: fixed; }
+        main { margin-left: 260px; padding: 40px; width: calc(100% - 620px); box-sizing: border-box; }
+        .guide-panel { width: 360px; background: #0D1117; border-left: 1px solid var(--border); height: 100vh; position: fixed; right: 0; padding: 40px 24px; box-sizing: border-box; overflow-y: auto; font-size: 13px; color: #9CA3AF; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+        .locked { opacity: 0.2; pointer-events: none; filter: grayscale(1); }
+        input, textarea { background: #06090F; border: 1px solid var(--border); color: white; padding: 12px; border-radius: 8px; width: 100%; margin: 8px 0; font-family: 'Fira Code', monospace; }
+        .btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
+        .badge { padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid; }
+        .success { color: #10B981; border-color: #10B981; }
+        .warning { color: #F59E0B; border-color: #F59E0B; }
+        .danger { color: #EF4444; border-color: #EF4444; }
     </style>
 </head>
 <body>
 
 <aside>
-    <div style="font-weight: 900; font-size: 22px; margin-bottom: 40px;">danio.</div>
-    <div style="color: var(--primary);"><i class="fas fa-microchip"></i> Live Digital Twin</div>
-    <button class="btn-prime" style="margin-top: 50px; background: transparent; border: 1px solid var(--border);" onclick="exportJSON()">Export Golden Record</button>
+    <div style="font-weight: 900; font-size: 24px; margin-bottom: 40px; letter-spacing: -1.5px;">danio.</div>
+    <div style="color: var(--primary);"><i class="fas fa-microchip"></i> Workbench</div>
 </aside>
 
 <main>
-    <header style="margin-bottom: 40px;">
-        <h1 style="margin: 0; letter-spacing: -1px;">Facility: Project Delta</h1>
-        <p style="opacity: 0.5;">LMA Interoperable Record • ID: LMA-2025-DELTA</p>
+    <header style="margin-bottom: 30px;">
+        <h1 style="margin:0; letter-spacing: -1px;">Facility Workbench</h1>
+        <p style="color: #6B7280; margin: 4px 0;">Standardized Digital Twin • ID: STP-2025-001</p>
     </header>
 
     <div class="card">
-        <div style="display:flex; justify-content:space-between;">
-            <h3>1. Legal Clause Verification</h3>
-            <span id="v-status" class="badge">Awaiting Input</span>
-        </div>
-        <textarea id="l-text" rows="2">The Obligor shall ensure Leverage does not exceed 3.50:1. This clause is subject to Negative Pledge standards.</textarea>
-        <button class="btn-prime" onclick="verify()">Verify LMA Standard</button>
+        <h3>1. Legal Clause Ingestion</h3>
+        <textarea id="legal-input" rows="3" placeholder="Paste Negative Pledge clause here..."></textarea>
+        <button class="btn" onclick="verify()">Initialize Digital Twin</button>
     </div>
 
-    <div class="grid locked" id="monitor-ui">
-        <div class="card">
-            <h3>2. Dynamic Performance</h3>
-            <label>Net Debt ($)</label>
-            <input type="number" id="debt" value="300000000" oninput="refresh()">
-            <label>LTM EBITDA ($)</label>
-            <input type="number" id="ebitda" value="100000000" oninput="refresh()">
-            <label><input type="checkbox" id="esg" onchange="refresh()"> ESG Sustainability Target Met (-5bps)</label>
-        </div>
-
-        <div class="card" style="text-align: center;">
-            <h3>Risk Engine Status</h3>
-            <div id="ratio-ui" style="font-size: 3.5rem; font-weight: 900;">0.00x</div>
-            <div id="status-ui" class="badge">Inactive</div>
-            <div style="margin-top: 20px; font-size: 14px;">Adjusted Margin: <span id="margin-ui" style="color: var(--primary); font-weight: 800;">--</span></div>
-            <div style="height: 4px; background: #30363D; margin-top: 20px;">
-                <div id="h-bar" style="height: 100%; width: 0%; transition: 0.3s;"></div>
+    <div id="monitor-ui" class="card locked">
+        <h3>2. Performance Engine</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <label style="font-size: 11px; color: #9CA3AF;">Total Net Debt ($)</label>
+                <input type="number" id="debt" value="300000000" oninput="refresh()">
+            </div>
+            <div>
+                <label style="font-size: 11px; color: #9CA3AF;">LTM EBITDA ($)</label>
+                <input type="number" id="ebitda" value="100000000" oninput="refresh()">
             </div>
         </div>
-    </div>
-
-    <div class="card locked" id="twin-ui">
-        <h3>3. Digital Twin Golden Record</h3>
-        <pre id="json-view">{}</pre>
+        <div style="text-align: center; margin-top: 30px;">
+            <div id="ratio-ui" style="font-size: 4rem; font-weight: 900;">--</div>
+            <div id="status-ui" class="badge">Awaiting Data</div>
+        </div>
     </div>
 </main>
 
+<div class="guide-panel">
+    <h3 style="color: white; margin-top: 0;"><i class="fas fa-info-circle"></i> Protocol Guide</h3>
+    <p>Use this guide to synchronize the legal contract with the Digital Twin.</p>
+    
+    <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+
+    <div style="margin-bottom: 24px;">
+        <strong style="color: var(--primary);">1. Legal Ingestion</strong>
+        <p>Paste the <strong>Negative Pledge</strong> clause from your credit agreement. The system verifies this against <em>Institutional Credit Standards</em> by searching for key legal anchors ("security" and "negative pledge").</p>
+    </div>
+
+    <div style="margin-bottom: 24px;">
+        <strong style="color: var(--primary);">2. Performance Engine</strong>
+        <p><strong>Net Debt:</strong> Input the total consolidated debt of the borrower.</p>
+        <p><strong>LTM EBITDA:</strong> Input the Last Twelve Months' earnings before interest, tax, depreciation, and amortization.</p>
+    </div>
+
+    <div style="margin-bottom: 24px;">
+        <strong style="color: var(--primary);">3. Compliance Status</strong>
+        <p><span class="badge success">Compliant</span>: Ratio is below 3.50x.</p>
+        <p><span class="badge warning">Watchlist</span>: Ratio is within 15% of breaching.</p>
+        <p><span class="badge danger">Breach</span>: Ratio exceeds the threshold.</p>
+    </div>
+</div>
+
 <script>
     async function verify() {
-        const text = document.getElementById('l-text').value;
+        const text = document.getElementById('legal-input').value;
         const res = await fetch('/api/verify', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text})});
         const data = await res.json();
         if(data.success) {
-            document.getElementById('v-status').innerText = "Verified";
-            document.getElementById('v-status').style.borderColor = "var(--success)";
             document.getElementById('monitor-ui').classList.remove('locked');
-            document.getElementById('twin-ui').classList.remove('locked');
             refresh();
+        } else {
+            alert(data.message);
         }
     }
 
     async function refresh() {
         const debt = document.getElementById('debt').value;
         const ebitda = document.getElementById('ebitda').value;
-        const esg = document.getElementById('esg').checked;
-        const res = await fetch('/api/monitor', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({debt, ebitda, esg_met: esg})});
+        const res = await fetch('/api/monitor', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({debt, ebitda})});
         const data = await res.json();
-        
         document.getElementById('ratio-ui').innerText = data.ratio + 'x';
         document.getElementById('status-ui').innerText = data.status;
-        document.getElementById('status-ui').style.borderColor = `var(--${data.color})`;
-        document.getElementById('margin-ui').innerText = data.margin + " bps";
-        document.getElementById('h-bar').style.width = data.headroom + "%";
-        document.getElementById('h-bar').style.background = `var(--${data.color})`;
-        
-        updateTwinView();
-    }
-
-    async function updateTwinView() {
-        const res = await fetch('/api/export');
-        const data = await res.json();
-        document.getElementById('json-view').innerText = JSON.stringify(data, null, 4);
-    }
-
-    function exportJSON() {
-        const data = document.getElementById('json-view').innerText;
-        const blob = new Blob([data], {type: 'application/json'});
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "danio-golden-record.json";
-        a.click();
+        document.getElementById('status-ui').className = "badge " + data.color;
     }
 </script>
 </body>
