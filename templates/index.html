@@ -2,34 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>danio | Institutional Credit Protocol</title>
+    <title>danio | Institutional Loan Protocol</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --ink: #0F172A; --accent: #4F46E5; }
-        body { font-family: 'Inter', sans-serif; margin: 0; color: var(--ink); }
-        .hero { padding: 120px 10%; text-align: center; background: #fff; }
-        .hero h1 { font-size: 5rem; letter-spacing: -4px; margin: 0; line-height: 0.8; }
-        .hero p { font-size: 1.25rem; color: #64748B; max-width: 600px; margin: 30px auto; }
-        .btn { background: var(--ink); color: white; padding: 20px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: 0.3s; display: inline-block; }
-        .btn:hover { background: var(--accent); transform: translateY(-2px); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #E2E8F0; }
-        .f-card { padding: 60px 40px; border-right: 1px solid #E2E8F0; }
+        :root { --ink: #0F172A; --accent: #4F46E5; --sub: #64748B; }
+        body { font-family: 'Inter', sans-serif; margin: 0; color: var(--ink); background: #F8FAFC; }
+        
+        /* Massive Brand Presence */
+        .hero { padding: 160px 5%; text-align: center; background: #fff; border-bottom: 1px solid #E2E8F0; }
+        .hero .brand { font-weight: 900; font-size: 48px; letter-spacing: -3px; margin-bottom: 60px; color: var(--ink); }
+        .hero h1 { font-size: 6.5rem; letter-spacing: -6px; margin: 0; line-height: 0.85; font-weight: 900; }
+        .hero p { font-size: 1.5rem; color: var(--sub); max-width: 700px; margin: 40px auto; line-height: 1.4; }
+        
+        /* Action Button */
+        .btn { background: var(--ink); color: white; padding: 24px 60px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 18px; transition: 0.3s; display: inline-block; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .btn:hover { background: var(--accent); transform: translateY(-3px); box-shadow: 0 25px 30px -10px rgba(79, 70, 229, 0.4); }
+        
+        /* Value Pillars */
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: white; }
+        .f-card { padding: 80px 60px; border-right: 1px solid #E2E8F0; }
+        .f-card strong { display: block; font-size: 24px; margin-bottom: 15px; letter-spacing: -1px; }
+        .f-card p { color: var(--sub); line-height: 1.6; margin: 0; font-size: 16px; }
     </style>
 </head>
 <body>
     <div class="hero">
-        <div style="font-weight: 900; margin-bottom: 40px; font-size: 24px;">danio.</div>
-        <h1>Legal Prose <br><span style="color: var(--accent);">Live Data.</span></h1>
-        <p>The interoperable protocol for Institutional Standard loan lifecycles. Transform static PDFs into dynamic Digital Twins.</p>
-        <a href="/workbench" class="btn">Launch Workbench</a>
+        <div class="brand">danio.</div>
+        <h1>Digitize Your<br><span style="color: var(--accent);">Credit Risk.</span></h1>
+        <p>The institutional protocol for loan monitoring. Sync physical credit agreements with live performance data for absolute covenant certainty.</p>
+        <a href="/workbench" class="btn">Launch Loan Workbench</a>
     </div>
 
     
 
     <section class="feature-grid">
-        <div class="f-card"><strong>01. Interoperability</strong><p>Establish the machine-readable Golden Record for syndicate-wide transparency.</p></div>
-        <div class="f-card"><strong>02. Legal Integrity</strong><p>Verify critical clauses via semantic anchor logic based on Global Institutional Standards.</p></div>
-        <div class="f-card"><strong>03. Active Monitoring</strong><p>Track leverage headroom and compliance states in a real-time risk engine.</p></div>
+        <div class="f-card">
+            <strong>Active Monitoring</strong>
+            <p>Convert passive loan clauses into active risk triggers. Track Leverage and EBITDA performance against verified contract anchors.</p>
+        </div>
+        <div class="f-card">
+            <strong>Golden Record</strong>
+            <p>Generate machine-readable Digital Twins for Straight-Through Processing (STP) across agent and participant banks.</p>
+        </div>
+        <div class="f-card" style="border-right: none;">
+            <strong>Verified Integrity</strong>
+            <p>Ensure every financial calculation is mathematically rooted in the physical credit agreement's Institutional Standard.</p>
+        </div>
     </section>
 </body>
 </html>
