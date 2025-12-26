@@ -5,81 +5,95 @@
     <title>danio | Workbench</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --bg: #0B0F19; --card: #111827; --border: #1F2937; --primary: #6366F1; --text: #F9FAFB; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; }
-        aside { width: 260px; background: #06090F; border-right: 1px solid var(--border); height: 100vh; padding: 40px 24px; position: fixed; }
-        main { margin-left: 260px; padding: 40px; width: calc(100% - 620px); box-sizing: border-box; }
-        .guide-panel { width: 360px; background: #0D1117; border-left: 1px solid var(--border); height: 100vh; position: fixed; right: 0; padding: 40px 24px; box-sizing: border-box; overflow-y: auto; font-size: 13px; color: #9CA3AF; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
-        .locked { opacity: 0.2; pointer-events: none; filter: grayscale(1); }
-        input, textarea { background: #06090F; border: 1px solid var(--border); color: white; padding: 12px; border-radius: 8px; width: 100%; margin: 8px 0; font-family: 'Fira Code', monospace; }
-        .btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
-        .badge { padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid; }
+        :root { --bg: #0B0F19; --card: #111827; --border: #1F2937; --primary: #6366F1; --text: #F9FAFB; --sub: #9CA3AF; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Left Sidebar */
+        aside { width: 260px; background: #06090F; border-right: 1px solid var(--border); padding: 40px 24px; flex-shrink: 0; }
+        
+        /* Fixed Main Content Area - Fixed the Cutoff issue here */
+        main { flex-grow: 1; padding: 60px 50px; overflow-y: auto; height: 100vh; box-sizing: border-box; }
+        
+        /* Right Help Panel */
+        .guide-panel { width: 360px; background: #0D1117; border-left: 1px solid var(--border); padding: 40px 24px; flex-shrink: 0; overflow-y: auto; font-size: 13px; color: var(--sub); }
+        
+        /* Header spacing */
+        header { margin-bottom: 50px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        header h1 { margin: 0; font-size: 2.8rem; letter-spacing: -2px; font-weight: 800; }
+
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 30px; margin-bottom: 30px; }
+        .locked { opacity: 0.15; pointer-events: none; filter: grayscale(1); }
+        
+        input, textarea { background: #06090F; border: 1px solid var(--border); color: white; padding: 14px; border-radius: 8px; width: 100%; margin: 12px 0; font-family: 'Fira Code', monospace; box-sizing: border-box; }
+        .btn { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 8px; font-weight: 700; cursor: pointer; width: 100%; transition: 0.2s; }
+        .btn:hover { filter: brightness(1.2); }
+        
+        .badge { padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 800; text-transform: uppercase; border: 1px solid; }
         .success { color: #10B981; border-color: #10B981; }
-        .warning { color: #F59E0B; border-color: #F59E0B; }
-        .danger { color: #EF4444; border-color: #EF4444; }
     </style>
 </head>
 <body>
 
 <aside>
-    <div style="font-weight: 900; font-size: 24px; margin-bottom: 40px; letter-spacing: -1.5px;">danio.</div>
-    <div style="color: var(--primary);"><i class="fas fa-microchip"></i> Workbench</div>
+    <div style="font-weight: 900; font-size: 32px; margin-bottom: 40px; letter-spacing: -2px;">danio</div>
+    <div style="color: var(--primary); font-size: 14px; font-weight: 600;"><i class="fas fa-terminal"></i> Terminal Active</div>
 </aside>
 
 <main>
-    <header style="margin-bottom: 30px;">
-        <h1 style="margin:0; letter-spacing: -1px;">Facility Workbench</h1>
-        <p style="color: #6B7280; margin: 4px 0;">Standardized Digital Twin • ID: STP-2025-001</p>
+    <header>
+        <h1>Facility Workbench</h1>
+        <p style="color: var(--sub); margin-top: 10px; font-size: 18px;">Institutional Standard Protocol • ID: STP-2025-001</p>
     </header>
 
     <div class="card">
-        <h3>1. Legal Clause Ingestion</h3>
-        <textarea id="legal-input" rows="3" placeholder="Paste Negative Pledge clause here..."></textarea>
-        <button class="btn" onclick="verify()">Initialize Digital Twin</button>
+        <h3 style="margin-top:0;">1. Legal Clause Ingestion</h3>
+        <p style="font-size: 14px; color: var(--sub); margin-bottom: 15px;">Paste the Institutional Negative Pledge clause to initialize the monitoring engine.</p>
+        <textarea id="legal-input" rows="3" placeholder="Paste clause..."></textarea>
+        <button class="btn" onclick="verify()">Verify and Initialize</button>
     </div>
 
     <div id="monitor-ui" class="card locked">
-        <h3>2. Performance Engine</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <h3 style="margin-top:0;">2. Performance Monitoring</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
             <div>
-                <label style="font-size: 11px; color: #9CA3AF;">Total Net Debt ($)</label>
+                <label style="font-size: 11px; color: var(--sub); text-transform: uppercase; font-weight: 700;">Total Net Debt ($)</label>
                 <input type="number" id="debt" value="300000000" oninput="refresh()">
             </div>
             <div>
-                <label style="font-size: 11px; color: #9CA3AF;">LTM EBITDA ($)</label>
+                <label style="font-size: 11px; color: var(--sub); text-transform: uppercase; font-weight: 700;">LTM EBITDA ($)</label>
                 <input type="number" id="ebitda" value="100000000" oninput="refresh()">
             </div>
         </div>
-        <div style="text-align: center; margin-top: 30px;">
-            <div id="ratio-ui" style="font-size: 4rem; font-weight: 900;">--</div>
-            <div id="status-ui" class="badge">Awaiting Data</div>
+        <div style="text-align: center; margin-top: 50px;">
+            <div id="ratio-ui" style="font-size: 5.5rem; font-weight: 900; letter-spacing: -4px;">--</div>
+            <div id="status-ui" class="badge" style="margin-top: 10px; font-size: 14px;">Awaiting Verification</div>
         </div>
     </div>
 </main>
 
 <div class="guide-panel">
-    <h3 style="color: white; margin-top: 0;"><i class="fas fa-info-circle"></i> Protocol Guide</h3>
-    <p>Use this guide to synchronize the legal contract with the Digital Twin.</p>
+    <h3 style="color: white; margin-top: 0; font-size: 18px;"><i class="fas fa-info-circle" style="color: var(--primary);"></i> Protocol Guide</h3>
+    <p>Follow these steps to synchronize the credit agreement with the Digital Twin.</p>
     
-    <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+    <hr style="border: 0; border-top: 1px solid var(--border); margin: 24px 0;">
 
-    <div style="margin-bottom: 24px;">
-        <strong style="color: var(--primary);">1. Legal Ingestion</strong>
-        <p>Paste the <strong>Negative Pledge</strong> clause from your credit agreement. The system verifies this against <em>Institutional Credit Standards</em> by searching for key legal anchors ("security" and "negative pledge").</p>
+    <div style="margin-bottom: 30px;">
+        <strong style="color: white; display: block; margin-bottom: 8px;">Step 1: Legal Ingestion</strong>
+        <p>The engine requires a <strong>Negative Pledge</strong> clause. It must contain the institutional anchors "security" and "negative pledge" to unlock the performance engine.</p>
     </div>
 
-    <div style="margin-bottom: 24px;">
-        <strong style="color: var(--primary);">2. Performance Engine</strong>
-        <p><strong>Net Debt:</strong> Input the total consolidated debt of the borrower.</p>
-        <p><strong>LTM EBITDA:</strong> Input the Last Twelve Months' earnings before interest, tax, depreciation, and amortization.</p>
+    <div style="margin-bottom: 30px;">
+        <strong style="color: white; display: block; margin-bottom: 8px;">Step 2: Performance Data</strong>
+        <p>Input current <strong>Net Debt</strong> and <strong>LTM EBITDA</strong>. The ratio is calculated as:
+        <br><br>
+        <code style="color:var(--primary); font-size: 14px;">Leverage = Debt / EBITDA</code></p>
     </div>
 
-    <div style="margin-bottom: 24px;">
-        <strong style="color: var(--primary);">3. Compliance Status</strong>
-        <p><span class="badge success">Compliant</span>: Ratio is below 3.50x.</p>
-        <p><span class="badge warning">Watchlist</span>: Ratio is within 15% of breaching.</p>
-        <p><span class="badge danger">Breach</span>: Ratio exceeds the threshold.</p>
+    <div>
+        <strong style="color: white; display: block; margin-bottom: 8px;">Thresholds</strong>
+        <p><span class="badge success">Compliant</span>: Ratio &le; 3.50x</p>
+        <p><span class="badge" style="color:#F59E0B; border-color:#F59E0B;">Watchlist</span>: Within 15% of limit.</p>
     </div>
 </div>
 
