@@ -1,66 +1,44 @@
 
 # danio | Global Credit Logic Engine
-danio is an institutional-grade Straight-Through Processing (STP) engine designed to bridge the gap between unstructured legal prose and actionable financial data. Built for the modern syndicated loan market, it transforms static credit agreements into dynamic Digital Twins.
+danio is an institutional-grade Straight-Through Processing (STP) engine that transforms unstructured legal prose into dynamic Digital Twins. It bridges the "Data Integrity Gap" in syndicated lending by ensuring every financial calculation is verified against its legal source.
 
-## The 3-Pillar Architecture
-danio is built specifically to address the three core pillars of the global loan market:
+## About
+danio is a protocol designed for the global loan market (Europe's LMA and US LSTA). It moves beyond static PDF credit agreements to create a "Golden Record"—a machine-readable version of a loan that automates compliance, monitors risk in real-time, and calculates sustainability-linked margin adjustments.
 
-1. Digital Loans (Interoperability)
+## Motivation
+In the current syndicated loan market, billions of dollars are managed via 200-page PDF documents and manual spreadsheets. This leads to:
 
-We solve the "Data Silo" problem by establishing a Golden Record. Every facility is converted into a machine-readable JSON schema that can be shared across agent banks and participants without manual re-entry.
+Information Decay: Data becomes stale the moment it is typed into a bank's system.
 
-Feature: Standardized JSON Export for seamless bank-to-bank STP.
+Operational Risk: Manual re-entry of loan terms leads to calculation errors.
 
-Benefit: Eliminates reconciliation errors and reduces operational overhead by ~70%.
+Lack of Transparency: Participants in a syndicate often lack real-time visibility into a borrower's covenant headroom.
 
-2. Loan Documents (Legal Integrity)
+danio solves this by creating a dynamic link between the legal prose and the financial record.
 
-danio ensures that the financial data is only as good as the legal document it represents. Our semantic engine verifies LMA (Europe) and LSTA (US) standards.
+## How it Works
+The application follows a sequential "Verification to Digital" pipeline:
 
-Logic: Semantic "Anchor" verification of Negative Pledge and Information Covenants.
+1. Legal Ingestion
 
-Benefit: Instant identification of legal deviations that could impact credit risk.
+Users input legal clauses (e.g., Negative Pledge). The engine uses semantic anchor logic to verify the clause against LMA or LSTA standards.
 
-3. Keeping Loans on Track (Monitoring)
+2. Digital Record Creation
 
-The platform moves from reactive reporting to proactive risk management.
+Once verified, the clause is "Digitized" into a JSON schema—the Digital Twin. This record is interoperable across different banking systems.
 
-Predictive Headroom: Real-time visibility into how much "buffer" remains before a breach.
+3. Predictive Monitoring
 
-Grace Period Logic: Automated 10-day cure period tracking, mirroring institutional contract standards.
+The Digital Twin monitors live financial data. It calculates the Leverage Ratio:
 
-ESG Ratchets: Programmatic margin adjustments linked to Sustainability Performance Targets (SPTs).
-
-## Financial Logic & Math
-The core compliance engine monitors the Leverage Ratio in real-time:
-
-Leverage Ratio=  Consolidated EBITDA/Total Net Debt
+Leverage Ratio= 
+Consolidated EBITDA
+Total Net Debt
 ​	
  
-## The "Golden Record" Schema
+It then provides predictive alerts for covenant headroom and automatically applies ESG margin ratchets.
 
-The Digital Twin is represented as a structured data object, enabling "What-If" scenario modeling without altering the original contract.
-
-JSON
-{
-  "deal_metadata": {
-    "deal_id": "LMA-2025-DELTA",
-    "jurisdiction": "LMA",
-    "currency": "EUR"
-  },
-  "legal_framework": {
-    "covenant_max": 3.50,
-    "cure_period_days": 10,
-    "esg_ratchet_bps": -5
-  },
-  "live_metrics": {
-    "current_ratio": 3.12,
-    "headroom_pct": 10.8,
-    "status": "COMPLIANT"
-  }
-}
-
-## Tech Stack & Setup
+## Tech Stack
 Backend: Python / Flask
 
 Frontend: HTML5 / CSS3 (Inter & Fira Code Typography)
@@ -71,16 +49,33 @@ Icons: FontAwesome 6.4
 
 
 
+## Core Features
+- Institutional Digital Twin: A live, virtual mirror of the physical legal contract.
 
-## Run the application:
+- Covenant Heatmap: Real-time visualization of compliance status (Compliant, Watchlist, Critical).
 
+- Automated Cure Periods: 10-day grace period logic integrated into the risk engine.
 
+- Institutional Export: Download the machine-readable "Golden Record" for STP integration.
 
+- Cross-Jurisdictional Support: Toggle between LMA (Europe) and LSTA (US) formatting.
 
-## Commercial Impact
-- For Agent Banks: Automate the distribution of the "Golden Record" to syndicates.
+## Project Structure
+```
+danio/
+├── app.py             
+├── requirements.txt
+├── vercel.json         
+├── static/             
+├── templates/
+│   ├── index.html      
+│   └── workbench.html 
+└── README.md           
+```
 
-- For Borrowers: Real-time visibility into covenant headroom and ESG incentives.
+## Future Scope
+- Direct OCR Integration: Automate the extraction of clauses directly from uploaded PDFs.
 
-- For Auditors: A tamper-evident audit trail of every financial update and legal verification.
+- Market Rate API: Connect to SOFR/EURIBOR live feeds for real-time total interest calculation.
 
+- Smart Contract Deployment: Porting the Digital Twin to a private blockchain for immutable syndicate updates.
