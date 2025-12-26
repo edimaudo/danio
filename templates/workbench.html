@@ -2,91 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>danio | Credit Compliance</title>
+    <title>danio | Loan Digital Twin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --bg: #0B0F19; --card: #111827; --border: #1F2937; --primary: #6366F1; --text: #F9FAFB; --sub: #9CA3AF; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        
         nav { background: #06090F; border-bottom: 1px solid var(--border); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
         .brand { font-weight: 900; font-size: 28px; letter-spacing: -1.5px; }
-        
         .container { max-width: 1000px; margin: 60px auto; padding: 0 20px; }
         header { margin-bottom: 40px; }
         header h1 { font-size: 2.2rem; font-weight: 800; margin: 0; }
         header p { color: var(--sub); font-size: 16px; margin-top: 5px; }
-
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 30px; position: relative; }
         .card-label { position: absolute; top: -12px; left: 20px; background: var(--bg); padding: 0 10px; font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
-        
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         textarea, input { background: #06090F; border: 1px solid var(--border); color: white; padding: 15px; border-radius: 8px; width: 100%; margin-top: 10px; font-family: inherit; box-sizing: border-box; }
-        
         .btn { background: var(--primary); color: white; border: none; padding: 16px 30px; border-radius: 8px; font-weight: 700; cursor: pointer; }
         .btn-help { background: transparent; border: 1px solid var(--border); color: var(--sub); padding: 8px 16px; border-radius: 6px; cursor: pointer; }
-        
         .locked { opacity: 0.15; pointer-events: none; filter: grayscale(1); }
         .metrics-panel { text-align: center; border-left: 1px solid var(--border); padding-left: 40px; display: flex; flex-direction: column; justify-content: center; }
         .big-ratio { font-size: 5.5rem; font-weight: 900; letter-spacing: -4px; line-height: 1; margin: 20px 0; }
-        
-        /* Modal Styling */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
         .modal-content { background: var(--card); margin: 10% auto; padding: 40px; border: 1px solid var(--border); border-radius: 16px; width: 450px; }
-        
         .badge { padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 800; text-transform: uppercase; border: 1px solid; }
         .success { color: #10B981; border-color: #10B981; }
-        .warning { color: #F59E0B; border-color: #F59E0B; }
-        .danger { color: #EF4444; border-color: #EF4444; }
     </style>
 </head>
 <body>
 
 <nav>
     <div class="brand">danio</div>
-    <button class="btn-help" onclick="toggleHelp()">Methodology Guide</button>
+    <button class="btn-help" onclick="toggleHelp()">Help Section</button>
 </nav>
 
 <div class="container">
     <header>
-        <h1>Credit Compliance Dashboard</h1>
-        <p>Senior Secured Revolving Credit Facility</p>
+        <h1>Loan Performance Tracking</h1>
+        <p>Active Digital Twin for Senior Secured Loans</p>
     </header>
 
     <div class="card">
-        <div class="card-label">Legal Confirmation</div>
-        <h3 style="margin-top:0;">Negative Pledge Verification</h3>
-        <p style="font-size: 14px; color: var(--sub);">Provide the specific <strong>Financial Undertaking</strong> text from the agreement to unlock real-time tracking.</p>
-        <textarea id="legal-input" rows="2" placeholder="Paste the Negative Pledge clause..."></textarea>
+        <div class="card-label">Loan Document Sync</div>
+        <h3 style="margin-top:0;">Documentation Integrity</h3>
+        <p style="font-size: 14px; color: var(--sub);">Paste the <strong>Negative Pledge</strong> clause from the executed loan agreement to initialize the tracking engine.</p>
+        <textarea id="legal-input" rows="2" placeholder="Paste clause here..."></textarea>
         <div style="margin-top: 15px; text-align: right;">
-            <button class="btn" onclick="verify()">Verify Undertaking</button>
+            <button class="btn" onclick="verify()">Sync Loan Data</button>
         </div>
     </div>
 
     <div id="monitor-ui" class="card locked">
-        <div class="card-label">Operational Performance</div>
+        <div class="card-label">Real-Time Loan Health</div>
         <div class="grid">
             <div>
-                <h3 style="margin-top:0;">Financial Undertakings</h3>
-                <label style="font-size: 12px; color: var(--sub);">Total Net Debt ($)</label>
+                <h3 style="margin-top:0;">Financial Monitoring</h3>
+                <label style="font-size: 12px; color: var(--sub);">Consolidated Net Debt ($)</label>
                 <input type="number" id="debt" value="300000000" oninput="refresh()">
-                
                 <label style="font-size: 12px; color: var(--sub); display: block; margin-top: 20px;">LTM EBITDA ($)</label>
                 <input type="number" id="ebitda" value="100000000" oninput="refresh()">
-                
                 <div style="margin-top: 25px; padding: 15px; background: #06090F; border-radius: 8px;">
                     <label style="font-size: 13px; cursor:pointer; display: flex; align-items: center; gap: 12px;">
                         <input type="checkbox" id="esg" onchange="refresh()" style="width: auto; margin:0;"> 
-                        Sustainability Target Met (-5bps)
+                        Loan Margin Ratchet Applied (-5bps)
                     </label>
                 </div>
             </div>
-            
             <div class="metrics-panel">
-                <div id="status-ui" class="badge">Awaiting Input</div>
+                <div id="status-ui" class="badge">Awaiting Sync</div>
                 <div class="big-ratio" id="ratio-ui">--</div>
                 <div style="font-size: 14px; color: var(--sub);">
-                    Current Margin: <span id="margin-ui" style="color:white; font-weight:bold;">--</span><br>
-                    Limit Headroom: <span id="head-ui" style="color:white; font-weight:bold;">--</span>
+                    Loan Margin: <span id="margin-ui" style="color:white; font-weight:bold;">--</span><br>
+                    Drawdown Headroom: <span id="head-ui" style="color:white; font-weight:bold;">--</span>
                 </div>
             </div>
         </div>
@@ -95,33 +81,26 @@
 
 <div id="helpModal" class="modal">
     <div class="modal-content">
-        <h2 style="margin-top:0;">Methodology Guide</h2>
+        <h2 style="margin-top:0;">Loan Support Guide</h2>
         <hr style="border:0; border-top: 1px solid var(--border); margin: 20px 0;">
-        <p><strong>Compliance Check:</strong> The agreement is verified by searching for "security" and "negative pledge" anchors in the provided legal text.</p>
-        <p><strong>Undertaking Limit:</strong> This facility is capped at a maximum leverage of <strong>3.50x</strong>.</p>
-        <p><strong>Margin Ratchet:</strong> Base margin is 225 bps. A 5 bps reduction applies if sustainability targets are achieved.</p>
-        <button class="btn" style="width:100%; margin-top:20px;" onclick="toggleHelp()">Close Guide</button>
+        <p><strong>Loan Document Sync:</strong> Paste the "Negative Pledge" text from the contract. This ensures the digital tracker is legally anchored to the physical document.</p>
+        <p><strong>Financial Monitoring:</strong> Enter the borrower's debt and earnings. The tool tracks health against the 3.50x loan limit.</p>
+        <p><strong>Margin Ratchet:</strong> If the borrower meets sustainability targets, the loan interest margin drops by 5 basis points.</p>
+        <button class="btn" style="width:100%; margin-top:20px;" onclick="toggleHelp()">Close Help</button>
     </div>
 </div>
-
 <script>
     function toggleHelp() {
         const m = document.getElementById('helpModal');
         m.style.display = (m.style.display === 'block') ? 'none' : 'block';
     }
-
     async function verify() {
         const text = document.getElementById('legal-input').value;
         const res = await fetch('/api/verify', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text})});
         const data = await res.json();
-        if(data.success) { 
-            document.getElementById('monitor-ui').classList.remove('locked'); 
-            refresh(); 
-        } else { 
-            alert("Verification Failed. Please provide a valid Negative Pledge clause."); 
-        }
+        if(data.success) { document.getElementById('monitor-ui').classList.remove('locked'); refresh(); }
+        else { alert("Sync Failed: Clause does not match loan standards."); }
     }
-
     async function refresh() {
         const debt = document.getElementById('debt').value;
         const ebitda = document.getElementById('ebitda').value;
