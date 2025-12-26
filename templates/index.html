@@ -6,47 +6,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --ink: #0F172A; --accent: #4F46E5; --sub: #64748B; }
-        body { font-family: 'Inter', sans-serif; margin: 0; color: var(--ink); background: #F8FAFC; }
+        body { font-family: 'Inter', sans-serif; margin: 0; color: var(--ink); background: #ffffff; }
         
-        /* Massive Brand Presence */
-        .hero { padding: 160px 5%; text-align: center; background: #fff; border-bottom: 1px solid #E2E8F0; }
-        .hero .brand { font-weight: 900; font-size: 48px; letter-spacing: -3px; margin-bottom: 60px; color: var(--ink); }
-        .hero h1 { font-size: 6.5rem; letter-spacing: -6px; margin: 0; line-height: 0.85; font-weight: 900; }
-        .hero p { font-size: 1.5rem; color: var(--sub); max-width: 700px; margin: 40px auto; line-height: 1.4; }
+        /* High-Impact Brand Header */
+        .nav-header { padding: 40px 10%; display: flex; justify-content: center; }
+        .brand { font-weight: 900; font-size: 120px; letter-spacing: -8px; color: var(--ink); margin: 0; line-height: 1; }
         
-        /* Action Button */
-        .btn { background: var(--ink); color: white; padding: 24px 60px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 18px; transition: 0.3s; display: inline-block; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-        .btn:hover { background: var(--accent); transform: translateY(-3px); box-shadow: 0 25px 30px -10px rgba(79, 70, 229, 0.4); }
+        /* Hero Section */
+        .hero { padding: 40px 10% 120px; text-align: center; }
+        .hero h1 { font-size: 3.5rem; letter-spacing: -2px; margin: 20px 0; font-weight: 800; color: var(--sub); }
+        .hero p { font-size: 1.25rem; color: var(--sub); max-width: 650px; margin: 0 auto 50px; line-height: 1.5; }
         
-        /* Value Pillars */
-        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: white; }
+        /* Buttons */
+        .btn { background: var(--ink); color: white; padding: 22px 50px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 18px; transition: 0.2s; display: inline-block; }
+        .btn:hover { background: var(--accent); }
+        
+        /* Value Sections */
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #E2E8F0; background: #F8FAFC; }
         .f-card { padding: 80px 60px; border-right: 1px solid #E2E8F0; }
-        .f-card strong { display: block; font-size: 24px; margin-bottom: 15px; letter-spacing: -1px; }
-        .f-card p { color: var(--sub); line-height: 1.6; margin: 0; font-size: 16px; }
+        .f-card strong { display: block; font-size: 20px; margin-bottom: 15px; color: var(--ink); }
+        .f-card p { color: var(--sub); line-height: 1.6; margin: 0; }
     </style>
 </head>
 <body>
+    <div class="nav-header">
+        <div class="brand">danio</div>
+    </div>
+
     <div class="hero">
-        <div class="brand">danio.</div>
-        <h1>Digitize Your<br><span style="color: var(--accent);">Credit Risk.</span></h1>
-        <p>The institutional protocol for loan monitoring. Sync physical credit agreements with live performance data for absolute covenant certainty.</p>
-        <a href="/workbench" class="btn">Launch Loan Workbench</a>
+        <h1>Institutional Loan Protocol</h1>
+        <p>A specialized lifecycle engine for syndicated lending. Synchronize physical credit agreements with live performance data for automated covenant monitoring.</p>
+        <a href="/workbench" class="btn">Access Workbench</a>
     </div>
 
     
 
     <section class="feature-grid">
         <div class="f-card">
-            <strong>Active Monitoring</strong>
-            <p>Convert passive loan clauses into active risk triggers. Track Leverage and EBITDA performance against verified contract anchors.</p>
+            <strong>Covenant Intelligence</strong>
+            <p>Translate institutional loan clauses into active data triggers to monitor Leverage and EBITDA health in real-time.</p>
         </div>
         <div class="f-card">
-            <strong>Golden Record</strong>
-            <p>Generate machine-readable Digital Twins for Straight-Through Processing (STP) across agent and participant banks.</p>
+            <strong>The Golden Record</strong>
+            <p>Create machine-readable Digital Twins that serve as the single source of truth for agent and participant banks.</p>
         </div>
         <div class="f-card" style="border-right: none;">
-            <strong>Verified Integrity</strong>
-            <p>Ensure every financial calculation is mathematically rooted in the physical credit agreement's Institutional Standard.</p>
+            <strong>Asset Integrity</strong>
+            <p>Ensure every financial calculation is legally anchored to the verified terms of the original facility agreement.</p>
         </div>
     </section>
 </body>
