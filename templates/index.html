@@ -5,38 +5,32 @@
     <title>danio | Institutional Loan Protocol</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --ink: #0F172A; --accent: #4F46E5; --sub: #64748B; }
-        body { font-family: 'Inter', sans-serif; margin: 0; color: var(--ink); background: #ffffff; }
+        :root { --bg: #0B0F19; --accent: #4F46E5; --text: #F9FAFB; --sub: #9CA3AF; }
+        body { font-family: 'Inter', sans-serif; margin: 0; color: var(--text); background: var(--bg); }
         
-        /* High-Impact Brand Header */
-        .nav-header { padding: 40px 10%; display: flex; justify-content: center; }
-        .brand { font-weight: 900; font-size: 120px; letter-spacing: -8px; color: var(--ink); margin: 0; line-height: 1; }
+        /* High-Impact Brand Section */
+        .hero { padding: 140px 10%; text-align: center; }
+        .brand { font-weight: 900; font-size: 160px; letter-spacing: -12px; margin: 0 0 20px 0; line-height: 0.8; color: var(--text); }
+        .hero h1 { font-size: 3rem; letter-spacing: -2px; margin: 0; font-weight: 700; color: var(--sub); }
+        .hero p { font-size: 1.25rem; color: var(--sub); max-width: 650px; margin: 40px auto; line-height: 1.6; }
         
-        /* Hero Section */
-        .hero { padding: 40px 10% 120px; text-align: center; }
-        .hero h1 { font-size: 3.5rem; letter-spacing: -2px; margin: 20px 0; font-weight: 800; color: var(--sub); }
-        .hero p { font-size: 1.25rem; color: var(--sub); max-width: 650px; margin: 0 auto 50px; line-height: 1.5; }
+        /* Action Button */
+        .btn { background: var(--text); color: var(--bg); padding: 22px 60px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 18px; transition: 0.3s; display: inline-block; }
+        .btn:hover { background: var(--accent); color: white; transform: translateY(-3px); }
         
-        /* Buttons */
-        .btn { background: var(--ink); color: white; padding: 22px 50px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 18px; transition: 0.2s; display: inline-block; }
-        .btn:hover { background: var(--accent); }
-        
-        /* Value Sections */
-        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #E2E8F0; background: #F8FAFC; }
-        .f-card { padding: 80px 60px; border-right: 1px solid #E2E8F0; }
-        .f-card strong { display: block; font-size: 20px; margin-bottom: 15px; color: var(--ink); }
-        .f-card p { color: var(--sub); line-height: 1.6; margin: 0; }
+        /* Feature Grid */
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #1F2937; background: #06090F; }
+        .f-card { padding: 80px 60px; border-right: 1px solid #1F2937; }
+        .f-card strong { display: block; font-size: 22px; margin-bottom: 15px; color: var(--text); }
+        .f-card p { color: var(--sub); line-height: 1.6; margin: 0; font-size: 15px; }
     </style>
 </head>
 <body>
-    <div class="nav-header">
-        <div class="brand">danio</div>
-    </div>
-
     <div class="hero">
+        <div class="brand">danio</div>
         <h1>Institutional Loan Protocol</h1>
         <p>A specialized lifecycle engine for syndicated lending. Synchronize physical credit agreements with live performance data for automated covenant monitoring.</p>
-        <a href="/workbench" class="btn">Access Workbench</a>
+        <a href="/workbench" class="btn">Launch Workbench</a>
     </div>
 
     
