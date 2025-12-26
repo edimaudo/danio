@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>danio | Workbench</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg: #0B0F19; --sidebar: #06090F; --card: #111827; --border: #1F2937; --primary: #6366F1; --text-dim: #9CA3AF; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #F9FAFB; margin: 0; display: flex; }
+        
+        /* Navigation Sidebar */
+        aside { width: 280px; background: var(--sidebar); border-right: 1px solid var(--border); height: 100vh; position: fixed; padding: 40px 24px; box-sizing: border-box; }
+        .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px; color: var(--text-dim); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.2s; }
+        .nav-link.active { background: #1F2937; color: white; border: 1px solid var(--border); }
+        
+        /* Main Workspace */
+        main { margin-left: 280px; padding: 60px; width: 100%; max-width: 1400px; box-sizing: border-box; }
+        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        
+        /* Institutional Cards */
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        
+        /* Inputs & Buttons */
+        input, textarea { background: #06090F; border: 1px solid var(--border); color: white; padding: 14px; border-radius: 8px; width: 100%; font-family: 'Fira Code', monospace; font-size: 13px; margin-bottom: 16px; }
+        .btn { background: var(--primary); color: white; border: none; padding: 14px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: center; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: white; }
+        
+        /* Status Elements */
+        .status-pill { padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .success { color: #10B981; background: rgba(16, 185, 129, 0.1); border: 1px solid #10B981; }
+        
+        /* Live Twin Code View */
+        .code-view { background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 20px; font-family: 'Fira Code', monospace; font-size: 12px; color: #34D399; max-height: 250px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+<aside>
+    <div style="font-size: 24px; font-weight: 900; margin-bottom: 48px; letter-spacing: -1.5px;">danio.</div>
+    <a href="#" class="nav-link active"><i class="fas fa-chart-line"></i> Dashboard</a>
+    <a href="#" class="nav-link"><i class="fas fa-file-signature"></i> Legal Library</a>
+    <a href="#" class="nav-link"><i class="fas fa-shield-alt"></i> Compliance</a>
+    <div style="margin-top: 60px;">
+        <button class="btn btn-outline" style="width: 100%;" onclick="exportTwin()">
+            <i class="fas fa-download"></i> Export Record
+        </button>
+    </div>
+</aside>
+
+<main>
+    <div class="header-flex">
+        <div>
+            <h1 style="margin: 0; font-size: 2rem; letter-spacing: -1px;">Project Delta 2025</h1>
+            <p style="color: var(--text-dim); margin: 4px 0 0;">Facility Agent: Institutional Lead • <span style="color: var(--primary);">LMA Standard</span></p>
+        </div>
+        <div class="status-pill success">Live Digital Twin</div>
+    </div>
+
+    <div class="grid-2">
+        <div>
+            <div class="card">
+                <h3 style="margin-top: 0;">Performance Data</h3>
+                <label style="color: var(--text-dim); font-size: 12px;">Total Net Debt ($)</label>
+                <input type="number" id="debt" value="300000000" oninput="updateTwin()">
+                <label style="color: var(--text-dim); font-size: 12px;">Consolidated EBITDA ($)</label>
+                <input type="number" id="ebitda" value="100000000" oninput="updateTwin()">
+            </div>
+            
+            <div class="card">
+                <h3 style="margin-top: 0;">Legal Source Prose</h3>
+                <p style="color: var(--text-dim); font-size: 13px;">The machine-readable record is derived from the following verified clause:</p>
+                <textarea rows="3" readonly>The Obligor shall ensure that the Leverage Ratio does not exceed 3.50:1.</textarea>
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <h3 style="margin-top: 0;">Live Risk Engine</h3>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div style="font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;" id="ratio-display">3.00x</div>
+                    <div id="status-display" class="status-pill success" style="margin-bottom: 12px;">Compliant</div>
+                </div>
+                <div style="height: 4px; background: #1F2937; border-radius: 2px; margin: 24px 0;">
+                    <div id="head-bar" style="height: 100%; width: 85%; background: var(--primary); transition: 0.3s;"></div>
+                </div>
+                <p style="color: var(--text-dim); font-size: 12px;">Covenant Headroom: <span id="head-val">15.0</span>%</p>
+            </div>
+
+            <div class="card" style="padding: 20px;">
+                <h4 style="margin-top: 0; font-size: 13px; color: var(--text-dim);">Digital Twin Golden Record (JSON)</h4>
+                <div class="code-view" id="json-viewer">
+                    { "loading": "..." }
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    async function updateTwin() {
+        const debt = document.getElementById('debt').value;
+        const ebitda = document.getElementById('ebitda').value;
+        
+        const res = await fetch('/api/monitor', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({debt, ebitda})
+        });
+        const data = await res.json();
+        
+        // Update UI
+        document.getElementById('ratio-display').innerText = data.ratio + 'x';
+        document.getElementById('status-display').innerText = data.status;
+        document.getElementById('head-val').innerText = data.headroom;
+        document.getElementById('head-bar').style.width = Math.min(100, (data.ratio/3.5)*100) + "%";
+        
+        // Update the Code View in real-time
+        refreshCodeView();
+    }
+
+    async function refreshCodeView() {
+        const res = await fetch('/api/export');
+        const data = await res.json();
+        document.getElementById('json-viewer').innerText = JSON.stringify(data, null, 4);
+    }
+
+    async function exportTwin() {
+        const res = await fetch('/api/export');
+        const data = await res.json();
+        const blob = new Blob([JSON.stringify(data, null, 4)], {type: 'application/json'});
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `danio-golden-record-${data.metadata.deal_id}.json`;
+        a.click();
+    }
+
+    // Initial Load
+    updateTwin();
+</script>
+</body>
+</html>
