@@ -84,6 +84,3 @@ Icons: FontAwesome 6.4
 
 - For Auditors: A tamper-evident audit trail of every financial update and legal verification.
 
-For Borrowers: Real-time visibility into covenant headroom and ESG incentives.
-
-For Auditors: A tamper-evident audit trail of every financial update and legal verification.
