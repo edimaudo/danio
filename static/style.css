@@ -1,0 +1,28 @@
+:root {
+    --bg: #F8FAFC;
+    --brand: #4F46E5;
+    --text: #0F172A;
+    --border: #E2E8F0;
+}
+
+body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+
+/* Landing Page */
+.landing { background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: white; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+.hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+.accent { color: #818CF8; }
+
+/* App UI */
+.app-nav { background: white; border-bottom: 1px solid var(--border); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; }
+.workstation { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 3rem 5%; }
+.card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+
+/* Drop Zone */
+.drop-zone { border: 2px dashed var(--border); padding: 4rem; text-align: center; cursor: pointer; transition: 0.2s; border-radius: 8px; }
+.drop-zone:hover { border-color: var(--brand); background: #F5F7FF; }
+
+/* Form View */
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: #64748B; text-transform: uppercase; margin-bottom: 0.5rem; }
+.form-control { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-weight: 600; }
+.btn-primary { background: var(--brand); color: white; padding: 0.8rem 2rem; border-radius: 6px; text-decoration: none; border: none; cursor: pointer; font-weight: 600; width: 100%; }
