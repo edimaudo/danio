@@ -5,53 +5,60 @@ import re
 
 app = Flask(__name__)
 
-def extract_slo_logic(text):
+def generate_danio_slo(text):
     """
-    Standardization Engine: Maps varied legal prose to a 
-    Standardized Loan Object (SLO).
+    The danio Extraction Engine: 
+    Converts unstructured PDF prose into the proprietary danio SLO format.
     """
-    text_clean = text.lower()
+    t_clean = text.lower()
     
-    # 1. Product Type Identification
-    if "revolving" in text_clean: p_type = "Revolving Credit Facility (RCF)"
-    elif "bridge" in text_clean: p_type = "Bridge Loan"
-    else: p_type = "Term Loan (Facility A/B)"
+    # danio Proprietary Mapping Logic
+    margin = re.search(r"margin of ([\d\.]+) per cent", t_clean)
+    leverage = re.search(r"leverage (?:not to exceed|maximum of) ([\d\.]+):1", t_clean)
+    
+    # Identify Product Category
+    if "revolving" in t_clean: category = "Revolving Credit"
+    elif "bridge" in t_clean: category = "Bridge Finance"
+    else: category = "Term Facility"
 
-    # 2. Key Term Extraction (Heuristic Anchors)
-    margin = re.search(r"margin of ([\d\.]+) per cent", text_clean)
-    leverage = re.search(r"leverage (?:not to exceed|maximum of) ([\d\.]+):1", text_clean)
-    
     return {
-        "product_type": p_type,
-        "jurisdiction": "English Law (LMA)" if "england" in text_clean else "NY Law (LSTA)",
-        "margin": margin.group(1) + "%" if margin else "3.25% (Standard)",
-        "leverage_cap": leverage.group(1) + "x" if leverage else "3.50x (Default)",
-        "status": "Digitized"
+        "danio_record_id": "DNO-2025-X100",
+        "instrument_details": {
+            "type": category,
+            "governing_law": "English Law" if "england" in t_clean else "New York Law",
+            "currency_detected": "GBP" if "sterling" in t_clean else "USD"
+        },
+        "financial_covenants": {
+            "margin_bps": margin.group(1) if margin else "3.25",
+            "leverage_ceiling": leverage.group(1) if leverage else "3.50",
+            "negative_pledge": "Active" if "negative pledge" in t_clean else "Inactive"
+        },
+        "compliance_status": "Standardized"
     }
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/app')
+@app.route('/workstation')
 def workstation():
     return render_template('app.html')
 
-@app.route('/api/ingest', methods=['POST'])
-def ingest():
+@app.route('/api/process', methods=['POST'])
+def process():
     if 'file' not in request.files:
-        return jsonify({"success": False, "error": "No file"}), 400
+        return jsonify({"success": False, "error": "No file detected"}), 400
     
     file = request.files['file']
     try:
         reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
-        text = ""
-        # Extract first 15 pages for metadata efficiency
+        # Extract metadata from core pages
+        full_content = ""
         for i in range(min(15, len(reader.pages))):
-            text += reader.pages[i].extract_text()
+            full_content += reader.pages[i].extract_text()
             
-        data = extract_slo_logic(text)
-        return jsonify({"success": True, "data": data})
+        slo = generate_danio_slo(full_content)
+        return jsonify({"success": True, "data": slo})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
