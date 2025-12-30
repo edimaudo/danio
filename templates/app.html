@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>danio Workstation</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav class="workstation-nav">
+        <div class="nav-brand">danio</div>
+        <div style="font-size: 12px; font-weight: 700; color: #635BFF;">INSTITUTIONAL MODE</div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="drop-zone" id="drop-zone">
+                <h3 style="margin-top:0">Ingest Agreement</h3>
+                <p>Drag & Drop Loan PDF to generate SLO</p>
+                <input type="file" id="file-input" hidden>
+            </div>
+        </div>
+
+        <div class="card" id="slo-form" style="display:none;">
+            <span class="form-label">Instrument Type</span>
+            <input type="text" id="f-type" class="form-input">
+            
+            <div style="display:flex; gap:20px">
+                <div style="flex:1">
+                    <span class="form-label">Margin (%)</span>
+                    <input type="text" id="f-margin" class="form-input">
+                </div>
+                <div style="flex:1">
+                    <span class="form-label">Leverage Cap</span>
+                    <input type="text" id="f-lev" class="form-input">
+                </div>
+            </div>
+
+            <span class="form-label">Jurisdiction</span>
+            <input type="text" id="f-law" class="form-input">
+
+            <span class="form-label">Standardized JSON Object</span>
+            <pre id="raw-slo" style="background:#F6F9FC; padding:15px; font-size:11px; border-radius:4px; border:1px solid #E6EBF1"></pre>
+        </div>
+    </main>
+    <script src="/static/script.js"></script>
+</body>
+</html>
