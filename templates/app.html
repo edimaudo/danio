@@ -2,46 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>danio Workstation</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>danio | Workstation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <nav class="workstation-nav">
-        <div class="nav-brand">danio</div>
-        <div style="font-size: 12px; font-weight: 700; color: #635BFF;">INSTITUTIONAL MODE</div>
+<body class="app-bg">
+    <nav class="nav-shell">
+        <div class="nav-content">
+            <div class="nav-left">
+                <a href="/" class="brand-link">danio</a>
+                <span class="nav-divider">/</span>
+                <span class="nav-current">Credit Workstation</span>
+            </div>
+            <div class="nav-right">
+                <div class="system-status">
+                    <span class="status-indicator"></span> System Active
+                </div>
+            </div>
+        </div>
     </nav>
 
-    <main class="container">
-        <div class="card">
-            <div class="drop-zone" id="drop-zone">
-                <h3 style="margin-top:0">Ingest Agreement</h3>
-                <p>Drag & Drop Loan PDF to generate SLO</p>
-                <input type="file" id="file-input" hidden>
-            </div>
-        </div>
-
-        <div class="card" id="slo-form" style="display:none;">
-            <span class="form-label">Instrument Type</span>
-            <input type="text" id="f-type" class="form-input">
-            
-            <div style="display:flex; gap:20px">
-                <div style="flex:1">
-                    <span class="form-label">Margin (%)</span>
-                    <input type="text" id="f-margin" class="form-input">
+    <main class="app-container">
+        <section id="upload-stage" class="stage-wrap">
+            <div class="central-card">
+                <div class="card-header">
+                    <h2>Ingest Credit Agreement</h2>
+                    <p>Upload a PDF agreement to begin prose-to-data normalization.</p>
                 </div>
-                <div style="flex:1">
-                    <span class="form-label">Leverage Cap</span>
-                    <input type="text" id="f-lev" class="form-input">
+                <div class="drop-zone" id="drop-zone">
+                    <div class="drop-content">
+                        <div class="upload-icon">↑</div>
+                        <p><strong>Click to upload</strong> or drag and drop</p>
+                        <span>PDF (Max 50MB)</span>
+                    </div>
+                    <input type="file" id="file-input" hidden>
                 </div>
             </div>
+        </section>
 
-            <span class="form-label">Jurisdiction</span>
-            <input type="text" id="f-law" class="form-input">
+        <section id="slo-view" class="stage-wrap" style="display:none;">
+            <div class="verification-layout">
+                <div class="panel main-panel">
+                    <span class="panel-label">Standardized Form View</span>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label>Instrument Type</label>
+                            <input type="text" id="f-type" spellcheck="false">
+                        </div>
+                        <div class="field">
+                            <label>Jurisdiction</label>
+                            <input type="text" id="f-law" spellcheck="false">
+                        </div>
+                        <div class="field">
+                            <label>Base Margin (%)</label>
+                            <input type="text" id="f-margin" spellcheck="false">
+                        </div>
+                        <div class="field">
+                            <label>Leverage Ceiling</label>
+                            <input type="text" id="f-lev" spellcheck="false">
+                        </div>
+                    </div>
+                    <div class="action-bar">
+                        <button class="btn-primary" onclick="location.reload()">Process New Document</button>
+                    </div>
+                </div>
 
-            <span class="form-label">Standardized JSON Object</span>
-            <pre id="raw-slo" style="background:#F6F9FC; padding:15px; font-size:11px; border-radius:4px; border:1px solid #E6EBF1"></pre>
-        </div>
+                <div class="panel side-panel">
+                    <span class="panel-label">JSON SLO Output</span>
+                    <pre id="raw-output"></pre>
+                </div>
+            </div>
+        </section>
     </main>
-    <script src="/static/script.js"></script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
