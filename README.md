@@ -1,81 +1,39 @@
+# danio | Institutional Loan Standardizer
+danio is a digital infrastructure solution built to address the Digital Loans. It bridges the gap between unstructured legal prose and machine-readable credit data, facilitating efficiency, transparency, and interoperability across the loan market.  The syndicated loan market is hindered by "dark data" trapped within 300-page PDF agreements. Manual data extraction is slow, prone to error, and prevents real-time portfolio analysis.  danio provides an institutional-grade workstation that allows credit risk professionals and traders to extract a Standardized Loan Object (SLO) from these documents instantly. By normalizing complex covenants and business terms, danio turns a static document into a dynamic digital asset.
 
-# danio | Global Credit Logic Engine
-danio is an institutional-grade Straight-Through Processing (STP) engine that transforms unstructured legal prose into dynamic Digital Twins. It bridges the "Data Integrity Gap" in syndicated lending by ensuring every financial calculation is verified against its legal source.
+## Key Features
+- **Automated Ingestion**: In-memory PDF stream processing ensures secure document handling. No sensitive document data is stored locally, adhering to institutional privacy standards.
+- **Standardized Loan Object (SLO)**: A proprietary schema that maps varied legal phrasing—such as "Margin," "Spread," or "Applicable Rate"—to a unified digital format.
+- **Dual-View Workstation**: A professional interface featuring a Structured Form View for human verification alongside a Raw JSON Output for direct system interoperability.
+- **Instrument Intelligence**: Heuristic logic designed to differentiate between Revolving Credit Facilities (RCF), Term Loans, and Bridge Loans, adjusting extraction priorities accordingly.
 
-## About
-danio is a protocol designed for the global loan market (Europe's LMA and US LSTA). It moves beyond static PDF credit agreements to create a "Golden Record"—a machine-readable version of a loan that automates compliance, monitors risk in real-time, and calculates sustainability-linked margin adjustments.
-
-## Motivation
-In the current syndicated loan market, billions of dollars are managed via 200-page PDF documents and manual spreadsheets. This leads to:
-
-Information Decay: Data becomes stale the moment it is typed into a bank's system.
-
-Operational Risk: Manual re-entry of loan terms leads to calculation errors.
-
-Lack of Transparency: Participants in a syndicate often lack real-time visibility into a borrower's covenant headroom.
-
-danio solves this by creating a dynamic link between the legal prose and the financial record.
-
-## How it Works
-The application follows a sequential "Verification to Digital" pipeline:
-
-1. Legal Ingestion
-
-Users input legal clauses (e.g., Negative Pledge). The engine uses semantic anchor logic to verify the clause against LMA or LSTA standards.
-
-2. Digital Record Creation
-
-Once verified, the clause is "Digitized" into a JSON schema—the Digital Twin. This record is interoperable across different banking systems.
-
-3. Predictive Monitoring
-
-The Digital Twin monitors live financial data. It calculates the Leverage Ratio:
-
-Leverage Ratio= 
-Consolidated EBITDA
-Total Net Debt
-​	
- 
-It then provides predictive alerts for covenant headroom and automatically applies ESG margin ratchets.
-
-## Tech Stack
-Backend: Python / Flask
-
-Frontend: HTML5 / CSS3 (Inter & Fira Code Typography)
-
-UI/UX: Dark-mode "Bloomberg-style" Dashboard
-
-Icons: FontAwesome 6.4
-
-
-
-## Core Features
-- Institutional Digital Twin: A live, virtual mirror of the physical legal contract.
-
-- Covenant Heatmap: Real-time visualization of compliance status (Compliant, Watchlist, Critical).
-
-- Automated Cure Periods: 10-day grace period logic integrated into the risk engine.
-
-- Institutional Export: Download the machine-readable "Golden Record" for STP integration.
-
-- Cross-Jurisdictional Support: Toggle between LMA (Europe) and LSTA (US) formatting.
+## Implementation
+- **Backend**: Flask (Python) with PyPDF2 for secure, in-memory document "shredding."
+- **Frontend**: Native JavaScript and CSS Grid, ensuring a lightweight, secure, and responsive institutional experience.
+- **Data Strategy**: Pattern-matching heuristics specifically tuned to identify LMA and LSTA standard documentation anchors.
 
 ## Project Structure
 ```
 danio/
-├── app.py             
-├── requirements.txt
-├── vercel.json         
-├── static/             
-├── templates/
-│   ├── index.html      
-│   └── workbench.html 
-└── README.md           
+├── app.py              
+├── requirements.txt    
+├── README.md           
+├── static/
+│   ├── style.css       
+│   └── script.js       
+└── templates/
+    ├── index.html      
+    └── app.html       
 ```
 
-## Future Scope
-- Direct OCR Integration: Automate the extraction of clauses directly from uploaded PDFs.
+## Installation and Deployment
+### Environmental Setup
+```
+pip install -r requirements.txt
+```
+### Application Launch
+```
+python app.py
+```
 
-- Market Rate API: Connect to SOFR/EURIBOR live feeds for real-time total interest calculation.
 
-- Smart Contract Deployment: Porting the Digital Twin to a private blockchain for immutable syndicate updates.
