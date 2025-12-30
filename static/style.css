@@ -1,28 +1,30 @@
 :root {
-    --bg: #F8FAFC;
-    --brand: #4F46E5;
-    --text: #0F172A;
-    --border: #E2E8F0;
+    --danio-blue: #0A2540; /* Institutional Slate */
+    --danio-accent: #635BFF; /* High-trust Purple/Blue */
+    --danio-bg: #F6F9FC;
+    --border: #E6EBF1;
 }
 
-body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+body { font-family: 'Inter', -apple-system, sans-serif; margin: 0; background: var(--danio-bg); color: var(--danio-blue); }
 
-/* Landing Page */
-.landing { background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: white; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-.hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-.accent { color: #818CF8; }
+/* danio Landing Page */
+.landing-hero { background: var(--danio-blue); color: white; padding: 120px 10%; text-align: center; }
+.hero-tag { color: #ADBDCC; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
+.hero-h1 { font-size: 4rem; margin: 20px 0; font-weight: 800; letter-spacing: -2px; }
 
-/* App UI */
-.app-nav { background: white; border-bottom: 1px solid var(--border); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; }
-.workstation { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 3rem 5%; }
-.card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+/* danio Workstation */
+.nav-brand { font-weight: 900; font-size: 1.5rem; letter-spacing: -1.5px; }
+.workstation-nav { background: white; border-bottom: 1px solid var(--border); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; }
 
-/* Drop Zone */
-.drop-zone { border: 2px dashed var(--border); padding: 4rem; text-align: center; cursor: pointer; transition: 0.2s; border-radius: 8px; }
-.drop-zone:hover { border-color: var(--brand); background: #F5F7FF; }
+.container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 60px 10%; }
+.card { background: white; border-radius: 8px; padding: 40px; border: 1px solid var(--border); box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07); }
+
+/* File Drop Zone */
+.drop-zone { border: 2px dashed #C1CED9; border-radius: 8px; padding: 80px 20px; text-align: center; cursor: pointer; transition: 0.3s; color: #6B7C93; }
+.drop-zone:hover { border-color: var(--danio-accent); background: #F8F9FE; }
 
 /* Form View */
-.form-group { margin-bottom: 1.5rem; }
-.form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: #64748B; text-transform: uppercase; margin-bottom: 0.5rem; }
-.form-control { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-weight: 600; }
-.btn-primary { background: var(--brand); color: white; padding: 0.8rem 2rem; border-radius: 6px; text-decoration: none; border: none; cursor: pointer; font-weight: 600; width: 100%; }
+.form-label { font-size: 11px; font-weight: 700; color: #8898AA; text-transform: uppercase; margin-bottom: 8px; display: block; }
+.form-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 4px; margin-bottom: 24px; font-size: 15px; font-weight: 600; box-sizing: border-box; }
+.btn-danio { background: var(--danio-accent); color: white; border: none; padding: 16px; border-radius: 4px; font-weight: 600; width: 100%; cursor: pointer; transition: 0.2s; }
+.btn-danio:hover { background: #5851EA; transform: translateY(-1px); }
