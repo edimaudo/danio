@@ -1,62 +1,59 @@
 from flask import Flask, render_template, request, jsonify
-from datetime import datetime, timedelta
+import PyPDF2
+import io
+import re
 
 app = Flask(__name__)
 
-# --- INSTITUTIONAL ENGINE ---
-loan_state = {
-    "verified": False,
-    "threshold": 3.50,
-    "base_margin": 225, # bps
-    "breach_timestamp": None
-}
+def extract_slo_logic(text):
+    """
+    Standardization Engine: Maps varied legal prose to a 
+    Standardized Loan Object (SLO).
+    """
+    text_clean = text.lower()
+    
+    # 1. Product Type Identification
+    if "revolving" in text_clean: p_type = "Revolving Credit Facility (RCF)"
+    elif "bridge" in text_clean: p_type = "Bridge Loan"
+    else: p_type = "Term Loan (Facility A/B)"
+
+    # 2. Key Term Extraction (Heuristic Anchors)
+    margin = re.search(r"margin of ([\d\.]+) per cent", text_clean)
+    leverage = re.search(r"leverage (?:not to exceed|maximum of) ([\d\.]+):1", text_clean)
+    
+    return {
+        "product_type": p_type,
+        "jurisdiction": "English Law (LMA)" if "england" in text_clean else "NY Law (LSTA)",
+        "margin": margin.group(1) + "%" if margin else "3.25% (Standard)",
+        "leverage_cap": leverage.group(1) + "x" if leverage else "3.50x (Default)",
+        "status": "Digitized"
+    }
 
 @app.route('/')
-def index(): return render_template('index.html')
+def index():
+    return render_template('index.html')
 
-@app.route('/workbench')
-def workbench(): return render_template('workbench.html')
+@app.route('/app')
+def workstation():
+    return render_template('app.html')
 
-@app.route('/api/verify', methods=['POST'])
-def verify():
-    text = request.json.get('text', '').lower()
-    # Semantic logic for Institutional Standards
-    if "security" in text and "negative pledge" in text:
-        loan_state["verified"] = True
-        return jsonify({"success": True})
-    return jsonify({"success": False})
+@app.route('/api/ingest', methods=['POST'])
+def ingest():
+    if 'file' not in request.files:
+        return jsonify({"success": False, "error": "No file"}), 400
+    
+    file = request.files['file']
+    try:
+        reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
+        text = ""
+        # Extract first 15 pages for metadata efficiency
+        for i in range(min(15, len(reader.pages))):
+            text += reader.pages[i].extract_text()
+            
+        data = extract_slo_logic(text)
+        return jsonify({"success": True, "data": data})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
-@app.route('/api/monitor', methods=['POST'])
-def monitor():
-    data = request.json
-    debt = float(data.get('debt', 0))
-    ebitda = float(data.get('ebitda', 1))
-    esg_met = data.get('esg_met', False)
-    
-    ratio = round(debt / ebitda, 2)
-    
-    # 1. Calculate ESG Margin Ratchet (-5bps if target met)
-    current_margin = loan_state["base_margin"] - (5 if esg_met else 0)
-    
-    # 2. Compliance Logic & Headroom
-    headroom = round(((loan_state["threshold"] - ratio) / loan_state["threshold"]) * 100, 1)
-    
-    status = "COMPLIANT"
-    color = "success"
-    
-    if ratio > loan_state["threshold"]:
-        status = "BREACH"
-        color = "danger"
-        # 3. Cure Period Logic (Simplified)
-        status = "CURE PERIOD (10D)"
-    elif headroom < 15:
-        status = "WATCHLIST"
-        color = "warning"
-
-    return jsonify({
-        "ratio": f"{ratio}x",
-        "status": status,
-        "color": color,
-        "margin": f"{current_margin} bps",
-        "headroom": f"{headroom}%"
-    })
+if __name__ == '__main__':
+    app.run(debug=True)
