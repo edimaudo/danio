@@ -1,155 +1,98 @@
-/* Institutional Design System: danio */
-:root {
-    --primary: #0A2540;   /* Slate */
-    --accent: #635BFF;    /* Indigo */
-    --bg: #F6F9FC;        /* Light Gray */
-    --border: #E6EBF1;
-    --text-main: #425466;
-    --white: #FFFFFF;
-}
-
-* { box-sizing: border-box; }
-
-body { 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-    margin: 0; 
-    background: var(--bg); 
-    color: var(--primary);
-    line-height: 1.5;
-}
-
-/* Navigation Management */
-.nav { 
-    background: var(--white); 
-    border-bottom: 1px solid var(--border); 
-    padding: 20px 8%; 
-    display: flex; 
-    justify-content: space-between; 
+/* Core Layout Updates */
+.nav-shell {
+    background: #FFFFFF;
+    border-bottom: 1px solid #E6EBF1;
+    padding: 0 5%;
+    height: 72px;
+    display: flex;
     align-items: center;
 }
 
-.brand { font-weight: 800; font-size: 24px; letter-spacing: -1px; color: var(--primary); }
-
-.nav-cta { 
-    background: var(--primary); 
-    color: var(--white); 
-    padding: 10px 22px; 
-    border-radius: 6px; 
-    text-decoration: none; 
-    font-size: 14px; 
-    font-weight: 600;
-    transition: opacity 0.2s;
+.nav-content {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.nav-cta:hover { opacity: 0.9; }
+.nav-left { display: flex; align-items: center; gap: 16px; }
+.brand-link { font-weight: 800; font-size: 22px; text-decoration: none; color: #0A2540; letter-spacing: -1px; }
+.nav-divider { color: #E6EBF1; font-size: 20px; }
+.nav-current { color: #425466; font-size: 14px; font-weight: 500; }
 
-/* Hero Section & Grid */
-.hero-container { 
-    padding: 80px 8%; 
-    min-height: 80vh; 
-    display: flex; 
-    align-items: center; 
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #22C55E;
+    border-radius: 50%;
+    margin-right: 6px;
 }
+.system-status { font-size: 12px; font-weight: 600; color: #425466; display: flex; align-items: center; }
 
-.hero-split { 
-    display: grid; 
-    grid-template-columns: 1.2fr 1fr; 
-    gap: 80px; 
-    width: 100%; 
+/* Main Container */
+.app-container {
+    padding: 60px 5%;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-/* Typography & Content */
-.product-badge { 
-    font-size: 12px; 
-    font-weight: 700; 
-    color: var(--accent); 
-    letter-spacing: 1.2px; 
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    display: block;
-}
-
-.hero-h1 { 
-    font-size: 48px; 
-    line-height: 1.15; 
-    margin-bottom: 24px; 
-    letter-spacing: -1.5px;
-    color: var(--primary);
-}
-
-.hero-p { 
-    font-size: 18px; 
-    color: var(--text-main); 
-    margin-bottom: 40px; 
-    max-width: 540px; 
-}
-
-/* Buttons */
-.btn-primary { 
-    display: inline-block;
-    background: var(--accent); 
-    color: var(--white); 
-    padding: 18px 36px; 
-    border-radius: 8px; 
-    font-weight: 600; 
-    text-decoration: none; 
-    transition: transform 0.2s, background 0.2s;
-}
-
-.btn-primary:hover { 
-    background: #5851EA; 
-    transform: translateY(-2px); 
-}
-
-/* Help / Architecture Card */
-.help-card {
-    background: var(--white);
+/* Centralized Upload UX */
+.central-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #FFFFFF;
     padding: 40px;
     border-radius: 12px;
-    border: 1px solid var(--border);
-    box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+    border: 1px solid #E6EBF1;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
-.panel-title { 
-    font-size: 11px; 
-    color: var(--accent); 
-    font-weight: 700; 
-    text-transform: uppercase; 
-    margin-bottom: 30px; 
-    letter-spacing: 1px; 
+.card-header h2 { margin: 0 0 10px 0; font-size: 24px; color: #0A2540; }
+.card-header p { margin: 0 0 30px 0; color: #425466; font-size: 15px; }
+
+.upload-icon { font-size: 32px; color: #635BFF; margin-bottom: 15px; }
+
+/* Verification View UX */
+.verification-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.panel-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #635BFF;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     display: block;
+    margin-bottom: 20px;
 }
 
-.help-item { margin-bottom: 28px; }
-.help-item:last-child { margin-bottom: 0; }
-
-.item-header { 
-    font-weight: 700; 
-    font-size: 16px; 
-    color: var(--primary); 
-    margin-bottom: 8px; 
+.action-bar {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #E6EBF1;
 }
 
-.help-item p { 
-    font-size: 14px; 
-    color: var(--text-main); 
-    line-height: 1.6; 
-    margin: 0; 
-}
-
-/* Workstation Elements (For app.html) */
-.workstation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 8%; }
-.panel { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 30px; }
-.field { margin-bottom: 20px; }
-.field label { display: block; font-size: 11px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; text-transform: uppercase; }
-.field input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px; font-weight: 600; box-sizing: border-box; }
-.drop-zone { border: 2px dashed var(--border); padding: 80px 20px; text-align: center; cursor: pointer; border-radius: 8px; color: var(--text-main); }
-pre { background: #F7F9FC; padding: 15px; border-radius: 6px; font-size: 11px; border: 1px solid var(--border); overflow-x: auto; color: var(--accent); }
-
-/* Responsive Reset */
-@media (max-width: 992px) {
-    .hero-split { grid-template-columns: 1fr; gap: 40px; }
-    .hero-h1 { font-size: 36px; }
+/* Responsive Fix */
+@media (max-width: 900px) {
+    .verification-layout { grid-template-columns: 1fr; }
 }
