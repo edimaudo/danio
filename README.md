@@ -10,7 +10,6 @@ danio is a digital infrastructure solution built to address the Digital Loans. I
 ## Implementation
 - **Backend**: Flask (Python) with PyPDF2 for secure, in-memory document "shredding."
 - **Frontend**: Native JavaScript and CSS Grid, ensuring a lightweight, secure, and responsive institutional experience.
-- **Data Strategy**: Pattern-matching heuristics specifically tuned to identify LMA and LSTA standard documentation anchors.
 
 ## Project Structure
 ```
