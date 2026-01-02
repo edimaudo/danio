@@ -3,76 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>danio | Workstation</title>
+    <title>danio Workstation | SLO Extraction</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="app-bg">
+<body>
     <nav class="nav-shell">
         <div class="nav-content">
-            <div class="nav-left">
-                <a href="/" class="brand-link">danio</a>
-                <span class="nav-divider">/</span>
-                <span class="nav-current">Credit Workstation</span>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <a href="/" class="brand">danio</a>
+                <span style="color: var(--danio-border); font-size: 20px;">/</span>
+                <span style="font-size: 13px; font-weight: 600; color: var(--danio-slate);">Institutional Workstation</span>
             </div>
-            <div class="nav-right">
-                <div class="system-status">
-                    <span class="status-indicator"></span> System Active
-                </div>
+            <div class="system-status">
+                <span class="status-dot"></span> SYSTEM OPERATIONAL
             </div>
         </div>
     </nav>
 
-    <main class="app-container">
-        <section id="upload-stage" class="stage-wrap">
-            <div class="central-card">
-                <div class="card-header">
-                    <h2>Ingest Credit Agreement</h2>
-                    <p>Upload a PDF agreement to begin prose-to-data normalization.</p>
-                </div>
+    <main class="workstation-main">
+        <!-- Ingestion Module -->
+        <div id="ingestion-stage">
+            <div class="ingestion-center">
+                <span class="badge-infra">Document Ingestion</span>
+                <h2 style="margin: 0 0 12px 0; font-size: 28px;">Standardize Agreement</h2>
+                <p style="color: var(--danio-slate); margin: 0; font-size: 15px;">Upload a Credit Agreement PDF to extract the Standardized Loan Object.</p>
+                
                 <div class="drop-zone" id="drop-zone">
-                    <div class="drop-content">
-                        <div class="upload-icon">↑</div>
-                        <p><strong>Click to upload</strong> or drag and drop</p>
-                        <span>PDF (Max 50MB)</span>
-                    </div>
-                    <input type="file" id="file-input" hidden>
+                    <div class="upload-icon">📄</div>
+                    <p style="font-weight: 700; color: var(--danio-indigo);">Select PDF Document</p>
+                    <p style="font-size: 12px; color: var(--danio-slate); margin-top: 8px;">Institutional-grade stream processing enabled.</p>
+                    <input type="file" id="file-input" accept="application/pdf" hidden>
+                </div>
+                <div id="upload-progress" class="progress-bar" style="display: none;">
+                    <div class="progress-fill"></div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="slo-view" class="stage-wrap" style="display:none;">
-            <div class="verification-layout">
-                <div class="panel main-panel">
-                    <span class="panel-label">Standardized Form View</span>
-                    <div class="form-grid">
-                        <div class="field">
-                            <label>Instrument Type</label>
-                            <input type="text" id="f-type" spellcheck="false">
-                        </div>
-                        <div class="field">
-                            <label>Jurisdiction</label>
-                            <input type="text" id="f-law" spellcheck="false">
-                        </div>
-                        <div class="field">
-                            <label>Base Margin (%)</label>
-                            <input type="text" id="f-margin" spellcheck="false">
-                        </div>
-                        <div class="field">
-                            <label>Leverage Ceiling</label>
-                            <input type="text" id="f-lev" spellcheck="false">
-                        </div>
+        <!-- Dual-View Workstation -->
+        <div id="workstation-view" style="display: none;">
+            <div class="dual-view">
+                <!-- Panel 1: Structured Form View -->
+                <div class="view-panel">
+                    <span class="panel-title">Structured Form View (Human Verification)</span>
+                    <div class="data-form">
+                        <div class="field"><label>Facility Type</label><input type="text" id="f-class" readonly></div>
+                        <div class="field"><label>Governing Law</label><input type="text" id="f-law" readonly></div>
+                        <div class="field"><label>Base Margin (bps)</label><input type="text" id="f-margin" readonly></div>
+                        <div class="field"><label>Currency</label><input type="text" id="f-ccy" readonly></div>
+                        <div class="field"><label>Maturity Profile</label><input type="text" id="f-maturity" readonly></div>
+                        <div class="field"><label>Lev. Covenant</label><input type="text" id="f-covenant" readonly></div>
                     </div>
-                    <div class="action-bar">
-                        <button class="btn-primary" onclick="location.reload()">Process New Document</button>
+                    <div class="panel-actions">
+                        <button class="btn-danio" onclick="location.reload()">Process New Document</button>
                     </div>
                 </div>
-
-                <div class="panel side-panel">
-                    <span class="panel-label">JSON SLO Output</span>
-                    <pre id="raw-output"></pre>
+                
+                <!-- Panel 2: Raw JSON SLO -->
+                <div class="view-panel dark-panel">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                        <span class="panel-title" style="color: var(--danio-indigo); margin:0;">Raw JSON Output (SLO Interop)</span>
+                        <span class="badge-json">SCHEMA V1.0.4</span>
+                    </div>
+                    <pre id="json-output"></pre>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
