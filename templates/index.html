@@ -3,52 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>danio | Institutional Loan Infrastructure</title>
+    <title>danio | Institutional Loan Standardizer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="landing-bg">
-    <nav class="nav">
-        <div class="brand">danio</div>
-        <div class="nav-links">
+<body>
+    <nav class="nav-shell">
+        <div class="nav-content">
+            <a href="/" class="brand">danio</a>
             <a href="/workstation" class="nav-cta">Launch Workstation</a>
         </div>
     </nav>
 
-    <header class="hero-container">
-        <div class="hero-split">
-            <div class="hero-text-content">
-                <span class="product-badge">Institutional Infrastructure</span>
-                <h1 class="hero-h1">Synthesizing Complex Credit Agreements into Actionable Data.</h1>
-                <p class="hero-p">
-                    danio is a specialized workstation designed to shred unstructured loan market PDFs into 
-                    Standardized Loan Objects (SLO) for real-time risk reporting and system interoperability.
-                </p>
-                <div class="hero-actions">
-                    <a href="/workstation" class="btn-primary">Open Workstation</a>
-                </div>
-            </div>
-
-            <div class="hero-visual">
-                <div class="help-card">
-                    <span class="panel-title">System Architecture</span>
-                    
-                    <div class="help-item">
-                        <div class="item-header">The SLO Framework</div>
-                        <p>Our proprietary schema normalizes varied legal phrasing into a unified JSON structure, enabling seamless loan market data exchange.</p>
-                    </div>
-
-                    <div class="help-item">
-                        <div class="item-header">Heuristic Mapping</div>
-                        <p>Advanced pattern detection identifies facility types (RCF, Term, Bridge) and financial anchors directly from legal prose.</p>
-                    </div>
-
-                    <div class="help-item">
-                        <div class="item-header">Institutional Security</div>
-                        <p>Stream-based processing handles documents in-memory. Sensitive data is never persisted on local servers, ensuring total privacy.</p>
-                    </div>
-                </div>
+    <header class="hero-exec">
+        <div class="hero-container">
+            <span class="badge-infra">Digital Loan Infrastructure</span>
+            <h1 class="hero-h1">Extract Standardized Loan Data from Unstructured Prose.</h1>
+            <p class="hero-p">danio bridges the gap between 300-page PDF agreements and machine-readable credit data, facilitating efficiency and transparency across the loan market.</p>
+            <div class="hero-actions">
+                <a href="/workstation" class="btn-danio">Launch Workstation</a>
             </div>
         </div>
     </header>
+
+    <section class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Standardized Loan Object (SLO)</h3>
+            <p>A proprietary schema mapping varied legal phrasing—such as "Margin," "Spread," or "Applicable Rate"—to a unified digital format.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Automated Ingestion</h3>
+            <p>Secure in-memory PDF stream processing ensures document handling adheres to institutional privacy standards without local storage.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🧠</div>
+            <h3>Instrument Intelligence</h3>
+            <p>Heuristic logic designed to differentiate between RCF, Term Loans, and Bridge Loans, adjusting extraction priorities accordingly.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔌</div>
+            <h3>System Interoperability</h3>
+            <p>Normalized outputs designed for direct injection into core risk and portfolio accounting systems, turning static documents into dynamic assets.</p>
+        </div>
+    </section>
 </body>
 </html>
