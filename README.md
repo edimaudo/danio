@@ -6,10 +6,10 @@ The syndicated loan market is hindered by "dark data" trapped within 300-page PD
 
 ## Key Features
 
-**Automated Ingestion**: In-memory PDF stream processing ensures secure document handling. No sensitive document data is stored locally, adhering to institutional privacy standards.
-**Standardized Loan Object (SLO)**: A proprietary schema that maps varied legal phrasing—such as "Margin," "Spread," or "Applicable Rate"—to a unified digital format.
-**Dual-View Workstation**: A professional interface featuring a Structured Form View for human verification alongside a Raw JSON Output for direct system interoperability.
-**Instrument Intelligence**: Heuristic logic designed to differentiate between Revolving Credit Facilities (RCF), Term Loans, and Bridge Loans, adjusting extraction priorities accordingly.
+- **Automated Ingestion**: In-memory PDF stream processing ensures secure document handling. No sensitive document data is stored locally, adhering to institutional privacy standards.
+- **Standardized Loan Object (SLO)**: A proprietary schema that maps varied legal phrasing—such as "Margin," "Spread," or "Applicable Rate"—to a unified digital format.
+- **Dual-View Workstation**: A professional interface featuring a Structured Form View for human verification alongside a Raw JSON Output for direct system interoperability.
+- **Instrument Intelligence**: Heuristic logic designed to differentiate between Revolving Credit Facilities (RCF), Term Loans, and Bridge Loans, adjusting extraction priorities accordingly.
 
 ## Implementation
 - **Backend**: Flask (Python) with PyPDF2 for secure, in-memory document "shredding."
