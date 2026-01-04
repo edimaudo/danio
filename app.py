@@ -2,14 +2,64 @@ import os
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
 
-# Synthetic portfolio data
-MOCK_PORTFOLIO = [
-    {"id": "SLO-9921", "name": "Project Apollo - Senior Secured", "type": "Term Loan B", "margin": "350bps", "status": "Normalized", "date": "2024-05-10"},
-    {"id": "SLO-8842", "name": "Starlight Corp - RCF 2024", "type": "Revolver", "margin": "275bps", "status": "Normalized", "date": "2024-05-12"},
-    {"id": "SLO-7731", "name": "Horizon Infrastructure - Bridge", "type": "Bridge Loan", "margin": "450bps", "status": "Verification Pending", "date": "2024-05-14"},
-    {"id": "SLO-6610", "name": "Apex Manufacturing - Term Loan", "type": "Term Loan A", "margin": "325bps", "status": "Normalized", "date": "2024-05-15"}
+# Expanded synthetic ledger with deep institutional credit data
+MOCK_LEDGER = [
+    {
+        "id": "SLO-8829", 
+        "name": "Global Tech Acquisitions", 
+        "type": "Term Loan B", 
+        "margin": "S+350", 
+        "law": "New York", 
+        "maturity": "2030-06-15",
+        "leverage_covenant": "4.50x",
+        "compliance": "Compliant",
+        "last_verified": "2024-05-10"
+    },
+    {
+        "id": "SLO-7712", 
+        "name": "Oceanic Wind Portfolio", 
+        "type": "RCF", 
+        "margin": "S+275", 
+        "law": "English", 
+        "maturity": "2028-12-01",
+        "leverage_covenant": "3.25x",
+        "compliance": "Compliant",
+        "last_verified": "2024-05-12"
+    },
+    {
+        "id": "SLO-9901", 
+        "name": "Starlight Real Estate", 
+        "type": "Bridge Loan", 
+        "margin": "S+450", 
+        "law": "New York", 
+        "maturity": "2025-03-20",
+        "leverage_covenant": "N/A",
+        "compliance": "Pending Review",
+        "last_verified": "N/A"
+    },
+    {
+        "id": "SLO-5542", 
+        "name": "Industrial Logistics", 
+        "type": "Term Loan A", 
+        "margin": "S+325", 
+        "law": "Delaware", 
+        "maturity": "2029-09-30",
+        "leverage_covenant": "4.00x",
+        "compliance": "Compliant",
+        "last_verified": "2024-05-14"
+    },
+    {
+        "id": "SLO-4410", 
+        "name": "Apex Manufacturing", 
+        "type": "Term Loan B", 
+        "margin": "S+400", 
+        "law": "New York", 
+        "maturity": "2031-11-15",
+        "leverage_covenant": "5.25x",
+        "compliance": "Breach Alert",
+        "last_verified": "2024-05-15"
+    }
 ]
 
 @app.route('/')
@@ -18,36 +68,25 @@ def index():
 
 @app.route('/workstation')
 def workstation():
-    """Portfolio dashboard showing previously scanned documents."""
-    return render_template('app.html', records=MOCK_PORTFOLIO)
+    """Main Credit Ledger dashboard."""
+    return render_template('app.html', records=MOCK_LEDGER)
 
 @app.route('/reader')
 def reader():
-    """Dedicated view for processing and analyzing a single document."""
+    """Ingestion point to harmonize a new credit agreement PDF."""
     return render_template('reader.html')
 
 @app.route('/analyze', methods=['POST'])
-def analyze_document():
-    # Simulated extraction of a Standardized Loan Object (SLO)
-    slo_data = {
-        "metadata": {"normalization_version": "1.0.4", "confidence_score": 0.96},
-        "instrument_intelligence": {
-            "facility_type": "Term Loan B",
-            "governing_law": "New York",
-            "currency": "USD"
-        },
-        "economic_terms": {
-            "margin_bps": 375,
-            "floor_pct": 1.00,
-            "maturity_date": "2030-06-15"
-        },
-        "covenants": {
-            "leverage_ceiling": "4.25x",
-            "interest_coverage": "2.50x",
-            "status": "In-Compliance"
-        }
-    }
-    return jsonify(slo_data)
+def analyze():
+    """Simulated high-fidelity extraction for the standardization process."""
+    return jsonify({
+        "instrument": "Term Loan B",
+        "jurisdiction": "New York",
+        "margin_grid": "S+375 (Step-downs at 3.0x)",
+        "maturity": "2030-06-15",
+        "financial_covenants": "Max Net Leverage 4.50x",
+        "status": "Harmonized"
+    })
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
