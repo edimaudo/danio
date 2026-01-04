@@ -1,15 +1,40 @@
-# danio | Institutional Loan Standardizer
+# danio | Institutional Credit Agreement Standardization
 
-danio is a digital infrastructure solution built to address the Digital Loans. It bridges the gap between unstructured legal prose and machine-readable credit data, facilitating efficiency, transparency, and interoperability across the loan market.
+danio is a debt capital markets infrastructure solution designed to eliminate operational bottlenecks in syndicated lending. It bridges the gap between unstructured legal prose and structured credit data, facilitating transparency and straight-through processing across the loan lifecycle.
 
-The syndicated loan market is hindered by "dark data" trapped within 300-page PDF agreements. Manual data extraction is slow, prone to error, and prevents real-time portfolio analysis. danio provides an institutional-grade workstation that allows credit risk professionals and traders to extract a Standardized Loan Object (SLO) from these documents instantly. By normalizing complex covenants and business terms, danio turns a static document into a dynamic digital asset.
+## The Problem: Operational Friction
 
-## Key Features
+The syndicated loan market is hindered by "dark data" trapped within complex legal agreements. Manual extraction of commercial terms is slow, prone to error, and prevents real-time portfolio analysis. This lack of standardization leads to settlement delays and inconsistent risk monitoring.
 
-- **Automated Ingestion**: In-memory PDF stream processing ensures secure document handling. No sensitive document data is stored locally, adhering to institutional privacy standards.
-- **Standardized Loan Object (SLO)**: A proprietary schema that maps varied legal phrasing—such as "Margin," "Spread," or "Applicable Rate"—to a unified digital format.
-- **Dual-View Workstation**: A professional interface featuring a Structured Form View for human verification alongside a Raw JSON Output for direct system interoperability.
-- **Instrument Intelligence**: Heuristic logic designed to differentiate between Revolving Credit Facilities (RCF), Term Loans, and Bridge Loans, adjusting extraction priorities accordingly.
+## The Solution: danio Credit Ledger
+
+danio provides an institutional-grade workstation that allows credit officers and portfolio managers to harmonize credit agreements into a Standardized Loan Object (SLO). By aligning bespoke covenants and economic terms, danio transforms a static legal document into a dynamic digital asset.
+
+### Key Features
+
+**1. Credit Term Harmonization**
+
+Resolves discrepancies between bespoke legal phrasing and internal accounting systems. The platform aligns diverse commercial terms—such as interest rate step-downs and margin grids—into a unified framework for portfolio-wide consistency.
+
+**2. Standardized Loan Object (SLO)**
+
+A proprietary framework that provides a definitive digital record of every credit instrument. The SLO enables seamless integration with risk engines and straight-through processing, ensuring that the legal "code" of the agreement is interoperable with financial systems.
+
+**3. Operational Transparency**
+
+Mitigates settlement delays by providing immediate access to critical data. Instantly verify financial covenants, leverage ratios, and maturity profiles to ensure accurate capital allocation and compliance monitoring.
+
+**4. Institutional Security**
+
+Engineered for high-stakes environments with in-memory stream processing. Document data is processed securely to adhere to strict institutional data handling and privacy standards.
+
+### Workflow
+
+- Ingestion: Upload complex credit agreements via the Normalization Reader.
+
+- Verification: Review extracted economic terms in a professional dual-view interface.
+
+- Ledgering: Access a consolidated Credit Ledger for portfolio-wide transparency and system injection.
 
 ## Implementation
 - **Backend**: Flask (Python) with PyPDF2 for secure, in-memory document "shredding."
