@@ -53,3 +53,48 @@ pre { font-size: 13px; font-family: 'JetBrains Mono', monospace; line-height: 1.
 /* Value Pillars */
 .value-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 100px 5%; max-width: 1400px; margin: 0 auto; }
 .pillar-icon { font-size: 40px; font-weight: 900; color: var(--danio-border); margin-bottom: 20px; }
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.metric-card {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--danio-border);
+}
+
+.metric-content .stat-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--danio-slate);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.metric-content .stat-value {
+    display: block;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--danio-navy);
+    margin-bottom: 12px;
+}
+
+.metric-context {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--danio-slate);
+    margin: 0;
+}
+
+/* Ensure ledger table font is tight and professional */
+.ledger-table td {
+    font-size: 13px;
+}
