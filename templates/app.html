@@ -19,8 +19,8 @@
     <main class="container">
         <header class="page-header">
             <div class="header-left">
-                <h1>Credit Ledger</h1>
-                <p>Institutional Record of Standardized Loan Objects (SLO)</p>
+                <h1 class="hero-title" style="font-size: 48px; text-align: left; letter-spacing: -2px; margin-bottom: 10px;">Credit Ledger</h1>
+                <p class="hero-description" style="font-size: 16px; text-align: left; margin-bottom: 0;">Portfolio-wide visibility into standardized economic terms and covenants.</p>
             </div>
             <div class="ledger-stats">
                 <div class="stat-item">
@@ -28,13 +28,13 @@
                     <span class="stat-value">142</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Average Margin</span>
-                    <span class="stat-value">L+325</span>
+                    <span class="stat-label">Harmonized SLOs</span>
+                    <span class="stat-value">100%</span>
                 </div>
             </div>
         </header>
 
-        <section class="card table-container">
+        <section class="card table-container" style="border-radius: 4px; border: 1px solid var(--danio-border);">
             <table class="ledger-table">
                 <thead>
                     <tr>
@@ -43,6 +43,7 @@
                         <th>Facility Type</th>
                         <th>Margin Grid</th>
                         <th>Jurisdiction</th>
+                        <th>Maturity</th>
                         <th>Compliance</th>
                         <th class="text-right">Action</th>
                     </tr>
@@ -51,17 +52,18 @@
                     {% for r in records %}
                     <tr>
                         <td class="cell-id">{{ r.id }}</td>
-                        <td class="cell-name">{{ r.name }}</td>
-                        <td>{{ r.type }}</td>
-                        <td>{{ r.margin }}</td>
+                        <td class="cell-name" style="color: var(--danio-navy);">{{ r.name }}</td>
+                        <td style="font-weight: 500;">{{ r.type }}</td>
+                        <td><code style="background: #f1f5f9; padding: 2px 6px; border-radius: 3px;">{{ r.margin }}</code></td>
                         <td>{{ r.law }}</td>
+                        <td style="color: var(--danio-slate);">2029-Q4</td>
                         <td>
                             <span class="status-tag {% if r.compliance == 'Pass' %}status-pass{% else %}status-pending{% endif %}">
                                 {{ r.compliance }}
                             </span>
                         </td>
                         <td class="text-right">
-                            <a href="/reader" class="text-link">Review Analysis</a>
+                            <a href="/reader" class="text-link" style="color: var(--danio-indigo); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">View Credit Data</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -70,9 +72,9 @@
         </section>
     </main>
 
-    <footer class="app-footer">
-        <div class="footer-container">
-            <p>&copy; 2024 danio | Institutional Credit Standardization. Confidential.</p>
+    <footer class="landing-footer" style="margin-top: 60px;">
+        <div class="footer-content">
+            <p>&copy; 2024 danio | Institutional Credit Standardization. Confidential and Proprietary.</p>
         </div>
     </footer>
 </body>
