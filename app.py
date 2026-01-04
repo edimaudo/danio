@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# Expanded synthetic ledger with deep institutional credit data
+# Institutional Credit Ledger Data
 MOCK_LEDGER = [
     {
         "id": "SLO-8829", 
@@ -73,8 +73,10 @@ def workstation():
 
 @app.route('/reader')
 def reader():
-    """Ingestion point to harmonize a new credit agreement PDF."""
-    return render_template('reader.html')
+    """Workflow interface. Defaults to analysis view if id is provided."""
+    record_id = request.args.get('id')
+    record = next((r for r in MOCK_LEDGER if r['id'] == record_id), None)
+    return render_template('reader.html', record=record)
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
