@@ -11,8 +11,7 @@
         <div class="nav-content">
             <a href="/" class="brand">danio</a>
             <div class="nav-links">
-                
-                <a href="/reader" class="btn-primary-sm">+ New Loan Agreement</a>
+                <a href="/reader" class="btn-primary-sm">+ Add New Agreement</a>
             </div>
         </div>
     </nav>
@@ -25,11 +24,11 @@
             </div>
             <div class="ledger-stats">
                 <div class="stat-item">
-                    <span class="stat-label">Portfolio Facilities</span>
+                    <span class="stat-label">Portfolio Positions</span>
                     <span class="stat-value">142</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Data Health</span>
+                    <span class="stat-label">Harmonization Index</span>
                     <span class="stat-value" style="color: #10b981;">99.4%</span>
                 </div>
             </div>
@@ -59,7 +58,6 @@
                         <td style="color: var(--danio-slate); font-size: 13px;">{{ r.maturity }}</td>
                         <td style="font-weight: 600;">{{ r.leverage_covenant }}</td>
                         <td>
-                            <!-- Enhanced High-Contrast Status Indicators -->
                             {% if r.compliance == 'Compliant' %}
                                 <span class="status-pill status-success">Compliant</span>
                             {% elif r.compliance == 'Pending Review' %}
@@ -69,7 +67,7 @@
                             {% endif %}
                         </td>
                         <td class="text-right">
-                            <a href="/reader" class="btn-text-action">Verify Data</a>
+                            <a href="/reader?id={{ r.id }}" class="btn-text-action">Verify Data</a>
                         </td>
                     </tr>
                     {% endfor %}
