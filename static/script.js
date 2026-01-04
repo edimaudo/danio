@@ -83,3 +83,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dz = document.getElementById('drop-zone');
+    const fi = document.getElementById('file-input');
+    
+    if (dz) {
+        dz.onclick = () => fi.click();
+        fi.onchange = (e) => {
+            if (e.target.files.length) processDoc(e.target.files[0]);
+        };
+    }
+
+    async function processDoc(file) {
+        dz.innerHTML = "<span>Normalizing Prose...</span>";
+        
+        const fd = new FormData();
+        fd.append('file', file);
+        
+        try {
+            const res = await fetch('/analyze', { method: 'POST', body: fd });
+            const data = await res.json();
+            
+            // Populate Fields
+            document.getElementById('out-fac').value = data.instrument;
+            document.getElementById('out-law').value = data.jurisdiction;
+            document.getElementById('out-mar').value = data.margin_bps + " bps";
+            document.getElementById('out-cov').value = data.covenant;
+            document.getElementById('json-out').textContent = JSON.stringify(data, null, 4);
+            
+            // UI Switch
+            document.getElementById('upload-stage').style.display = 'none';
+            document.getElementById('result-stage').style.display = 'grid';
+        } catch (err) {
+            dz.innerHTML = "<span>Error Processing. Try again.</span>";
+        }
+    }
+});
