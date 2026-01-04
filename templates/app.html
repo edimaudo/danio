@@ -11,7 +11,8 @@
         <div class="nav-content">
             <a href="/" class="brand">danio</a>
             <div class="nav-links">
-                <a href="/reader" class="btn-primary-sm">+ Standardize Agreement</a>
+                
+                <a href="/reader" class="btn-primary-sm">+ New Loan Agreement</a>
             </div>
         </div>
     </nav>
@@ -19,32 +20,32 @@
     <main class="container">
         <header class="page-header">
             <div class="header-left">
-                <h1 class="hero-title" style="font-size: 48px; text-align: left; letter-spacing: -2px; margin-bottom: 10px;">Credit Ledger</h1>
-                <p class="hero-description" style="font-size: 16px; text-align: left; margin-bottom: 0;">Portfolio-wide visibility into standardized economic terms and covenants.</p>
+                <h1 class="hero-title" style="font-size: 40px; text-align: left; letter-spacing: -1.5px; margin-bottom: 8px;">Credit Ledger</h1>
+                <p class="hero-description" style="font-size: 15px; text-align: left; max-width: 100%;">Centralized record of Harmonized Credit Agreements and Facility Terms.</p>
             </div>
             <div class="ledger-stats">
                 <div class="stat-item">
-                    <span class="stat-label">Total Facilities</span>
+                    <span class="stat-label">Portfolio Facilities</span>
                     <span class="stat-value">142</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Harmonized SLOs</span>
-                    <span class="stat-value">100%</span>
+                    <span class="stat-label">Data Health</span>
+                    <span class="stat-value" style="color: #10b981;">99.4%</span>
                 </div>
             </div>
         </header>
 
-        <section class="card table-container" style="border-radius: 4px; border: 1px solid var(--danio-border);">
+        <section class="card table-container" style="padding: 0; border: 1px solid var(--danio-border); overflow: hidden;">
             <table class="ledger-table">
                 <thead>
                     <tr>
                         <th>Object ID</th>
                         <th>Agreement Name</th>
-                        <th>Facility Type</th>
-                        <th>Margin Grid</th>
-                        <th>Jurisdiction</th>
+                        <th>Facility</th>
+                        <th>Margin</th>
                         <th>Maturity</th>
-                        <th>Compliance</th>
+                        <th>Max Leverage</th>
+                        <th>Status</th>
                         <th class="text-right">Action</th>
                     </tr>
                 </thead>
@@ -52,18 +53,23 @@
                     {% for r in records %}
                     <tr>
                         <td class="cell-id">{{ r.id }}</td>
-                        <td class="cell-name" style="color: var(--danio-navy);">{{ r.name }}</td>
-                        <td style="font-weight: 500;">{{ r.type }}</td>
-                        <td><code style="background: #f1f5f9; padding: 2px 6px; border-radius: 3px;">{{ r.margin }}</code></td>
-                        <td>{{ r.law }}</td>
-                        <td style="color: var(--danio-slate);">2029-Q4</td>
+                        <td class="cell-name">{{ r.name }}</td>
+                        <td style="font-weight: 500; font-size: 13px;">{{ r.type }}</td>
+                        <td><span class="mono-tag">{{ r.margin }}</span></td>
+                        <td style="color: var(--danio-slate); font-size: 13px;">{{ r.maturity }}</td>
+                        <td style="font-weight: 600;">{{ r.leverage_covenant }}</td>
                         <td>
-                            <span class="status-tag {% if r.compliance == 'Pass' %}status-pass{% else %}status-pending{% endif %}">
-                                {{ r.compliance }}
-                            </span>
+                            <!-- Enhanced High-Contrast Status Indicators -->
+                            {% if r.compliance == 'Compliant' %}
+                                <span class="status-pill status-success">Compliant</span>
+                            {% elif r.compliance == 'Pending Review' %}
+                                <span class="status-pill status-warning">Pending</span>
+                            {% else %}
+                                <span class="status-pill status-danger">Breach Alert</span>
+                            {% endif %}
                         </td>
                         <td class="text-right">
-                            <a href="/reader" class="text-link" style="color: var(--danio-indigo); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">View Credit Data</a>
+                            <a href="/reader" class="btn-text-action">Verify Data</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -72,7 +78,7 @@
         </section>
     </main>
 
-    <footer class="landing-footer" style="margin-top: 60px;">
+    <footer class="landing-footer" style="margin-top: 80px; padding: 40px 0; border-top: 1px solid var(--danio-border);">
         <div class="footer-content">
             <p>&copy; 2024 danio | Institutional Credit Standardization. Confidential and Proprietary.</p>
         </div>
