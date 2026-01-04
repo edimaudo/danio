@@ -22,17 +22,25 @@
                 <h1 class="hero-title" style="font-size: 40px; text-align: left; letter-spacing: -1.5px; margin-bottom: 8px;">Credit Ledger</h1>
                 <p class="hero-description" style="font-size: 15px; text-align: left; max-width: 100%;">Centralized record of Harmonized Credit Agreements and Facility Terms.</p>
             </div>
-            <div class="ledger-stats">
-                <div class="stat-item">
-                    <span class="stat-label">Portfolio Positions</span>
+        </header>
+
+        <!-- Metrics Section with Calculation Context -->
+        <section class="metrics-grid">
+            <div class="card metric-card">
+                <div class="metric-content">
+                    <span class="stat-label">Portfolio Facilities</span>
                     <span class="stat-value">142</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Harmonization Index</span>
-                    <span class="stat-value" style="color: #10b981;">99.4%</span>
+                    <p class="metric-context">Aggregate count of distinct tranches and credit commitments across all harmonized agreements.</p>
                 </div>
             </div>
-        </header>
+            <div class="card metric-card">
+                <div class="metric-content">
+                    <span class="stat-label">Data Health</span>
+                    <span class="stat-value" style="color: #10b981;">99.4%</span>
+                    <p class="metric-context">Percentage of facility attributes successfully validated against source legal prose through the SLO schema.</p>
+                </div>
+            </div>
+        </section>
 
         <section class="card table-container" style="padding: 0; border: 1px solid var(--danio-border); overflow: hidden;">
             <table class="ledger-table">
@@ -67,6 +75,7 @@
                             {% endif %}
                         </td>
                         <td class="text-right">
+                            <!-- Linked strictly to mock ledger data via ID -->
                             <a href="/reader?id={{ r.id }}" class="btn-text-action">Verify Data</a>
                         </td>
                     </tr>
