@@ -1,53 +1,76 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>danio Reader | SLO Extraction</title>
+    <title>danio | Credit Intelligence</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="app-bg">
     <nav class="nav-shell">
         <div class="nav-content">
-            <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="nav-brand-group">
                 <a href="/workstation" class="brand">danio</a>
-                <span style="color: var(--danio-border); font-size: 20px;">/</span>
-                <span style="font-size: 14px; font-weight: 600; color: var(--danio-slate);">Normalization Reader</span>
+                <span class="nav-sep">/</span>
+                <span class="nav-current">{% if record %}Credit Intelligence: {{ record.id }}{% else %}New Agreement Normalization{% endif %}</span>
             </div>
-            <div class="system-status"><span class="status-dot"></span> STREAM ACTIVE</div>
         </div>
     </nav>
 
-    <main class="workstation-main">
-        <div id="ingestion-stage">
-            <div class="ingestion-center">
-                <h2 style="margin: 0 0 12px 0;">New SLO Extraction</h2>
-                <p style="color: var(--danio-slate); margin-bottom: 32px;">Secure in-memory processing for private credit agreements.</p>
-                <div class="drop-zone" id="drop-zone">
-                    <div class="upload-icon">📄</div>
-                    <p style="font-weight: 700; color: var(--danio-indigo);">Upload Agreement PDF</p>
-                    <input type="file" id="file-input" accept="application/pdf" hidden>
-                </div>
+    <main class="container">
+        {% if not record %}
+        <!-- Ingestion View for New Agreements -->
+        <div id="upload-stage" class="card upload-card">
+            <div class="upload-icon">📄</div>
+            <h2>Standardize Credit Agreement</h2>
+            <p>Upload a legal PDF to generate a Standardized Loan Object.</p>
+            <div class="drop-zone" id="drop-zone">
+                <span>Select or Drag Agreement PDF</span>
+                <input type="file" id="file-input" hidden accept="application/pdf">
             </div>
         </div>
-
-        <div id="workstation-view" style="display: none;">
-            <div class="dual-view">
-                <div class="view-panel">
-                    <span class="panel-title">Verification Form</span>
-                    <div class="data-form">
-                        <div class="field"><label>Facility Class</label><input type="text" id="f-class" readonly></div>
-                        <div class="field"><label>Jurisdiction</label><input type="text" id="f-law" readonly></div>
-                        <div class="field"><label>Margin (bps)</label><input type="text" id="f-margin" readonly></div>
-                        <div class="field"><label>Ccy</label><input type="text" id="f-ccy" readonly></div>
-                        <div class="field"><label>Maturity</label><input type="text" id="f-maturity" readonly></div>
-                        <div class="field"><label>Compliance</label><input type="text" id="f-covenant" readonly></div>
+        {% else %}
+        <!-- Verification View for Existing Records -->
+        <div class="workstation-grid">
+            <div class="card verification-panel">
+                <div class="panel-head">HARMONIZED CREDIT ATTRIBUTES</div>
+                <div class="verification-form">
+                    <div class="form-group"><label>Agreement Name</label><input type="text" value="{{ record.name }}" readonly></div>
+                    <div class="form-group"><label>Facility Type</label><input type="text" value="{{ record.type }}" readonly></div>
+                    <div class="form-group"><label>Margin (Spread)</label><input type="text" value="{{ record.margin }}" readonly></div>
+                    <div class="form-group"><label>Jurisdiction</label><input type="text" value="{{ record.law }}" readonly></div>
+                    <div class="form-group"><label>Maturity Profile</label><input type="text" value="{{ record.maturity }}" readonly></div>
+                    <div class="form-group"><label>Financial Covenant</label><input type="text" value="{{ record.leverage_covenant }}" readonly></div>
+                </div>
+                <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--danio-border);">
+                    <div class="form-group">
+                        <label>Last Operational Verification</label>
+                        <p style="font-weight: 700; margin-top: 4px; color: var(--danio-navy);">{{ record.last_verified }}</p>
                     </div>
                 </div>
-                <div class="view-panel dark-panel">
-                    <span class="panel-title" style="color: var(--danio-indigo);">Raw SLO Output (JSON)</span>
-                    <pre id="json-output"></pre>
+                <button class="btn-primary" style="margin-top:20px; width:100%" onclick="window.location.href='/workstation'">Return to Ledger</button>
+            </div>
+            <div class="card json-panel">
+                <div class="panel-head">RAW SLO INTEROPERABILITY (JSON)</div>
+                <pre id="json-out">{{ record | tojson(indent=4) }}</pre>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Dynamic Results Container for new scans -->
+        <div id="result-stage" class="workstation-grid" style="display:none;">
+            <div class="card verification-panel">
+                <div class="panel-head">EXTRACTION VERIFICATION</div>
+                <div class="verification-form">
+                    <div class="form-group"><label>Facility</label><input type="text" id="out-fac" readonly></div>
+                    <div class="form-group"><label>Jurisdiction</label><input type="text" id="out-law" readonly></div>
+                    <div class="form-group"><label>Margin</label><input type="text" id="out-mar" readonly></div>
+                    <div class="form-group"><label>Covenant</label><input type="text" id="out-cov" readonly></div>
                 </div>
+                <button class="btn-primary" style="margin-top:20px; width:100%" onclick="location.reload()">Process Next</button>
+            </div>
+            <div class="card json-panel">
+                <div class="panel-head">RAW SLO OUTPUT</div>
+                <pre id="json-out-dynamic"></pre>
             </div>
         </div>
     </main>
