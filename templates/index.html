@@ -6,45 +6,47 @@
     <title>danio | Institutional Loan Standardizer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="landing-page">
     <nav class="nav-shell">
         <div class="nav-content">
             <a href="/" class="brand">danio</a>
-            <a href="/workstation" class="nav-cta">Launch Workstation</a>
+            <div class="nav-links">
+                <a href="/workstation" class="nav-btn-solid">Launch Workstation</a>
+            </div>
         </div>
     </nav>
 
-    <header class="hero-exec">
-        <div class="hero-container">
-            <span class="badge-infra">Digital Loan Infrastructure</span>
-            <h1 class="hero-h1">Extract Standardized Loan Data from Unstructured Prose.</h1>
-            <p class="hero-p">danio bridges the gap between 300-page PDF agreements and machine-readable credit data, facilitating efficiency and transparency across the loan market.</p>
+    <header class="hero-section">
+        <div class="hero-content">
+            <div class="hero-brand-tag">INSTITUTIONAL INFRASTRUCTURE</div>
+            <h1 class="hero-title">danio</h1>
+            <h2 class="hero-subtitle">The Standard for Loan Normalization.</h2>
+            <p class="hero-description">
+                Bridging the gap between 300-page credit agreements and machine-readable data. 
+                Extract **Standardized Loan Objects (SLO)** instantly with institutional precision.
+            </p>
             <div class="hero-actions">
-                <a href="/workstation" class="btn-danio">Launch Workstation</a>
+                <a href="/workstation" class="btn-primary">Open Portfolio Ledger</a>
+                <a href="/reader" class="btn-secondary">Analyze New Agreement</a>
             </div>
         </div>
     </header>
 
-    <section class="feature-grid">
-        <div class="feature-card">
-            
-            <h3>Standardized Loan Object (SLO)</h3>
-            <p>A proprietary schema mapping varied legal phrasing—such as "Margin," "Spread," or "Applicable Rate"—to a unified digital format.</p>
+    <section class="value-pillars">
+        <div class="pillar">
+            <div class="pillar-icon">01</div>
+            <h3>Eliminate Dark Data</h3>
+            <p>Convert static PDF prose into dynamic digital assets for real-time risk analysis.</p>
         </div>
-        <div class="feature-card">
-            
-            <h3>Automated Ingestion</h3>
-            <p>Secure in-memory PDF stream processing ensures document handling adheres to institutional privacy standards without local storage.</p>
+        <div class="pillar">
+            <div class="pillar-icon">02</div>
+            <h3>Interoperable SLOs</h3>
+            <p>Our proprietary schema ensures cross-portfolio consistency for internal ledgers.</p>
         </div>
-        <div class="feature-card">
-            
-            <h3>Instrument Intelligence</h3>
-            <p>Heuristic logic designed to differentiate between RCF, Term Loans, and Bridge Loans, adjusting extraction priorities accordingly.</p>
-        </div>
-        <div class="feature-card">
-            
-            <h3>System Interoperability</h3>
-            <p>Normalized outputs designed for direct injection into core risk and portfolio accounting systems, turning static documents into dynamic assets.</p>
+        <div class="pillar">
+            <div class="pillar-icon">03</div>
+            <h3>In-Memory Security</h3>
+            <p>Document streams are processed in-memory. We do not store sensitive legal prose.</p>
         </div>
     </section>
 </body>
