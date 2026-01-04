@@ -3,74 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>danio Workstation | SLO Extraction</title>
+    <title>danio | Credit Ledger</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="app-bg">
     <nav class="nav-shell">
         <div class="nav-content">
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <a href="/" class="brand">danio</a>
-                <span style="color: var(--danio-border); font-size: 20px;">/</span>
-                <span style="font-size: 13px; font-weight: 600; color: var(--danio-slate);">Institutional Workstation</span>
-            </div>
-            <div class="system-status">
-                <span class="status-dot"></span> SYSTEM OPERATIONAL
+            <a href="/" class="brand">danio</a>
+            <div class="nav-links">
+                <a href="/reader" class="btn-primary-sm">+ Standardize Agreement</a>
             </div>
         </div>
     </nav>
 
-    <main class="workstation-main">
-        <!-- Ingestion Module -->
-        <div id="ingestion-stage">
-            <div class="ingestion-center">
-                <span class="badge-infra">Document Ingestion</span>
-                <h2 style="margin: 0 0 12px 0; font-size: 28px;">Standardize Agreement</h2>
-                <p style="color: var(--danio-slate); margin: 0; font-size: 15px;">Upload a Credit Agreement PDF to extract the Standardized Loan Object.</p>
-                
-                <div class="drop-zone" id="drop-zone">
-                    <div class="upload-icon">📄</div>
-                    <p style="font-weight: 700; color: var(--danio-indigo);">Select PDF Document</p>
-                    <p style="font-size: 12px; color: var(--danio-slate); margin-top: 8px;">Institutional-grade stream processing enabled.</p>
-                    <input type="file" id="file-input" accept="application/pdf" hidden>
+    <main class="container">
+        <header class="page-header">
+            <div class="header-left">
+                <h1>Credit Ledger</h1>
+                <p>Institutional Record of Standardized Loan Objects (SLO)</p>
+            </div>
+            <div class="ledger-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Total Facilities</span>
+                    <span class="stat-value">142</span>
                 </div>
-                <div id="upload-progress" class="progress-bar" style="display: none;">
-                    <div class="progress-fill"></div>
+                <div class="stat-item">
+                    <span class="stat-label">Average Margin</span>
+                    <span class="stat-value">L+325</span>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <!-- Dual-View Workstation -->
-        <div id="workstation-view" style="display: none;">
-            <div class="dual-view">
-                <!-- Panel 1: Structured Form View -->
-                <div class="view-panel">
-                    <span class="panel-title">Structured Form View (Human Verification)</span>
-                    <div class="data-form">
-                        <div class="field"><label>Facility Type</label><input type="text" id="f-class" readonly></div>
-                        <div class="field"><label>Governing Law</label><input type="text" id="f-law" readonly></div>
-                        <div class="field"><label>Base Margin (bps)</label><input type="text" id="f-margin" readonly></div>
-                        <div class="field"><label>Currency</label><input type="text" id="f-ccy" readonly></div>
-                        <div class="field"><label>Maturity Profile</label><input type="text" id="f-maturity" readonly></div>
-                        <div class="field"><label>Lev. Covenant</label><input type="text" id="f-covenant" readonly></div>
-                    </div>
-                    <div class="panel-actions">
-                        <button class="btn-danio" onclick="location.reload()">Process New Document</button>
-                    </div>
-                </div>
-                
-                <!-- Panel 2: Raw JSON SLO -->
-                <div class="view-panel dark-panel">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                        <span class="panel-title" style="color: var(--danio-indigo); margin:0;">Raw JSON Output (SLO Interop)</span>
-                        <span class="badge-json">SCHEMA V1.0.4</span>
-                    </div>
-                    <pre id="json-output"></pre>
-                </div>
-            </div>
-        </div>
+        <section class="card table-container">
+            <table class="ledger-table">
+                <thead>
+                    <tr>
+                        <th>Object ID</th>
+                        <th>Agreement Name</th>
+                        <th>Facility Type</th>
+                        <th>Margin Grid</th>
+                        <th>Jurisdiction</th>
+                        <th>Compliance</th>
+                        <th class="text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in records %}
+                    <tr>
+                        <td class="cell-id">{{ r.id }}</td>
+                        <td class="cell-name">{{ r.name }}</td>
+                        <td>{{ r.type }}</td>
+                        <td>{{ r.margin }}</td>
+                        <td>{{ r.law }}</td>
+                        <td>
+                            <span class="status-tag {% if r.compliance == 'Pass' %}status-pass{% else %}status-pending{% endif %}">
+                                {{ r.compliance }}
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <a href="/reader" class="text-link">Review Analysis</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
     </main>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <footer class="app-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 danio | Institutional Credit Standardization. Confidential.</p>
+        </div>
+    </footer>
 </body>
 </html>
