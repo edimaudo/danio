@@ -7,11 +7,14 @@
 </head>
 <body class="app-bg">
     <nav class="nav-shell">
-        <div class="nav-content">
+        <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 20px 0;">
             <div class="nav-brand-group">
-                <a href="/workstation" class="brand">danio</a>
-                <span class="nav-sep">/</span>
-                <span class="nav-current">{% if record %}Credit Intelligence: {{ record.id }}{% else %}New Agreement Normalization{% endif %}</span>
+                <a href="/workstation" class="brand" style="font-size: 18px; opacity: 0.6;">danio</a>
+            </div>
+            <div style="margin-top: 4px;">
+                <span class="nav-current" style="font-size: 24px; font-weight: 800; color: var(--danio-navy);">
+                    {% if record %}Credit Intelligence: {{ record.id }}{% else %}New Agreement Normalization{% endif %}
+                </span>
             </div>
         </div>
     </nav>
@@ -30,50 +33,79 @@
         </div>
         {% else %}
         <!-- Verification View for Existing Records -->
-        <div class="workstation-grid">
-            <div class="card verification-panel">
-                <div class="panel-head">HARMONIZED CREDIT ATTRIBUTES</div>
-                <div class="verification-form">
-                    <div class="form-group"><label>Agreement Name</label><input type="text" value="{{ record.name }}" readonly></div>
-                    <div class="form-group"><label>Facility Type</label><input type="text" value="{{ record.type }}" readonly></div>
-                    <div class="form-group"><label>Margin (Spread)</label><input type="text" value="{{ record.margin }}" readonly></div>
-                    <div class="form-group"><label>Jurisdiction</label><input type="text" value="{{ record.law }}" readonly></div>
-                    <div class="form-group"><label>Maturity Profile</label><input type="text" value="{{ record.maturity }}" readonly></div>
-                    <div class="form-group"><label>Financial Covenant</label><input type="text" value="{{ record.leverage_covenant }}" readonly></div>
-                </div>
-                <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--danio-border);">
-                    <div class="form-group">
-                        <label>Last Operational Verification</label>
-                        <p style="font-weight: 700; margin-top: 4px; color: var(--danio-navy);">{{ record.last_verified }}</p>
+        <div class="workstation-grid" style="grid-template-columns: 1.2fr 0.8fr; gap: 30px; align-items: start;">
+            <div class="card verification-panel" style="padding: 32px;">
+                <div class="panel-head" style="margin-bottom: 32px; border-bottom: 2px solid var(--danio-indigo); display: inline-block; padding-bottom: 4px;">HARMONIZED CREDIT ATTRIBUTES</div>
+                
+                <div class="attribute-display-grid">
+                    <div class="attr-item">
+                        <label>Agreement Name</label>
+                        <div class="attr-value">{{ record.name }}</div>
+                    </div>
+                    <div class="attr-item">
+                        <label>Facility Type</label>
+                        <div class="attr-value">{{ record.type }}</div>
+                    </div>
+                    <div class="attr-item">
+                        <label>Margin (Spread)</label>
+                        <div class="attr-value mono-text">{{ record.margin }}</div>
+                    </div>
+                    <div class="attr-item">
+                        <label>Jurisdiction</label>
+                        <div class="attr-value">{{ record.law }}</div>
+                    </div>
+                    <div class="attr-item">
+                        <label>Maturity Profile</label>
+                        <div class="attr-value">{{ record.maturity }}</div>
+                    </div>
+                    <div class="attr-item">
+                        <label>Financial Covenant</label>
+                        <div class="attr-value highlight">{{ record.leverage_covenant }}</div>
                     </div>
                 </div>
-                <button class="btn-primary" style="margin-top:20px; width:100%" onclick="window.location.href='/workstation'">Return to Ledger</button>
+
+                <div class="verification-footer" style="margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--danio-border); display: flex; justify-content: space-between; align-items: center;">
+                    <div class="verification-meta">
+                        <span style="font-size: 12px; color: var(--danio-slate);">Operational Verification:</span>
+                        <span style="font-size: 12px; font-weight: 700; margin-left: 8px; color: var(--danio-navy);">{{ record.last_verified }}</span>
+                    </div>
+                    <button class="btn-primary" onclick="window.location.href='/workstation'">Confirm & Return to Ledger</button>
+                </div>
             </div>
-            <div class="card json-panel">
-                <div class="panel-head">RAW SLO INTEROPERABILITY (JSON)</div>
-                <pre id="json-out">{{ record | tojson(indent=4) }}</pre>
+
+            <div class="card json-panel" style="background: #1e293b; color: #38bdf8;">
+                <div class="panel-head" style="color: #94a3b8; border-color: #334155;">RAW SLO INTEROPERABILITY (JSON)</div>
+                <pre id="json-out" style="font-size: 13px; line-height: 1.6; padding: 10px;">{{ record | tojson(indent=4) }}</pre>
             </div>
         </div>
         {% endif %}
-
-        <!-- Dynamic Results Container for new scans -->
-        <div id="result-stage" class="workstation-grid" style="display:none;">
-            <div class="card verification-panel">
-                <div class="panel-head">EXTRACTION VERIFICATION</div>
-                <div class="verification-form">
-                    <div class="form-group"><label>Facility</label><input type="text" id="out-fac" readonly></div>
-                    <div class="form-group"><label>Jurisdiction</label><input type="text" id="out-law" readonly></div>
-                    <div class="form-group"><label>Margin</label><input type="text" id="out-mar" readonly></div>
-                    <div class="form-group"><label>Covenant</label><input type="text" id="out-cov" readonly></div>
-                </div>
-                <button class="btn-primary" style="margin-top:20px; width:100%" onclick="location.reload()">Process Next</button>
-            </div>
-            <div class="card json-panel">
-                <div class="panel-head">RAW SLO OUTPUT</div>
-                <pre id="json-out-dynamic"></pre>
-            </div>
-        </div>
     </main>
+
+    <style>
+        .attribute-display-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px 48px;
+        }
+        .attr-item label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--danio-slate);
+            margin-bottom: 8px;
+        }
+        .attr-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--danio-navy);
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .mono-text { font-family: 'JetBrains Mono', monospace; color: var(--danio-indigo); }
+        .highlight { color: #b91c1c; }
+    </style>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
