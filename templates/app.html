@@ -24,20 +24,20 @@
             </div>
         </header>
 
-        <!-- Metrics Section with Calculation Context -->
+        <!-- Metrics Section with Condensed Descriptions -->
         <section class="metrics-grid">
             <div class="card metric-card">
                 <div class="metric-content">
                     <span class="stat-label">Portfolio Facilities</span>
                     <span class="stat-value">142</span>
-                    <p class="metric-context">Aggregate count of distinct tranches and credit commitments across all harmonized agreements.</p>
+                    <p class="metric-context">Total active tranches and commitments currently under management.</p>
                 </div>
             </div>
             <div class="card metric-card">
                 <div class="metric-content">
                     <span class="stat-label">Data Health</span>
                     <span class="stat-value" style="color: #10b981;">99.4%</span>
-                    <p class="metric-context">Percentage of facility attributes successfully validated against source legal prose through the SLO schema.</p>
+                    <p class="metric-context">Verified facility attributes mapped successfully to source legal prose.</p>
                 </div>
             </div>
         </section>
@@ -75,7 +75,6 @@
                             {% endif %}
                         </td>
                         <td class="text-right">
-                            <!-- Linked strictly to mock ledger data via ID -->
                             <a href="/reader?id={{ r.id }}" class="btn-text-action">Verify Data</a>
                         </td>
                     </tr>
@@ -85,10 +84,5 @@
         </section>
     </main>
 
-    <footer class="landing-footer" style="margin-top: 80px; padding: 40px 0; border-top: 1px solid var(--danio-border);">
-        <div class="footer-content">
-            <p>&copy; 2024 danio | Institutional Credit Standardization. Confidential and Proprietary.</p>
-        </div>
-    </footer>
 </body>
 </html>
