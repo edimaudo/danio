@@ -7,9 +7,9 @@
 </head>
 <body class="app-bg">
     <nav class="nav-shell">
-        <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 20px 0;">
+        <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 18px 0;">
             <div class="nav-brand-group">
-                <a href="/workstation" class="brand" style="font-size: 18px; opacity: 0.6;">danio</a>
+                <a href="/workstation" class="brand" style="font-size: 18px; opacity: 0.6; text-decoration: none;">danio</a>
             </div>
             <div style="margin-top: 4px;">
                 <span class="nav-current" style="font-size: 24px; font-weight: 800; color: var(--danio-navy);">
@@ -35,7 +35,9 @@
         <!-- Verification View for Existing Records -->
         <div class="workstation-grid" style="grid-template-columns: 1.2fr 0.8fr; gap: 30px; align-items: start;">
             <div class="card verification-panel" style="padding: 32px;">
-                <div class="panel-head" style="margin-bottom: 32px; border-bottom: 2px solid var(--danio-indigo); display: inline-block; padding-bottom: 4px;">HARMONIZED CREDIT ATTRIBUTES</div>
+                <div class="panel-head" style="margin-bottom: 32px; border-bottom: 2px solid var(--danio-indigo); display: inline-block; padding-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; font-weight: 800; color: var(--danio-indigo);">
+                    Harmonized Credit Attributes
+                </div>
                 
                 <div class="attribute-display-grid">
                     <div class="attr-item">
@@ -48,7 +50,7 @@
                     </div>
                     <div class="attr-item">
                         <label>Margin (Spread)</label>
-                        <div class="attr-value mono-text">{{ record.margin }}</div>
+                        <div class="attr-value mono-text" style="font-family: monospace; color: var(--danio-indigo);">{{ record.margin }}</div>
                     </div>
                     <div class="attr-item">
                         <label>Jurisdiction</label>
@@ -60,25 +62,30 @@
                     </div>
                     <div class="attr-item">
                         <label>Financial Covenant</label>
-                        <div class="attr-value highlight">{{ record.leverage_covenant }}</div>
+                        <div class="attr-value highlight" style="color: #b91c1c; font-weight: 700;">{{ record.leverage_covenant }}</div>
                     </div>
                 </div>
 
                 <div class="verification-footer" style="margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--danio-border); display: flex; justify-content: space-between; align-items: center;">
                     <div class="verification-meta">
-                        <span style="font-size: 12px; color: var(--danio-slate);">Operational Verification:</span>
-                        <span style="font-size: 12px; font-weight: 700; margin-left: 8px; color: var(--danio-navy);">{{ record.last_verified }}</span>
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--danio-slate);">Last Verification</span>
+                        <div style="font-size: 14px; font-weight: 600; margin-top: 4px; color: var(--danio-navy);">{{ record.last_verified }}</div>
                     </div>
-                    <button class="btn-primary" onclick="window.location.href='/workstation'">Confirm & Return to Ledger</button>
+                    <button class="btn-primary" onclick="window.location.href='/workstation'" style="padding: 12px 24px; font-size: 13px;">Confirm & Return to Ledger</button>
                 </div>
             </div>
 
-            <div class="card json-panel" style="background: #1e293b; color: #38bdf8;">
-                <div class="panel-head" style="color: #94a3b8; border-color: #334155;">RAW SLO INTEROPERABILITY (JSON)</div>
-                <pre id="json-out" style="font-size: 13px; line-height: 1.6; padding: 10px;">{{ record | tojson(indent=4) }}</pre>
+            <div class="card json-panel" style="background: #0f172a; border-radius: 8px; overflow: hidden; border: 1px solid #1e293b;">
+                <div class="panel-head" style="background: #1e293b; color: #94a3b8; padding: 12px 20px; font-size: 10px; font-weight: 800; letter-spacing: 0.5px;">RAW SLO INTEROPERABILITY (JSON)</div>
+                <pre id="json-out" style="margin: 0; padding: 20px; font-size: 12px; line-height: 1.6; color: #38bdf8; overflow-x: auto;">{{ record | tojson(indent=4) }}</pre>
             </div>
         </div>
         {% endif %}
+
+        <!-- Dynamic Results Container for new scans -->
+        <div id="result-stage" class="workstation-grid" style="display:none;">
+            <!-- This part will inherit styles if dynamic extraction is triggered -->
+        </div>
     </main>
 
     <style>
@@ -97,14 +104,12 @@
             margin-bottom: 8px;
         }
         .attr-value {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--danio-navy);
             padding: 8px 0;
             border-bottom: 1px solid #f1f5f9;
         }
-        .mono-text { font-family: 'JetBrains Mono', monospace; color: var(--danio-indigo); }
-        .highlight { color: #b91c1c; }
     </style>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
