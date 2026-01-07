@@ -1,6 +1,6 @@
 # danio | Institutional Credit Agreement Standardization
 
-danio is a debt capital markets infrastructure solution designed to eliminate operational bottlenecks in syndicated lending. It bridges the gap between unstructured legal prose and structured credit data, facilitating transparency and straight-through processing across the loan lifecycle.
+danio is a tool to help reduce operational bottlenecks in syndicated lending. It bridges the gap between unstructured legal prose and structured credit data, facilitating transparency and straight-through processing across the loan lifecycle.
 
 ## The Problem: Operational Friction
 
@@ -8,7 +8,7 @@ The syndicated loan market is hindered by "dark data" trapped within complex leg
 
 ## The Solution: danio Credit Ledger
 
-danio provides an institutional-grade workstation that allows credit officers and portfolio managers to harmonize credit agreements into a Standardized Loan Object (SLO). By aligning bespoke covenants and economic terms, danio transforms a static legal document into a dynamic digital asset.
+danio provides a smart system  that harmonizes credit agreements into a Standardized Loan Object (SLO). By aligning bespoke financial covenants and economic terms, danio transforms a static legal document into a dynamic digital asset.
 
 ### Key Features
 
@@ -24,10 +24,6 @@ A proprietary framework that provides a definitive digital record of every credi
 
 Mitigates settlement delays by providing immediate access to critical data. Instantly verify financial covenants, leverage ratios, and maturity profiles to ensure accurate capital allocation and compliance monitoring.
 
-**4. Institutional Security**
-
-Engineered for high-stakes environments with in-memory stream processing. Document data is processed securely to adhere to strict institutional data handling and privacy standards.
-
 ### Workflow
 
 - Ingestion: Upload complex credit agreements via the Normalization Reader.
@@ -37,7 +33,7 @@ Engineered for high-stakes environments with in-memory stream processing. Docume
 - Ledgering: Access a consolidated Credit Ledger for portfolio-wide transparency and system injection.
 
 ## Implementation
-- **Backend**: Flask (Python) with PyPDF2 for secure, in-memory document "shredding."
+- **Backend**: Flask (Python)
 - **Frontend**: Native JavaScript and CSS Grid, ensuring a lightweight, secure, and responsive institutional experience.
 
 ## Project Structure
