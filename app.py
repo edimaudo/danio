@@ -85,10 +85,36 @@ def workstation():
 
 @app.route('/reader')
 def reader():
-    """Workflow interface. Defaults to analysis view if id is provided."""
+    """Workflow interface. Generates dynamic data if no ID provided (New Agreement)."""
     record_id = request.args.get('id')
     record = next((r for r in MOCK_LEDGER if r['id'] == record_id), None)
-    return render_template('reader.html', record=record)
+    
+    # Generate random data for the "OCR" simulation if it's a new agreement
+    if not record:
+        companies = ["Vanguard Systems", "Apex Global", "Titan Infrastructure", "Horizon Logistics"]
+        margins = ["S+300", "S+325", "S+400", "S+275"]
+        laws = ["New York", "English Law", "Delaware"]
+        
+        record = {
+            "id": f"SLO-{random.randint(1000, 9999)}",
+            "name": random.choice(companies),
+            "type": "Term Loan B",
+            "margin": random.choice(margins),
+            "law": random.choice(laws),
+            "maturity": f"203{random.randint(0,2)}-12-31",
+            "leverage_covenant": f"{random.uniform(3.5, 5.0):.2f}x",
+            "compliance": "Compliant"
+        }
+    
+    return render_template('reader.html', record=record, is_new=(not record_id))
+
+@app.route('/commit', methods=['POST'])
+def commit():
+    """Adds the newly harmonized record to the ledger."""
+    data = request.json
+    data['last_verified'] = datetime.now().strftime("%Y-%m-%d")
+    MOCK_LEDGER.insert(0, data)
+    return jsonify({"status": "success"})
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
