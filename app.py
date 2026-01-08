@@ -68,7 +68,7 @@ def index():
 
 @app.route('/workstation')
 def workstation():
-   """Main Credit Ledger dashboard with dynamic metrics."""
+    """Main Credit Ledger dashboard with dynamic metrics."""
     # 1. Calculation for Portfolio Facilities: Total count of records
     total_facilities = len(MOCK_LEDGER)
     
