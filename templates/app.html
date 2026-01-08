@@ -62,15 +62,18 @@
             <div class="card metric-card">
                 <div class="metric-content">
                     <span class="stat-label">Portfolio Facilities</span>
-                    <span class="stat-value">142</span>
-                    <p class="metric-context">Total active tranches and commitments currently under management.</p>
+                    <!-- Dynamic value from total_facilities calculation -->
+                    <span class="stat-value">{{ total_facilities }}</span>
+                    <p class="metric-desc">Total harmonized Standardized Loan Objects currently active in the ledger.</p>
                 </div>
             </div>
             <div class="card metric-card">
                 <div class="metric-content">
                     <span class="stat-label">Data Health</span>
-                    <span class="stat-value" style="color: #10b981;">99.4%</span>
-                    <p class="metric-context">Verified facility attributes mapped successfully to source legal prose.</p>
+                    <!-- Dynamic value from data_health calculation -->
+                    <span class="stat-value">{{ data_health }}%</span>
+                    <div class="progress-bar"><div class="progress-fill" style="width: {{ data_health }}%"></div></div>
+                    <p class="metric-desc">Percentage of facilities with fully verified compliance and updated financial covenants.</p>
                 </div>
             </div>
         </section>
