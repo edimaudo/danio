@@ -46,8 +46,9 @@ danio/
 │   ├── style.css       
 │   └── script.js       
 └── templates/
-    ├── index.html      
-    └── app.html       
+    ├── index.html
+    ├── app.html   
+    └── reader.html 
 ```
 
 ## Installation and Deployment
