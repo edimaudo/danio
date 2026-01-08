@@ -68,8 +68,20 @@ def index():
 
 @app.route('/workstation')
 def workstation():
-    """Main Credit Ledger dashboard."""
-    return render_template('app.html', records=MOCK_LEDGER)
+   """Main Credit Ledger dashboard with dynamic metrics."""
+    # 1. Calculation for Portfolio Facilities: Total count of records
+    total_facilities = len(MOCK_LEDGER)
+    
+    # 2. Calculation for Data Health: % of compliant facilities
+    compliant_count = len([r for r in MOCK_LEDGER if r['compliance'] == 'Compliant'])
+    data_health = round((compliant_count / total_facilities) * 100, 1) if total_facilities > 0 else 0
+    
+    return render_template(
+        'app.html', 
+        records=MOCK_LEDGER, 
+        total_facilities=total_facilities, 
+        data_health=data_health
+    )
 
 @app.route('/reader')
 def reader():
