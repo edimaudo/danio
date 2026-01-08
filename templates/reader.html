@@ -5,7 +5,14 @@
     <title>danio | Credit Intelligence</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        .split-view { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; height: calc(100vh - 180px); align-items: stretch; }
+        /* Layout & Alignment */
+        .split-view { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 24px; 
+            height: calc(100vh - 200px); 
+            align-items: stretch; 
+        }
         
         /* Simulated PDF View */
         .pdf-viewport { background: #525659; border-radius: 8px; padding: 40px; overflow-y: auto; display: flex; justify-content: center; border: 1px solid var(--danio-border); }
@@ -26,7 +33,7 @@
         /* Loading/OCR State */
         .scanning-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
 
-          /* Button Style for Nav */
+        /* Button Style for Nav */
         .btn-nav {
             padding: 8px 16px;
             background-color: var(--danio-navy);
@@ -52,38 +59,39 @@
             <!-- Top Row: Logo and far-right button -->
             <div class="nav-brand-group" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                 <a href="/workstation" class="brand" style="opacity: 1; text-decoration: none;">danio</a>
-                <a href="/workstation" class="btn-primary-sm">Credit Ledger</a>
+                <a href="/workstation" class="btn-nav">Credit Ledger</a>
             </div>
-            <!-- Bottom Row: Section Title -->
+            <!-- Bottom Row: Section Title (Aligned with Logo Start) -->
             <div style="margin-top: 12px;">
                 <span class="nav-current" style="font-size: 24px; font-weight: 800; color: var(--danio-navy); display: block;">
                     {% if record %}Record Verification: {{ record.id }}{% else %}Agreement Normalization{% endif %}
                 </span>
             </div>
         </div>
-    </nav
+    </nav>
 
-    <main class="container" style="max-width: 1400px; margin-top: 20px;">
+    <!-- Main Container: Adjusted max-width and padding to align with Nav Brand -->
+    <main class="container" style="max-width: 1400px; margin-top: 24px; padding: 0;">
         <div class="split-view">
             
             <!-- SECTION 1: SIMULATED PDF DOCUMENT -->
             <div class="pdf-viewport">
                 <div class="pdf-page" id="legal-doc">
-                    {% if is_new %}<div id="scan-layer" class="scanning-overlay"><div class="spinner"></div><p style="margin-top:15px; font-weight:700;">OCR Extraction Active...</p></div>{% endif %}
+                    {% if not record %}<div id="scan-layer" class="scanning-overlay"><div class="spinner"></div><p style="margin-top:15px; font-weight:700;">OCR Extraction Active...</p></div>{% endif %}
                     
                     <h1>Credit Agreement</h1>
-                    <p>THIS CREDIT AGREEMENT (this "Agreement") is entered into as of May 24, 2024, by and among <strong><span class="ocr-match">{{ record.name }}</span></strong>, as Borrower, the Lenders party hereto, and DANIO AGENT SERVICES, as Administrative Agent.</p>
+                    <p>THIS CREDIT AGREEMENT (this "Agreement") is entered into as of May 24, 2024, by and among <strong><span class="ocr-match">{{ record.name if record else '---' }}</span></strong>, as Borrower, the Lenders party hereto, and DANIO AGENT SERVICES, as Administrative Agent.</p>
                     
                     <p><strong>Article I: Defined Terms.</strong></p>
-                    <p>"<u>Facility</u>" means the <strong><span class="ocr-match">{{ record.type }}</span></strong> provided for in Section 2.01.</p>
-                    <p>"<u>Applicable Margin</u>" means a percentage per annum equal to <strong><span class="ocr-match">{{ record.margin }}</span></strong> based on the Pricing Grid.</p>
-                    <p>"<u>Maturity Date</u>" means <strong><span class="ocr-match">{{ record.maturity }}</span></strong>.</p>
+                    <p>"<u>Facility</u>" means the <strong><span class="ocr-match">{{ record.type if record else '---' }}</span></strong> provided for in Section 2.01.</p>
+                    <p>"<u>Applicable Margin</u>" means a percentage per annum equal to <strong><span class="ocr-match">{{ record.margin if record else '---' }}</span></strong> based on the Pricing Grid.</p>
+                    <p>"<u>Maturity Date</u>" means <strong><span class="ocr-match">{{ record.maturity if record else '---' }}</span></strong>.</p>
                     
                     <p><strong>Article VI: Negative Covenants.</strong></p>
-                    <p>6.01 Financial Covenant. The Borrower shall not permit the Consolidated Net Leverage Ratio to exceed <strong><span class="ocr-match">{{ record.leverage_covenant }}</span></strong> as of the last day of any Fiscal Quarter.</p>
+                    <p>6.01 Financial Covenant. The Borrower shall not permit the Consolidated Net Leverage Ratio to exceed <strong><span class="ocr-match">{{ record.leverage_covenant if record else '---' }}</span></strong> as of the last day of any Fiscal Quarter.</p>
                     
                     <p><strong>Article X: Miscellaneous.</strong></p>
-                    <p>10.01 Governing Law. This Agreement shall be governed by and construed in accordance with the laws of <strong><span class="ocr-match">{{ record.law }}</span></strong>.</p>
+                    <p>10.01 Governing Law. This Agreement shall be governed by and construed in accordance with the laws of <strong><span class="ocr-match">{{ record.law if record else '---' }}</span></strong>.</p>
                 </div>
             </div>
 
@@ -96,30 +104,30 @@
                 
                 <div class="form-content">
                     <div class="form-row">
-                        <div class="field-group"><label>Object ID</label><input type="text" id="obj-id" value="{{ record.id }}" readonly></div>
-                        <div class="field-group"><label>Agreement Name</label><input type="text" id="obj-name" value="{{ record.name }}"></div>
+                        <div class="field-group"><label>Object ID</label><input type="text" id="obj-id" value="{{ record.id if record }}" readonly></div>
+                        <div class="field-group"><label>Agreement Name</label><input type="text" id="obj-name" value="{{ record.name if record }}"></div>
                     </div>
                     <div class="form-row">
-                        <div class="field-group"><label>Facility Type</label><input type="text" id="obj-type" value="{{ record.type }}"></div>
-                        <div class="field-group"><label>Pricing Margin</label><input type="text" id="obj-margin" value="{{ record.margin }}"></div>
+                        <div class="field-group"><label>Facility Type</label><input type="text" id="obj-type" value="{{ record.type if record }}"></div>
+                        <div class="field-group"><label>Pricing Margin</label><input type="text" id="obj-margin" value="{{ record.margin if record }}"></div>
                     </div>
                     <div class="form-row">
-                        <div class="field-group"><label>Maturity Date</label><input type="text" id="obj-maturity" value="{{ record.maturity }}"></div>
-                        <div class="field-group"><label>Max Leverage</label><input type="text" id="obj-cov" value="{{ record.leverage_covenant }}"></div>
+                        <div class="field-group"><label>Maturity Date</label><input type="text" id="obj-maturity" value="{{ record.maturity if record }}"></div>
+                        <div class="field-group"><label>Max Leverage</label><input type="text" id="obj-cov" value="{{ record.leverage_covenant if record }}"></div>
                     </div>
                     <div class="form-row">
-                        <div class="field-group"><label>Governing Law</label><input type="text" id="obj-law" value="{{ record.law }}"></div>
-                        <div class="field-group"><label>Audit Status</label><input type="text" id="obj-status" value="{{ record.compliance }}"></div>
+                        <div class="field-group"><label>Governing Law</label><input type="text" id="obj-law" value="{{ record.law if record }}"></div>
+                        <div class="field-group"><label>Audit Status</label><input type="text" id="obj-status" value="{{ record.compliance if record else 'Compliant' }}"></div>
                     </div>
                 </div>
 
                 <div style="padding: 24px; background: #f8fafc; border-top: 1px solid var(--danio-border);">
-                    {% if is_new %}
+                    {% if not record %}
                     <button id="commit-btn" class="btn-primary" style="width: 100%; height: 48px;" onclick="saveToLedger()" disabled>
                         Committing to Ledger...
                     </button>
                     {% else %}
-                    <button class="btn-primary" style="width: 100%; height: 48px;" onclick="window.location.href='/workstation'">
+                    <button class="btn-secondary" style="width: 100%; height: 48px;" onclick="window.location.href='/workstation'">
                         Return to Portfolio
                     </button>
                     {% endif %}
