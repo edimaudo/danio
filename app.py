@@ -129,5 +129,10 @@ def analyze():
         "status": "Harmonized"
     })
 
+@app.route('/documentation')
+def documentation():
+    """Serves the institutional documentation and framework guide."""
+    return render_template('documentation.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
