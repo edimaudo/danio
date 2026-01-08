@@ -5,6 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>danio | Credit Ledger</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Status Pill refinements for professional legibility */
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: inline-block;
+        }
+
+        /* Green: Compliant */
+        .status-success {
+            background-color: #ecfdf5; /* Light emerald wash */
+            color: #065f46;            /* Deep emerald text */
+            border: 1px solid #a7f3d0;
+        }
+
+        /* Yellow: Pending/Warning */
+        .status-warning {
+            background-color: #fffbeb; /* Light amber wash */
+            color: #92400e;            /* Deep amber text */
+            border: 1px solid #fde68a;
+        }
+
+        /* Red: Breach/Danger */
+        .status-danger {
+            background-color: #fef2f2; /* Light rose wash */
+            color: #991b1b;            /* Deep rose text */
+            border: 1px solid #fecaca;
+        }
+    </style>
 </head>
 <body class="app-bg">
     <nav class="nav-shell">
