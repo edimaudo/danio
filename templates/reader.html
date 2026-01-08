@@ -28,21 +28,21 @@
     </style>
 </head>
 <body class="app-bg">
-<nav class="nav-shell">
+    <nav class="nav-shell">
         <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 12px 0;">
-            <!-- Top Row: Logo and far-right link -->
+            <!-- Top Row: Logo and far-right button -->
             <div class="nav-brand-group" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                 <a href="/workstation" class="brand" style="opacity: 1; text-decoration: none;">danio</a>
-                <a href="/workstation" style="font-size: 13px; font-weight: 700; color: var(--danio-indigo); text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px;">Credit Ledger</a>
+                <a href="/workstation" class="btn-nav">Credit Ledger</a>
             </div>
             <!-- Bottom Row: Section Title -->
-            <div style="margin-top: 8px;">
+            <div style="margin-top: 12px;">
                 <span class="nav-current" style="font-size: 24px; font-weight: 800; color: var(--danio-navy); display: block;">
-                    {% if is_new %}Agreement Normalization{% else %}Record Verification: {{ record.id }}{% endif %}
+                    {% if record %}Record Verification: {{ record.id }}{% else %}Agreement Normalization{% endif %}
                 </span>
             </div>
         </div>
-    </nav>
+    </nav
 
     <main class="container" style="max-width: 1400px; margin-top: 20px;">
         <div class="split-view">
