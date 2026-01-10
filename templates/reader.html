@@ -49,6 +49,18 @@
         
         /* Loading/OCR State */
         .scanning-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: inherit; }
+
+        .btn-danio-black {
+    background-color: #0f172a !important; /* Original Institutional Black */
+    color: white !important;
+    border: 1px solid #0f172a !important;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+}
     </style>
 </head>
 <body class="app-bg">
@@ -132,9 +144,12 @@
                         Committing to Ledger...
                     </button>
                     {% else %}
-                    <button class="btn-priamry" style="width: 100%; height: 56px;" onclick="window.location.href='/workstation'">
-                        Return to Portfolio
-                    </button>
+                   <!-- Inside the Form Panel at the bottom -->
+                    <div style="padding: 24px; background: #f8fafc; border-top: 1px solid var(--danio-border);">
+                        <button class="btn-danio-black" onclick="window.location.href='/workstation'">
+                            Return to Portfolio
+                        </button>
+                    </div>
                     {% endif %}
                 </div>
             </div>
