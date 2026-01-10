@@ -55,15 +55,15 @@
 </head>
 <body class="app-bg">
     <nav class="nav-shell">
-        <!-- Added pt-4 equivalent padding to the top of nav content for breathing room -->
-        <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 24px 0 16px 0;">
-            <!-- Top Row: Logo and far-right button -->
+        <!-- Increased vertical padding to 32px top and 24px bottom to prevent squashing -->
+        <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 32px 0 24px 0;">
+            <!-- Top Row: Logo and far-right button using primary button class -->
             <div class="nav-brand-group" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                 <a href="/workstation" class="brand" style="opacity: 1; text-decoration: none; margin-top: 0;">danio</a>
-                <a href="/workstation" class="btn-nav">Credit Ledger</a>
+                <a href="/workstation" class="btn-primary-sm">Credit Ledger</a>
             </div>
-            <!-- Bottom Row: Section Title -->
-            <div style="margin-top: 16px;">
+            <!-- Bottom Row: Section Title with increased margin-top for breathing room -->
+            <div style="margin-top: 20px;">
                 <span class="nav-current" style="font-size: 24px; font-weight: 800; color: var(--danio-navy); display: block;">
                     {% if record %}Record Verification: {{ record.id }}{% else %}Agreement Normalization{% endif %}
                 </span>
