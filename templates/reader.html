@@ -64,9 +64,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.2s ease;
+            transition: all 0.2s ease;
         }
-        .btn-danio-black:hover { opacity: 0.9; }
+        .btn-danio-black:hover { background-color: #1e293b; }
+        .btn-danio-black:disabled { background-color: #64748b; border-color: #64748b; cursor: not-allowed; }
 
         .scanning-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: inherit; }
     </style>
@@ -157,9 +158,7 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('scan-layer');
-            
             if (overlay) {
-                // If it's a new record, simulate the scan then hide the overlay
                 setTimeout(() => {
                     overlay.style.opacity = '0';
                     overlay.style.transition = 'opacity 0.5s ease';
@@ -171,11 +170,12 @@
         });
 
         function saveToLedger() {
-            // Update button state visually
             const btn = document.getElementById('commit-btn');
-            btn.innerText = 'Committing...';
-            btn.style.opacity = '0.7';
+            const originalText = btn.innerText;
+            
+            // Visual feedback
             btn.disabled = true;
+            btn.innerText = 'Committing...';
 
             const payload = {
                 id: document.getElementById('obj-id').value,
@@ -192,9 +192,21 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => {
-                window.location.href = '/workstation';
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/workstation';
+                } else {
+                    throw new Error('Commit failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                btn.disabled = false;
+                btn.innerText = originalText;
+                alert('An error occurred while saving the record.');
             });
         }
     </script>
 </body>
+</html>
