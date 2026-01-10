@@ -37,6 +37,32 @@
             color: #991b1b;            /* Deep rose text */
             border: 1px solid #fecaca;
         }
+
+        /* Modified: Sets the navigation width to match the main container */
+.nav-content {
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* New: Adds specific padding to prevent the title from touching the top border */
+.page-header {
+    padding-top: 64px; 
+    margin-bottom: 40px;
+}
+
+/* Modified: Standardizes title height and removes squashing */
+.hero-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--danio-navy);
+    letter-spacing: -1.5px;
+    margin: 0;
+    line-height: 1;
+}
     </style>
 </head>
 <body class="app-bg">
@@ -50,6 +76,7 @@
         </div>
     </nav>
 
+    <!--
     <main class="container">
         <header class="page-header">
             <div class="header-left">
@@ -57,6 +84,16 @@
                 <br>
             </div>
         </header>
+    -->
+
+        <!-- Modified: Standardized main container style for alignment -->
+<main class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+    <header class="page-header">
+        <div class="header-left">
+            <!-- Removed <br> tag and inline squashing styles -->
+            <h1 class="hero-title">Credit Ledger</h1>
+        </div>
+    </header>
 
         <!-- Metrics Section with Condensed Descriptions -->
         <section class="metrics-grid">
