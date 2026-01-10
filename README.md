@@ -6,9 +6,9 @@ danio is a tool to help reduce operational bottlenecks in syndicated lending. It
 
 The syndicated loan market is hindered by "dark data" trapped within complex legal agreements. Manual extraction of commercial terms is slow, prone to error, and prevents real-time portfolio analysis. This lack of standardization leads to settlement delays and inconsistent risk monitoring.
 
-## The Solution: danio Credit Ledger
+## The Solution: danio 
 
-danio provides a smart system  that harmonizes credit agreements into a Standardized Loan Object (SLO). By aligning bespoke financial covenants and economic terms, danio transforms a static legal document into a dynamic digital asset.
+danio provides a smart system that harmonizes credit agreements into a standardized System. By aligning bespoke financial covenants and economic terms, danio transforms a static legal document into a dynamic digital asset.
 
 ### Key Features
 
@@ -23,14 +23,6 @@ A proprietary framework that provides a definitive digital record of every credi
 **3. Operational Transparency**
 
 Mitigates settlement delays by providing immediate access to critical data. Instantly verify financial covenants, leverage ratios, and maturity profiles to ensure accurate capital allocation and compliance monitoring.
-
-### Workflow
-
-- Ingestion: Upload complex credit agreements via the Normalization Reader.
-
-- Verification: Review extracted economic terms in a professional dual-view interface.
-
-- Ledgering: Access a consolidated Credit Ledger for portfolio-wide transparency and system injection.
 
 ## Implementation
 - **Backend**: Flask (Python)
@@ -47,7 +39,8 @@ danio/
 │   └── script.js       
 └── templates/
     ├── index.html
-    ├── app.html   
+    ├── app.html
+    ├── documentation.html
     └── reader.html 
 ```
 
