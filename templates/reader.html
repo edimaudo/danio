@@ -10,7 +10,8 @@
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 24px; 
-            height: calc(100vh - 240px); 
+            height: calc(100vh - -240px); /* Increased container height */
+            min-height: 700px;
             align-items: stretch; 
         }
         
@@ -158,12 +159,19 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('scan-layer');
+            const btn = document.getElementById('commit-btn');
+            
             if (overlay) {
+                // Ensure the button is visible and active after the simulated scan
                 setTimeout(() => {
                     overlay.style.opacity = '0';
                     overlay.style.transition = 'opacity 0.5s ease';
                     setTimeout(() => {
                         overlay.style.display = 'none';
+                        if (btn) {
+                            btn.innerText = 'Commit to Ledger';
+                            btn.disabled = false;
+                        }
                     }, 500);
                 }, 1800);
             }
@@ -171,9 +179,9 @@
 
         function saveToLedger() {
             const btn = document.getElementById('commit-btn');
+            if (!btn) return;
+
             const originalText = btn.innerText;
-            
-            // Visual feedback
             btn.disabled = true;
             btn.innerText = 'Committing...';
 
@@ -193,18 +201,19 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(response => {
+            .then(async response => {
                 if (response.ok) {
                     window.location.href = '/workstation';
                 } else {
-                    throw new Error('Commit failed');
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Server error');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Commit Error:', error);
                 btn.disabled = false;
                 btn.innerText = originalText;
-                alert('An error occurred while saving the record.');
+                alert('An error occurred while saving the record. Please check the console for details.');
             });
         }
     </script>
