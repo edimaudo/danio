@@ -2,168 +2,323 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>danio | Credit Ledger</title>
+    <title>danio | Credit Intelligence</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        /* Status Pill refinements for professional legibility */
-        .status-pill {
-            padding: 4px 10px;
-            border-radius: 4px;
+        /* Layout & Alignment */
+        .split-view { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 24px; 
+            height: calc(100vh - 240px); 
+            align-items: stretch; 
+        }
+        
+        /* Simulated PDF View */
+        .pdf-viewport { 
+            background: #525659; 
+            border-radius: 8px; 
+            padding: 40px; 
+            overflow-y: auto; /* Handles the scrolling of the document */
+            display: block; /* Changed from flex to block to allow natural page height flow */
+            border: 1px solid var(--danio-border); 
+        }
+        .pdf-page { 
+            background: white; 
+            width: 100%; 
+            min-height: 1200px; /* Increased to ensure it feels like a long document */
+            padding: 80px 60px; 
+            font-family: 'Times New Roman', serif; 
+            color: #1e293b; 
+            position: relative; 
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+        }
+        
+        /* Document Styles */
+        .pdf-page h1 { font-size: 18px; text-align: center; text-transform: uppercase; margin-bottom: 40px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        .pdf-page p { font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
+        .pdf-page .section-header { font-weight: bold; margin-top: 30px; border-bottom: 1px solid #eee; }
+        
+        /* Highlighting Simulation */
+        .ocr-match {
+            background: rgba(59, 130, 246, 0.15); /* Danio blue at low opacity */
+            border-bottom: 1px dashed #3b82f6;
+            position: relative;
+        }
+
+        /* Intelligence Form Panel */
+        .form-panel {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--danio-border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .form-header {
+            background: #f8fafc;
+            padding: 20px;
+            border-bottom: 1px solid var(--danio-border);
+        }
+        .form-content {
+            padding: 30px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .field-group label {
+            display: block;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
-            display: inline-block;
+            color: var(--danio-slate);
+            margin-bottom: 6px;
         }
 
-        /* Green: Compliant */
-        .status-success {
-            background-color: #ecfdf5; /* Light emerald wash */
-            color: #065f46;            /* Deep emerald text */
-            border: 1px solid #a7f3d0;
-        }
-
-        /* Yellow: Pending/Warning */
-        .status-warning {
-            background-color: #fffbeb; /* Light amber wash */
-            color: #92400e;            /* Deep amber text */
-            border: 1px solid #fde68a;
-        }
-
-        /* Red: Breach/Danger */
-        .status-danger {
-            background-color: #fef2f2; /* Light rose wash */
-            color: #991b1b;            /* Deep rose text */
-            border: 1px solid #fecaca;
-        }
-
-        /* Typography & Custom Cells */
-        .cell-id {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--danio-indigo);
-            font-weight: 700;
-        }
-
-        .cell-name {
-            font-weight: 700;
+        .field-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 14px;
+            background: #fff;
             color: var(--danio-navy);
+            font-weight: 600;
+        }
+
+        .field-group input:read-only {
+            background: #f1f5f9;
+            cursor: not-allowed;
+            color: var(--danio-slate);
+        }
+
+        /* Button Style Override */
+        .btn-danio-black {
+            padding: 12px 24px;
+            background-color: #0f172a; 
+            color: white !important;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #0f172a;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .btn-danio-black:hover {
+            background-color: #1e293b;
+        }
+        .btn-danio-black:disabled {
+            background-color: #64748b;
+            border-color: #64748b;
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        /* Loading / Scanning UI */
+        .scanning-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border-radius: inherit;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0f172a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
     </style>
 </head>
 <body class="app-bg">
 
-    <nav class="nav-shell">
-        <div class="nav-content">
-            <div class="nav-brand-group">
-                <div class="brand">danio</div>
+    <nav class="nav-shell" style="height: auto; min-height: 120px;">
+        <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 40px 0 32px 0;">
+            <div class="nav-brand-group" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="/workstation" class="brand" style="opacity: 1; text-decoration: none;">danio</a>
                 <div class="nav-links">
-                    <a href="/workstation" class="active">Credit Ledger</a>
-                    <a href="/documentation">Help</a>
+                    <a href="/workstation" class="btn-primary-sm" style="background: transparent; border: 1px solid #e2e8f0; color: #475569;">Credit Ledger</a>
+                    <a href="/documentation" class="btn-primary-sm" style="background: transparent; border: 1px solid #e2e8f0; color: #475569;">Help</a>
                 </div>
             </div>
             
-            <div class="nav-profile">
-                <div class="avatar">JD</div>
-                <div class="profile-info">
-                    <span class="profile-name">Jane Doe</span>
-                    <span class="profile-role">Credit Officer</span>
-                </div>
+            <div style="margin-top: 16px; width: 100%;">
+                <span class="nav-current" style="font-size: 26px; font-weight: 800; color: var(--danio-navy); display: block; line-height: 1.2;">
+                    {% if is_new %}Agreement Normalization{% else %}Record Verification: {{ record.id }}{% endif %}
+                </span>
             </div>
         </div>
     </nav>
 
-    <main class="container">
-        <header class="page-header">
-            <div>
-                <h1 class="page-title">Institutional Credit Ledger</h1>
-                <p class="page-subtitle">Standardized Loan Objects (SLO) Portfolio</p>
-            </div>
-            <div class="header-actions">
-                <a href="/reader" class="btn-primary">
-                    <span style="font-size: 16px; margin-right: 4px;">+</span> Add New SLO
-                </a>
-            </div>
-        </header>
+    <main class="container" style="max-width: 1400px; margin-top: 24px; padding: 0;">
+        
+        <div class="split-view">
+            <!-- LEFT: Document View -->
+            <div class="pdf-viewport">
+                <div class="pdf-page" id="legal-doc">
+                    {% if is_new %}
+                    <div id="scan-layer" class="scanning-overlay">
+                        <div class="spinner"></div>
+                        <p style="margin-top:15px; font-weight:700; color:#0f172a; font-family:sans-serif;">OCR Extraction Active...</p>
+                    </div>
+                    {% endif %}
 
-        <section class="ledger-card">
-            <table class="ledger-table">
-                <thead>
-                    <tr>
-                        <th>Object ID</th>
-                        <th>Borrower / Agreement</th>
-                        <th>Instrument</th>
-                        <th>Margin</th>
-                        <th>Maturity</th>
-                        <th>Lev. Cov</th>
-                        <th>Status</th>
-                        <th class="text-right">Action</th>
-                    </tr>
-                </thead>
-                <tbody id="ledger-body">
-                    {% for r in records %}
-                    <tr data-id="{{ r.id }}">
-                        <td class="cell-id">{{ r.id }}</td>
-                        <td class="cell-name">{{ r.name }}</td>
-                        <td style="font-weight: 500; font-size: 13px;">{{ r.type }}</td>
-                        <td><span class="mono-tag">{{ r.margin }}</span></td>
-                        <td style="color: var(--danio-slate); font-size: 13px;">{{ r.maturity }}</td>
-                        <td style="font-weight: 600;">{{ r.leverage_covenant }}</td>
-                        <td>
-                            {% if r.compliance == 'Compliant' %}
-                                <span class="status-pill status-success">Compliant</span>
-                            {% elif r.compliance == 'Pending Review' %}
-                                <span class="status-pill status-warning">Pending</span>
-                            {% else %}
-                                <span class="status-pill status-danger">Breach Alert</span>
-                            {% endif %}
-                        </td>
-                        <td class="text-right">
-                            <a href="/reader?id={{ r.id }}" class="btn-text-action">Verify Data</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
+                    <h1>Credit Agreement</h1>
+                    <p>THIS CREDIT AGREEMENT (this "Agreement") is entered into as of May 24, 2024, by and among <strong><span class="ocr-match">{{ record.name }}</span></strong>, a Delaware corporation, as Borrower, the several banks and other financial institutions from time to time parties hereto as Lenders, and <strong>DANIO CAPITAL AGENTS</strong>, as Administrative Agent.</p>
+                    
+                    <p class="section-header">Article I: Defined Terms</p>
+                    <p>"<u>Facility</u>" means the <strong><span class="ocr-match">{{ record.type }}</span></strong> made available to the Borrower under this Agreement.</p>
+                    <p>"<u>Applicable Margin</u>" means <strong><span class="ocr-match">{{ record.margin }}</span></strong> per annum.</p>
+                    <p>"<u>Maturity Date</u>" means <strong><span class="ocr-match">{{ record.maturity }}</span></strong>.</p>
+                    
+                    <p class="section-header">Article VI: Covenants</p>
+                    <p>6.01 Financial Covenant. The Borrower shall not permit the Total Leverage Ratio to exceed <strong><span class="ocr-match">{{ record.leverage_covenant }}</span></strong> as of the last day of any fiscal quarter.</p>
+                    
+                    <p class="section-header">Article X: Miscellaneous</p>
+                    <p>10.01 Governing Law. This agreement shall be governed by, and construed in accordance with, the laws of the State of <strong><span class="ocr-match">{{ record.law }}</span></strong>.</p>
+                </div>
+            </div>
+
+            <!-- RIGHT: Extraction Form -->
+            <div class="form-panel">
+                <div class="form-header">
+                    <span style="font-size: 11px; font-weight: 800; color: var(--danio-indigo); letter-spacing: 1px;">CREDIT INTELLIGENCE EXTRACTION</span>
+                    <h3 style="margin: 4px 0 0 0; color: var(--danio-navy);">Standardized Loan Object</h3>
+                </div>
+                
+                <div class="form-content">
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label>Object ID</label>
+                            <input type="text" id="obj-id" value="{{ record.id }}" readonly>
+                        </div>
+                        <div class="field-group">
+                            <label>Agreement Name</label>
+                            <input type="text" id="obj-name" value="{{ record.name }}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label>Facility Type</label>
+                            <input type="text" id="obj-type" value="{{ record.type }}">
+                        </div>
+                        <div class="field-group">
+                            <label>Pricing Margin</label>
+                            <input type="text" id="obj-margin" value="{{ record.margin }}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label>Maturity Date</label>
+                            <input type="text" id="obj-maturity" value="{{ record.maturity }}">
+                        </div>
+                        <div class="field-group">
+                            <label>Max Leverage Covenant</label>
+                            <input type="text" id="obj-cov" value="{{ record.leverage_covenant }}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label>Governing Law</label>
+                            <input type="text" id="obj-law" value="{{ record.law }}">
+                        </div>
+                        <div class="field-group">
+                            <label>Compliance Audit</label>
+                            <input type="text" id="obj-status" value="{{ record.compliance }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding: 24px; background: #f8fafc; border-top: 1px solid var(--danio-border);">
+                    {% if is_new %}
+                    <button id="commit-btn" class="btn-danio-black" onclick="saveToLedger()" disabled>Scanning Document...</button>
+                    {% else %}
+                    <button class="btn-danio-black" onclick="window.location.href='/workstation'">Return to Portfolio</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <script>
-        // Vercel Persistence logic: Merges LocalStorage records into the table
-        document.addEventListener('DOMContentLoaded', () => {
-            const tbody = document.getElementById('ledger-body');
-            const localData = JSON.parse(localStorage.getItem('danio_slo_storage') || '[]');
+        // OCR Simulation Logic
+        window.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('scan-layer');
+            const btn = document.getElementById('commit-btn');
             
-            localData.forEach(item => {
-                // Check if this record is already in the DOM (rendered by server)
-                const exists = document.querySelector(`tr[data-id="${item.id}"]`);
-                if (!exists) {
-                    const row = document.createElement('tr');
-                    row.setAttribute('data-id', item.id);
-                    row.innerHTML = `
-                        <td class="cell-id">${item.id}</td>
-                        <td class="cell-name">${item.name}</td>
-                        <td style="font-weight: 500; font-size: 13px;">${item.type}</td>
-                        <td><span class="mono-tag">${item.margin}</span></td>
-                        <td style="color: var(--danio-slate); font-size: 13px;">${item.maturity}</td>
-                        <td style="font-weight: 600;">${item.leverage_covenant}</td>
-                        <td>
-                            <span class="status-pill ${item.compliance === 'Compliant' ? 'status-success' : 'status-warning'}">
-                                ${item.compliance === 'Compliant' ? 'Compliant' : 'Pending'}
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <a href="/reader?id=${item.id}" class="btn-text-action">Verify Data</a>
-                        </td>
-                    `;
-                    // Insert at the top of the body
-                    tbody.prepend(row);
-                }
-            });
+            if (overlay) {
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    overlay.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        if (btn) {
+                            btn.innerText = 'Commit to Ledger';
+                            btn.disabled = false;
+                        }
+                    }, 500);
+                }, 1800);
+            }
         });
-    </script>
 
+        function saveToLedger() {
+            const payload = {
+                id: document.getElementById('obj-id').value,
+                name: document.getElementById('obj-name').value,
+                type: document.getElementById('obj-type').value,
+                margin: document.getElementById('obj-margin').value,
+                maturity: document.getElementById('obj-maturity').value,
+                leverage_covenant: document.getElementById('obj-cov').value,
+                law: document.getElementById('obj-law').value,
+                compliance: document.getElementById('obj-status').value
+            };
+
+            // 1. Vercel Persistence: Save to LocalStorage
+            const localData = JSON.parse(localStorage.getItem('danio_slo_storage') || '[]');
+            localData.unshift(payload);
+            localStorage.setItem('danio_slo_storage', JSON.stringify(localData));
+
+            // 2. Send to Server (Stateless)
+            fetch('/commit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                window.location.href = '/workstation';
+            });
+        }
+    </script>
 </body>
 </html>
