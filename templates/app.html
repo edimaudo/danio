@@ -38,14 +38,16 @@
                 <div class="metric-content">
                     <span class="stat-label">Portfolio Facilities</span>
                     <span id="total-facilities-val" class="stat-value">{{ total_facilities }}</span>
-                    <p class="metric-context">Total harmonized Standardized Loan Objects currently active.</p>
+                    <p class="metric-context">Total harmonized Standardized Loan Objects currently active</p>
                 </div>
             </div>
             <div class="card metric-card">
                 <div class="metric-content">
                     <span class="stat-label">Data Health</span>
+                    <!-- Dynamic value from data_health calculation -->
                     <span class="stat-value">{{ data_health }}%</span>
                     <div class="progress-bar"><div class="progress-fill" style="width: {{ data_health }}%"></div></div>
+                    <p class="metric-context">Percentage of facilities with fully verified compliance and updated financial covenants.</p>
                 </div>
             </div>
         </section>
