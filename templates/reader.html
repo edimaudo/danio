@@ -187,6 +187,11 @@
                 compliance: document.getElementById('obj-status').value
             };
 
+            // PERSISTENCE CHANGE: Save to LocalStorage before redirecting
+            const existing = JSON.parse(localStorage.getItem('danio_local_records') || '[]');
+            existing.push(payload);
+            localStorage.setItem('danio_local_records', JSON.stringify(existing));
+
             fetch('/commit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
