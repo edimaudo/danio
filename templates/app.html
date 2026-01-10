@@ -19,22 +19,22 @@
 
         /* Green: Compliant */
         .status-success {
-            background-color: #ecfdf5; 
-            color: #065f46;            
+            background-color: #ecfdf5; /* Light emerald wash */
+            color: #065f46;            /* Deep emerald text */
             border: 1px solid #a7f3d0;
         }
 
         /* Yellow: Pending/Warning */
         .status-warning {
-            background-color: #fffbeb; 
-            color: #92400e;            
+            background-color: #fffbeb; /* Light amber wash */
+            color: #92400e;            /* Deep amber text */
             border: 1px solid #fde68a;
         }
 
         /* Red: Breach/Danger */
         .status-danger {
-            background-color: #fef2f2; 
-            color: #991b1b;            
+            background-color: #fef2f2; /* Light rose wash */
+            color: #991b1b;            /* Deep rose text */
             border: 1px solid #fecaca;
         }
 
@@ -50,10 +50,6 @@
             font-weight: 700;
             color: var(--danio-navy);
         }
-
-        /* Data Row Animation */
-        tr { transition: background-color 0.2s ease; }
-        tr:hover { background-color: #f8fafc; }
 
     </style>
 </head>
@@ -135,13 +131,13 @@
     </main>
 
     <script>
-        // Sync with LocalStorage to handle Vercel's stateless nature
+        // Vercel Persistence logic: Merges LocalStorage records into the table
         document.addEventListener('DOMContentLoaded', () => {
             const tbody = document.getElementById('ledger-body');
-            const localLedger = JSON.parse(localStorage.getItem('danio_persistent_ledger') || '[]');
+            const localData = JSON.parse(localStorage.getItem('danio_slo_storage') || '[]');
             
-            localLedger.forEach(item => {
-                // Check if this ID is already in the DOM (rendered by server)
+            localData.forEach(item => {
+                // Check if this record is already in the DOM (rendered by server)
                 const exists = document.querySelector(`tr[data-id="${item.id}"]`);
                 if (!exists) {
                     const row = document.createElement('tr');
@@ -155,18 +151,19 @@
                         <td style="font-weight: 600;">${item.leverage_covenant}</td>
                         <td>
                             <span class="status-pill ${item.compliance === 'Compliant' ? 'status-success' : 'status-warning'}">
-                                ${item.compliance}
+                                ${item.compliance === 'Compliant' ? 'Compliant' : 'Pending'}
                             </span>
                         </td>
                         <td class="text-right">
                             <a href="/reader?id=${item.id}" class="btn-text-action">Verify Data</a>
                         </td>
                     `;
-                    // Prepend so the newest local items appear at the top
+                    // Insert at the top of the body
                     tbody.prepend(row);
                 }
             });
         });
     </script>
+
 </body>
 </html>
