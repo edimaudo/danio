@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -65,14 +64,6 @@
                     <a href="/documentation">Help</a>
                 </div>
             </div>
-            
-            <div class="nav-profile">
-                <div class="avatar">JD</div>
-                <div class="profile-info">
-                    <span class="profile-name">Jane Doe</span>
-                    <span class="profile-role">Credit Officer</span>
-                </div>
-            </div>
         </div>
     </nav>
 
@@ -103,9 +94,9 @@
                         <th class="text-right">Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="ledger-body">
                     {% for r in records %}
-                    <tr>
+                    <tr data-id="{{ r.id }}">
                         <td class="cell-id">{{ r.id }}</td>
                         <td class="cell-name">{{ r.name }}</td>
                         <td style="font-weight: 500; font-size: 13px;">{{ r.type }}</td>
@@ -131,5 +122,38 @@
         </section>
     </main>
 
+    <script>
+        // Persistence Logic: Load records from localStorage to handle stateless Vercel environments
+        document.addEventListener('DOMContentLoaded', () => {
+            const tbody = document.getElementById('ledger-body');
+            const localData = JSON.parse(localStorage.getItem('danio_storage') || '[]');
+            
+            localData.forEach(record => {
+                // Only add if not already rendered by the server (matching by Object ID)
+                const exists = document.querySelector(`tr[data-id="${record.id}"]`);
+                if (!exists) {
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-id', record.id);
+                    row.innerHTML = `
+                        <td class="cell-id">${record.id}</td>
+                        <td class="cell-name">${record.name}</td>
+                        <td style="font-weight: 500; font-size: 13px;">${record.type}</td>
+                        <td><span class="mono-tag">${record.margin}</span></td>
+                        <td style="color: var(--danio-slate); font-size: 13px;">${record.maturity}</td>
+                        <td style="font-weight: 600;">${record.leverage_covenant}</td>
+                        <td>
+                            <span class="status-pill ${record.compliance === 'Compliant' ? 'status-success' : 'status-warning'}">
+                                ${record.compliance}
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <a href="/reader?id=${record.id}" class="btn-text-action">Verify Data</a>
+                        </td>
+                    `;
+                    tbody.prepend(row);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
