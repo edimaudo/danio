@@ -19,14 +19,14 @@
             background: #525659; 
             border-radius: 8px; 
             padding: 40px; 
-            overflow-y: auto; /* Handles the scrolling of the document */
-            display: block; /* Changed from flex to block to allow natural page height flow */
+            overflow-y: auto; 
+            display: block; 
             border: 1px solid var(--danio-border); 
         }
         .pdf-page { 
             background: white; 
             width: 100%; 
-            min-height: 1200px; /* Increased to ensure it feels like a long document */
+            min-height: 1200px; 
             padding: 80px 60px; 
             font-family: 'Times New Roman', serif; 
             color: #1e293b; 
@@ -47,40 +47,45 @@
         .field-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; background: #fff; color: var(--danio-navy); font-weight: 600; }
         .field-group input:read-only { background: #f1f5f9; cursor: not-allowed; }
         
-        /* Loading/OCR State */
-        .scanning-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: inherit; }
-
+        /* Institutional Action Button (Black) */
         .btn-danio-black {
-    background-color: #0f172a !important; /* Original Institutional Black */
-    color: white !important;
-    border: 1px solid #0f172a !important;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-weight: 700;
-    text-transform: uppercase;
-    cursor: pointer;
-    width: 100%;
-}
+            padding: 12px 24px;
+            background-color: #0f172a; 
+            color: white !important;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #0f172a;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s ease;
+        }
+        .btn-danio-black:hover { opacity: 0.9; }
+        .btn-danio-black:disabled { background-color: #64748b; border-color: #64748b; cursor: not-allowed; }
+
+        .scanning-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: inherit; }
     </style>
 </head>
 <body class="app-bg">
     <nav class="nav-shell" style="height: auto; min-height: 120px;">
         <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 40px 0 32px 0;">
-            <!-- Top Row: Brand on Left, Actions on Right -->
             <div class="nav-brand-group" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                 <a href="/workstation" class="brand" style="opacity: 1; text-decoration: none;">danio</a>
-                
-                <!-- Side-by-side Button Group -->
                 <div class="nav-links" style="display: flex; gap: 12px; align-items: center;">
                     <a href="/workstation" class="btn-primary-sm">Credit Ledger</a>
                     <a href="/documentation" class="btn-primary-sm">Help</a>
                 </div>
             </div>
 
-            <!-- Bottom Row: Verification Title -->
             <div style="margin-top: 16px; width: 100%;">
                 <span class="nav-current" style="font-size: 26px; font-weight: 800; color: var(--danio-navy); display: block; line-height: 1.2;">
-                    {% if record %}Record Verification: {{ record.id }}{% else %}Agreement Normalization{% endif %}
+                    {% if is_new %}Agreement Normalization{% else %}Record Verification: {{ record.id }}{% endif %}
                 </span>
             </div>
         </div>
@@ -88,31 +93,28 @@
 
     <main class="container" style="max-width: 1400px; margin-top: 24px; padding: 0;">
         <div class="split-view">
-            
-            <!-- SECTION 1: SIMULATED PDF DOCUMENT -->
             <div class="pdf-viewport">
                 <div class="pdf-page" id="legal-doc">
-                    {% if not record %}<div id="scan-layer" class="scanning-overlay"><div class="spinner"></div><p style="margin-top:15px; font-weight:700;">OCR Extraction Active...</p></div>{% endif %}
+                    {% if is_new %}
+                    <div id="scan-layer" class="scanning-overlay">
+                        <div class="spinner"></div>
+                        <p style="margin-top:15px; font-weight:700;">OCR Extraction Active...</p>
+                    </div>
+                    {% endif %}
                     
                     <h1>Credit Agreement</h1>
-                    <p>THIS CREDIT AGREEMENT (this "Agreement") is entered into as of May 24, 2024, by and among <strong><span class="ocr-match">{{ record.name if record else '---' }}</span></strong>, as Borrower, the Lenders party hereto, and DANIO AGENT SERVICES, as Administrative Agent.</p>
-                    
+                    <p>THIS CREDIT AGREEMENT is entered into as of May 24, 2024, by and among <strong><span class="ocr-match">{{ record.name }}</span></strong>, as Borrower, the Lenders party hereto, and DANIO AGENT SERVICES, as Administrative Agent.</p>
                     <p><strong>Article I: Defined Terms.</strong></p>
-                    <p>"<u>Facility</u>" means the <strong><span class="ocr-match">{{ record.type if record else '---' }}</span></strong> provided for in Section 2.01.</p>
-                    <p>"<u>Applicable Margin</u>" means a percentage per annum equal to <strong><span class="ocr-match">{{ record.margin if record else '---' }}</span></strong> based on the Pricing Grid.</p>
-                    <p>"<u>Maturity Date</u>" means <strong><span class="ocr-match">{{ record.maturity if record else '---' }}</span></strong>.</p>
-                    
+                    <p>"<u>Facility</u>" means the <strong><span class="ocr-match">{{ record.type }}</span></strong> provided for in Section 2.01.</p>
+                    <p>"<u>Applicable Margin</u>" means a percentage per annum equal to <strong><span class="ocr-match">{{ record.margin }}</span></strong> based on the Pricing Grid.</p>
+                    <p>"<u>Maturity Date</u>" means <strong><span class="ocr-match">{{ record.maturity }}</span></strong>.</p>
                     <p><strong>Article VI: Negative Covenants.</strong></p>
-                    <p>6.01 Financial Covenant. The Borrower shall not permit the Consolidated Net Leverage Ratio to exceed <strong><span class="ocr-match">{{ record.leverage_covenant if record else '---' }}</span></strong> as of the last day of any Fiscal Quarter.</p>
-                    
+                    <p>6.01 Financial Covenant. The Borrower shall not permit the Consolidated Net Leverage Ratio to exceed <strong><span class="ocr-match">{{ record.leverage_covenant }}</span></strong>.</p>
                     <p><strong>Article X: Miscellaneous.</strong></p>
-                    <p>10.01 Governing Law. This Agreement shall be governed by and construed in accordance with the laws of <strong><span class="ocr-match">{{ record.law if record else '---' }}</span></strong>.</p>
-                    
-                    <p><em>[Additional pages of legal text would follow in a standard agreement...]</em></p>
+                    <p>10.01 Governing Law. This Agreement shall be governed by the laws of <strong><span class="ocr-match">{{ record.law }}</span></strong>.</p>
                 </div>
             </div>
 
-            <!-- SECTION 2: STRUCTURED HARMONIZATION FORM -->
             <div class="form-panel">
                 <div class="form-header">
                     <span style="font-size: 11px; font-weight: 800; color: var(--danio-indigo); letter-spacing: 1px;">CREDIT INTELLIGENCE EXTRACTION</span>
@@ -121,35 +123,32 @@
                 
                 <div class="form-content">
                     <div class="form-row">
-                        <div class="field-group"><label>Object ID</label><input type="text" id="obj-id" value="{{ record.id if record }}" readonly></div>
-                        <div class="field-group"><label>Agreement Name</label><input type="text" id="obj-name" value="{{ record.name if record }}"></div>
+                        <div class="field-group"><label>Object ID</label><input type="text" id="obj-id" value="{{ record.id }}" readonly></div>
+                        <div class="field-group"><label>Agreement Name</label><input type="text" id="obj-name" value="{{ record.name }}"></div>
                     </div>
                     <div class="form-row">
-                        <div class="field-group"><label>Facility Type</label><input type="text" id="obj-type" value="{{ record.type if record }}"></div>
-                        <div class="field-group"><label>Pricing Margin</label><input type="text" id="obj-margin" value="{{ record.margin if record }}"></div>
+                        <div class="field-group"><label>Facility Type</label><input type="text" id="obj-type" value="{{ record.type }}"></div>
+                        <div class="field-group"><label>Pricing Margin</label><input type="text" id="obj-margin" value="{{ record.margin }}"></div>
                     </div>
                     <div class="form-row">
-                        <div class="field-group"><label>Maturity Date</label><input type="text" id="obj-maturity" value="{{ record.maturity if record }}"></div>
-                        <div class="field-group"><label>Max Leverage</label><input type="text" id="obj-cov" value="{{ record.leverage_covenant if record }}"></div>
+                        <div class="field-group"><label>Maturity Date</label><input type="text" id="obj-maturity" value="{{ record.maturity }}"></div>
+                        <div class="field-group"><label>Max Leverage</label><input type="text" id="obj-cov" value="{{ record.leverage_covenant }}"></div>
                     </div>
                     <div class="form-row">
-                        <div class="field-group"><label>Governing Law</label><input type="text" id="obj-law" value="{{ record.law if record }}"></div>
-                        <div class="field-group"><label>Audit Status</label><input type="text" id="obj-status" value="{{ record.compliance if record else 'Compliant' }}"></div>
+                        <div class="field-group"><label>Governing Law</label><input type="text" id="obj-law" value="{{ record.law }}"></div>
+                        <div class="field-group"><label>Audit Status</label><input type="text" id="obj-status" value="{{ record.compliance }}"></div>
                     </div>
                 </div>
 
                 <div style="padding: 24px; background: #f8fafc; border-top: 1px solid var(--danio-border);">
-                    {% if not record %}
-                    <button id="commit-btn" class="btn-primary" style="width: 100%; height: 48px;" onclick="saveToLedger()" disabled>
+                    {% if is_new %}
+                    <button id="commit-btn" class="btn-danio-black" onclick="saveToLedger()" disabled>
                         Committing to Ledger...
                     </button>
                     {% else %}
-                   <!-- Inside the Form Panel at the bottom -->
-                    <div style="padding: 24px; background: #f8fafc; border-top: 1px solid var(--danio-border);">
-                        <button class="btn-danio-black" onclick="window.location.href='/workstation'">
-                            Return to Portfolio
-                        </button>
-                    </div>
+                    <button class="btn-danio-black" onclick="window.location.href='/workstation'">
+                        Return to Portfolio
+                    </button>
                     {% endif %}
                 </div>
             </div>
@@ -167,8 +166,10 @@
                     overlay.style.transition = 'opacity 0.5s ease';
                     setTimeout(() => {
                         overlay.style.display = 'none';
-                        btn.innerText = 'Commit to Ledger';
-                        btn.disabled = false;
+                        if (btn) {
+                            btn.innerText = 'Commit to Ledger';
+                            btn.disabled = false;
+                        }
                     }, 500);
                 }, 1800);
             }
