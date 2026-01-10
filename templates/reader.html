@@ -67,7 +67,6 @@
             transition: opacity 0.2s ease;
         }
         .btn-danio-black:hover { opacity: 0.9; }
-        .btn-danio-black:disabled { background-color: #64748b; border-color: #64748b; cursor: not-allowed; }
 
         .scanning-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: inherit; }
     </style>
@@ -142,8 +141,8 @@
 
                 <div style="padding: 24px; background: #f8fafc; border-top: 1px solid var(--danio-border);">
                     {% if is_new %}
-                    <button id="commit-btn" class="btn-danio-black" onclick="saveToLedger()" disabled>
-                        Committing to Ledger...
+                    <button id="commit-btn" class="btn-danio-black" onclick="saveToLedger()">
+                        Commit to Ledger
                     </button>
                     {% else %}
                     <button class="btn-danio-black" onclick="window.location.href='/workstation'">
@@ -158,24 +157,26 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('scan-layer');
-            const btn = document.getElementById('commit-btn');
             
             if (overlay) {
+                // If it's a new record, simulate the scan then hide the overlay
                 setTimeout(() => {
                     overlay.style.opacity = '0';
                     overlay.style.transition = 'opacity 0.5s ease';
                     setTimeout(() => {
                         overlay.style.display = 'none';
-                        if (btn) {
-                            btn.innerText = 'Commit to Ledger';
-                            btn.disabled = false;
-                        }
                     }, 500);
                 }, 1800);
             }
         });
 
         function saveToLedger() {
+            // Update button state visually
+            const btn = document.getElementById('commit-btn');
+            btn.innerText = 'Committing...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
             const payload = {
                 id: document.getElementById('obj-id').value,
                 name: document.getElementById('obj-name').value,
@@ -197,4 +198,3 @@
         }
     </script>
 </body>
-</html>
