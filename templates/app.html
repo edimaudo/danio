@@ -1,1 +1,135 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>danio | Credit Ledger</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Status Pill refinements for professional legibility */
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: inline-block;
+        }
+
+        /* Green: Compliant */
+        .status-success {
+            background-color: #ecfdf5; /* Light emerald wash */
+            color: #065f46;            /* Deep emerald text */
+            border: 1px solid #a7f3d0;
+        }
+
+        /* Yellow: Pending/Warning */
+        .status-warning {
+            background-color: #fffbeb; /* Light amber wash */
+            color: #92400e;            /* Deep amber text */
+            border: 1px solid #fde68a;
+        }
+
+        /* Red: Breach/Danger */
+        .status-danger {
+            background-color: #fef2f2; /* Light rose wash */
+            color: #991b1b;            /* Deep rose text */
+            border: 1px solid #fecaca;
+        }
+
+        /* Typography & Custom Cells */
+        .cell-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--danio-indigo);
+            font-weight: 700;
+        }
+
+        .cell-name {
+            font-weight: 700;
+            color: var(--danio-navy);
+        }
+
+    </style>
+</head>
+<body class="app-bg">
+
+    <nav class="nav-shell">
+        <div class="nav-content">
+            <div class="nav-brand-group">
+                <div class="brand">danio</div>
+                <div class="nav-links">
+                    <a href="/workstation" class="active">Credit Ledger</a>
+                    <a href="/documentation">Help</a>
+                </div>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="avatar">JD</div>
+                <div class="profile-info">
+                    <span class="profile-name">Jane Doe</span>
+                    <span class="profile-role">Credit Officer</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">Institutional Credit Ledger</h1>
+                <p class="page-subtitle">Standardized Loan Objects (SLO) Portfolio</p>
+            </div>
+            <div class="header-actions">
+                <a href="/reader" class="btn-primary">
+                    <span style="font-size: 16px; margin-right: 4px;">+</span> Add New SLO
+                </a>
+            </div>
+        </header>
+
+        <section class="ledger-card">
+            <table class="ledger-table">
+                <thead>
+                    <tr>
+                        <th>Object ID</th>
+                        <th>Borrower / Agreement</th>
+                        <th>Instrument</th>
+                        <th>Margin</th>
+                        <th>Maturity</th>
+                        <th>Lev. Cov</th>
+                        <th>Status</th>
+                        <th class="text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in records %}
+                    <tr>
+                        <td class="cell-id">{{ r.id }}</td>
+                        <td class="cell-name">{{ r.name }}</td>
+                        <td style="font-weight: 500; font-size: 13px;">{{ r.type }}</td>
+                        <td><span class="mono-tag">{{ r.margin }}</span></td>
+                        <td style="color: var(--danio-slate); font-size: 13px;">{{ r.maturity }}</td>
+                        <td style="font-weight: 600;">{{ r.leverage_covenant }}</td>
+                        <td>
+                            {% if r.compliance == 'Compliant' %}
+                                <span class="status-pill status-success">Compliant</span>
+                            {% elif r.compliance == 'Pending Review' %}
+                                <span class="status-pill status-warning">Pending</span>
+                            {% else %}
+                                <span class="status-pill status-danger">Breach Alert</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-right">
+                            <a href="/reader?id={{ r.id }}" class="btn-text-action">Verify Data</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</body>
+</html>
