@@ -19,120 +19,96 @@
 
         /* Green: Compliant */
         .status-success {
-            background-color: #ecfdf5; /* Light emerald wash */
-            color: #065f46;            /* Deep emerald text */
+            background-color: #ecfdf5; 
+            color: #065f46;            
             border: 1px solid #a7f3d0;
         }
 
         /* Yellow: Pending/Warning */
         .status-warning {
-            background-color: #fffbeb; /* Light amber wash */
-            color: #92400e;            /* Deep amber text */
+            background-color: #fffbeb; 
+            color: #92400e;            
             border: 1px solid #fde68a;
         }
 
         /* Red: Breach/Danger */
         .status-danger {
-            background-color: #fef2f2; /* Light rose wash */
-            color: #991b1b;            /* Deep rose text */
+            background-color: #fef2f2; 
+            color: #991b1b;            
             border: 1px solid #fecaca;
         }
 
-        /* Modified: Sets the navigation width to match the main container */
-.nav-content {
-    max-width: 1200px; 
-    margin: 0 auto;
-    padding: 24px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+        /* Typography & Custom Cells */
+        .cell-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--danio-indigo);
+            font-weight: 700;
+        }
 
-/* New: Adds specific padding to prevent the title from touching the top border */
-.page-header {
-    padding-top: 64px; 
-    margin-bottom: 40px;
-}
+        .cell-name {
+            font-weight: 700;
+            color: var(--danio-navy);
+        }
 
-/* Modified: Standardizes title height and removes squashing */
-.hero-title {
-    font-size: 40px;
-    font-weight: 800;
-    color: var(--danio-navy);
-    letter-spacing: -1.5px;
-    margin: 0;
-    line-height: 1;
-}
+        /* Data Row Animation */
+        tr { transition: background-color 0.2s ease; }
+        tr:hover { background-color: #f8fafc; }
+
     </style>
 </head>
 <body class="app-bg">
+
     <nav class="nav-shell">
         <div class="nav-content">
-            <a href="/workstation" class="brand">danio</a>
-            <div class="nav-links">
-                <a href="/reader" class="btn-primary-sm">Review New Agreement</a>
-                <a href="/documentation" class="btn-primary-sm">Help</a>
+            <div class="nav-brand-group">
+                <div class="brand">danio</div>
+                <div class="nav-links">
+                    <a href="/workstation" class="active">Credit Ledger</a>
+                    <a href="/documentation">Help</a>
+                </div>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="avatar">JD</div>
+                <div class="profile-info">
+                    <span class="profile-name">Jane Doe</span>
+                    <span class="profile-role">Credit Officer</span>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!--
     <main class="container">
         <header class="page-header">
-            <div class="header-left">
-                <h1 class="hero-title" style="font-size: 40px; text-align: left; letter-spacing: -1.5px; margin-bottom: 8px;">Credit Ledger</h1>
-                <br>
+            <div>
+                <h1 class="page-title">Institutional Credit Ledger</h1>
+                <p class="page-subtitle">Standardized Loan Objects (SLO) Portfolio</p>
+            </div>
+            <div class="header-actions">
+                <a href="/reader" class="btn-primary">
+                    <span style="font-size: 16px; margin-right: 4px;">+</span> Add New SLO
+                </a>
             </div>
         </header>
-    -->
 
-        <!-- Modified: Standardized main container style for alignment -->
-<main class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-    <header class="page-header">
-        <div class="header-left">
-            <!-- Removed <br> tag and inline squashing styles -->
-            <h1 class="hero-title">Credit Ledger</h1>
-        </div>
-    </header>
-
-        <!-- Metrics Section with Condensed Descriptions -->
-        <section class="metrics-grid">
-            <div class="card metric-card">
-                <div class="metric-content">
-                    <span class="stat-label">Portfolio Facilities</span>
-                    <!-- Dynamic value from total_facilities calculation -->
-                    <span class="stat-value">{{ total_facilities }}</span>
-                    <p class="metric-context">Total harmonized Standardized Loan Objects currently active in the ledger.</p>
-                </div>
-            </div>
-            <div class="card metric-card">
-                <div class="metric-content">
-                    <span class="stat-label">Data Health</span>
-                    <!-- Dynamic value from data_health calculation -->
-                    <span class="stat-value">{{ data_health }}%</span>
-                    <div class="progress-bar"><div class="progress-fill" style="width: {{ data_health }}%"></div></div>
-                    <p class="metric-context">Percentage of facilities with fully verified compliance and updated financial covenants.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="card table-container" style="padding: 0; border: 1px solid var(--danio-border); overflow: hidden;">
+        <section class="ledger-card">
             <table class="ledger-table">
                 <thead>
                     <tr>
                         <th>Object ID</th>
-                        <th>Agreement Name</th>
-                        <th>Facility</th>
+                        <th>Borrower / Agreement</th>
+                        <th>Instrument</th>
                         <th>Margin</th>
                         <th>Maturity</th>
-                        <th>Max Leverage</th>
+                        <th>Lev. Cov</th>
                         <th>Status</th>
                         <th class="text-right">Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="ledger-body">
                     {% for r in records %}
-                    <tr>
+                    <tr data-id="{{ r.id }}">
                         <td class="cell-id">{{ r.id }}</td>
                         <td class="cell-name">{{ r.name }}</td>
                         <td style="font-weight: 500; font-size: 13px;">{{ r.type }}</td>
@@ -158,5 +134,39 @@
         </section>
     </main>
 
+    <script>
+        // Sync with LocalStorage to handle Vercel's stateless nature
+        document.addEventListener('DOMContentLoaded', () => {
+            const tbody = document.getElementById('ledger-body');
+            const localLedger = JSON.parse(localStorage.getItem('danio_persistent_ledger') || '[]');
+            
+            localLedger.forEach(item => {
+                // Check if this ID is already in the DOM (rendered by server)
+                const exists = document.querySelector(`tr[data-id="${item.id}"]`);
+                if (!exists) {
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-id', item.id);
+                    row.innerHTML = `
+                        <td class="cell-id">${item.id}</td>
+                        <td class="cell-name">${item.name}</td>
+                        <td style="font-weight: 500; font-size: 13px;">${item.type}</td>
+                        <td><span class="mono-tag">${item.margin}</span></td>
+                        <td style="color: var(--danio-slate); font-size: 13px;">${item.maturity}</td>
+                        <td style="font-weight: 600;">${item.leverage_covenant}</td>
+                        <td>
+                            <span class="status-pill ${item.compliance === 'Compliant' ? 'status-success' : 'status-warning'}">
+                                ${item.compliance}
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <a href="/reader?id=${item.id}" class="btn-text-action">Verify Data</a>
+                        </td>
+                    `;
+                    // Prepend so the newest local items appear at the top
+                    tbody.prepend(row);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
