@@ -10,15 +10,32 @@
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 24px; 
-            height: calc(100vh - 200px); 
+            height: calc(100vh - 240px); 
             align-items: stretch; 
         }
         
         /* Simulated PDF View */
-        .pdf-viewport { background: #525659; border-radius: 8px; padding: 40px; overflow-y: auto; display: flex; justify-content: center; border: 1px solid var(--danio-border); }
-        .pdf-page { background: white; width: 100%; min-height: 1000px; padding: 60px 50px; font-family: 'Times New Roman', serif; color: #1e293b; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .pdf-viewport { 
+            background: #525659; 
+            border-radius: 8px; 
+            padding: 40px; 
+            overflow-y: auto; /* Handles the scrolling of the document */
+            display: block; /* Changed from flex to block to allow natural page height flow */
+            border: 1px solid var(--danio-border); 
+        }
+        .pdf-page { 
+            background: white; 
+            width: 100%; 
+            min-height: 1200px; /* Increased to ensure it feels like a long document */
+            padding: 80px 60px; 
+            font-family: 'Times New Roman', serif; 
+            color: #1e293b; 
+            position: relative; 
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+        }
         .pdf-page h1 { font-size: 18px; text-align: center; text-transform: uppercase; margin-bottom: 40px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-        .pdf-page p { font-size: 13px; line-height: 1.6; margin-bottom: 15px; }
+        .pdf-page p { font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
         .ocr-match { background: rgba(59, 130, 246, 0.15); border-bottom: 1px dashed #3b82f6; position: relative; }
         
         /* Intelligence Form */
@@ -31,40 +48,25 @@
         .field-group input:read-only { background: #f1f5f9; cursor: not-allowed; }
         
         /* Loading/OCR State */
-        .scanning-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
-
-        /* Button Style for Nav */
-        .btn-nav {
-            padding: 8px 16px;
-            background-color: var(--danio-navy);
-            color: white !important;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-            border: 1px solid var(--danio-navy);
-        }
-        .btn-nav:hover {
-            background-color: transparent;
-            color: var(--danio-navy) !important;
-        }
+        .scanning-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: inherit; }
     </style>
 </head>
 <body class="app-bg">
     <nav class="nav-shell" style="height: auto; min-height: 120px;">
-        <!-- Increased padding (40px top/bottom) to ensure the title isn't squashed by the nav borders -->
         <div class="nav-content" style="flex-direction: column; align-items: flex-start; padding: 40px 0 32px 0;">
-            <!-- Top Row: Logo and Button -->
+            <!-- Top Row: Brand on Left, Actions on Right -->
             <div class="nav-brand-group" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                <a href="/workstation" class="brand" style="opacity: 1; text-decoration: none; margin-top: 0;">danio</a>
-                <a href="/workstation" class="btn-primary-sm">Credit Ledger</a>
+                <a href="/workstation" class="brand" style="opacity: 1; text-decoration: none;">danio</a>
                 
+                <!-- Side-by-side Button Group -->
+                <div class="nav-links" style="display: flex; gap: 12px; align-items: center;">
+                    <a href="/workstation" class="btn-primary-sm">Credit Ledger</a>
+                    <a href="/documentation" class="btn-primary-sm">Help</a>
+                </div>
             </div>
-            <!-- Bottom Row: Section Title -->
-            <div style="margin-top: 6px; width: 100%;">
+
+            <!-- Bottom Row: Verification Title -->
+            <div style="margin-top: 16px; width: 100%;">
                 <span class="nav-current" style="font-size: 26px; font-weight: 800; color: var(--danio-navy); display: block; line-height: 1.2;">
                     {% if record %}Record Verification: {{ record.id }}{% else %}Agreement Normalization{% endif %}
                 </span>
@@ -72,7 +74,6 @@
         </div>
     </nav>
 
-    <!-- Main Container: Adjusted max-width and padding to align with Nav Brand -->
     <main class="container" style="max-width: 1400px; margin-top: 24px; padding: 0;">
         <div class="split-view">
             
@@ -94,6 +95,8 @@
                     
                     <p><strong>Article X: Miscellaneous.</strong></p>
                     <p>10.01 Governing Law. This Agreement shall be governed by and construed in accordance with the laws of <strong><span class="ocr-match">{{ record.law if record else '---' }}</span></strong>.</p>
+                    
+                    <p><em>[Additional pages of legal text would follow in a standard agreement...]</em></p>
                 </div>
             </div>
 
@@ -129,7 +132,7 @@
                         Committing to Ledger...
                     </button>
                     {% else %}
-                    <button class="btn-primary" style="width: 100%; height: 48px;" onclick="window.location.href='/workstation'">
+                    <button class="btn-secondary" style="width: 100%; height: 48px;" onclick="window.location.href='/workstation'">
                         Return to Portfolio
                     </button>
                     {% endif %}
@@ -139,7 +142,6 @@
     </main>
 
     <script>
-        // Simulate OCR effect on load for new agreements
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('scan-layer');
             const btn = document.getElementById('commit-btn');
