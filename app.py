@@ -70,6 +70,11 @@ def index():
 @app.route('/deck')
 def deck(): return render_template('pitch_deck.html')
 
+# 404 Error Handler: Redirects all missing pages to the index
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for('index'))
+
 @app.route('/workstation')
 def workstation():
     """Main Credit Ledger dashboard with dynamic metrics."""
