@@ -4,11 +4,11 @@ danio is a tool to help reduce operational bottlenecks in syndicated lending. It
 
 ## The Problem: Operational Friction
 
-The syndicated loan market is hindered by "dark data" trapped within complex legal agreements. Manual extraction of commercial terms is slow, prone to error, and prevents real-time portfolio analysis. This lack of standardization leads to settlement delays and inconsistent risk monitoring.
+The syndicated loan market is hindered by "dark data" trapped within complex financial legal agreements. Manual extraction of commercial terms is slow, prone to error, and prevents real-time portfolio analysis. This lack of standardization leads to settlement delays and inconsistent risk monitoring.
 
 ## The Solution: danio 
 
-danio provides a smart system that harmonizes credit agreements into a standardized System. By aligning bespoke financial covenants and economic terms, danio transforms a static legal document into a dynamic digital asset.
+danio provides a smart system that harmonizes credit agreements into a standardized System. By aligning bespoke financial covenants and economic terms, danio transforms a static financial legal document into a dynamic digital asset.
 
 ### Key Features
 
