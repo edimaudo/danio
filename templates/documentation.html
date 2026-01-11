@@ -6,89 +6,156 @@
     <title>danio | Documentation</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        .doc-container {
-            max-width: 900px;
-            margin: 40px auto;
+        /* Layout & Alignment */
+        .nav-content { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 24px 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+        }
+
+        .page-header { 
+            padding-top: 64px; 
+            margin-bottom: 60px; 
+        }
+
+        .hero-title { 
+            font-size: 40px; 
+            font-weight: 800; 
+            color: var(--danio-navy); 
+            letter-spacing: -1.5px; 
+            margin: 0; 
+            line-height: 1; 
+        }
+
+        .doc-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            padding-bottom: 100px;
+        }
+
+        /* Typography & Content Sections */
+        .doc-section {
+            margin-bottom: 20px;
+        }
+
+        .doc-section h2 {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--danio-indigo);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .doc-section h2::after {
+            content: "";
+            height: 1px;
+            background: var(--danio-border);
+            flex-grow: 1;
+        }
+
+        /* Pipeline Steps */
+        .pipeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .pipeline-card {
             background: white;
-            padding: 60px;
+            padding: 32px;
             border-radius: 8px;
             border: 1px solid var(--danio-border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .doc-section {
-            margin-bottom: 48px;
+
+        .step-num {
+            font-size: 12px;
+            font-weight: 900;
+            color: var(--danio-indigo);
+            margin-bottom: 16px;
+            display: block;
         }
-        .doc-section h2 {
-            font-size: 24px;
+
+        .pipeline-card h4 {
+            margin: 0 0 12px 0;
+            font-size: 18px;
             color: var(--danio-navy);
-            margin-bottom: 24px;
-            border-bottom: 2px solid var(--danio-indigo);
-            padding-bottom: 12px;
             letter-spacing: -0.5px;
         }
-        .pipeline-step {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 24px;
-            padding: 20px;
-            background: #f8fafc;
-            border-radius: 6px;
-            border-left: 4px solid var(--danio-indigo);
-        }
-        .step-number {
-            font-weight: 800;
-            color: var(--danio-indigo);
-            font-size: 18px;
-        }
-        .step-content h4 {
-            margin: 0 0 8px 0;
-            color: var(--danio-navy);
-            font-size: 16px;
-        }
-        .step-content p {
+
+        .pipeline-card p {
             margin: 0;
             font-size: 14px;
             color: var(--danio-slate);
             line-height: 1.6;
         }
-        .glossary-grid {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 20px;
-            border-top: 1px solid var(--danio-border);
-            padding-top: 20px;
+
+        /* Glossary & Attributes */
+        .glossary-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid var(--danio-border);
+            overflow: hidden;
         }
+
+        .glossary-row {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            border-bottom: 1px solid var(--danio-border);
+        }
+
+        .glossary-row:last-child { border-bottom: none; }
+
         .glossary-term {
+            padding: 24px;
+            background: white;
             font-weight: 700;
             color: var(--danio-navy);
             font-size: 14px;
+            border-right: 1px solid var(--danio-border);
         }
+
         .glossary-def {
+            padding: 24px;
             font-size: 14px;
             color: var(--danio-slate);
             line-height: 1.6;
-            margin-bottom: 20px;
         }
-        .tech-list {
-            list-style: none;
-            padding: 0;
+
+        /* Simple Attribute List */
+        .attr-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
         }
-        .tech-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid #f1f5f9;
-            display: flex;
-            justify-content: space-between;
+
+        .attr-item {
+            padding: 20px;
+            border-left: 3px solid var(--danio-navy);
+            background: white;
         }
-        .tech-label {
-            font-weight: 600;
+
+        .attr-label {
+            display: block;
+            font-weight: 700;
+            font-size: 14px;
             color: var(--danio-navy);
+            margin-bottom: 4px;
         }
-        .tech-desc {
-            color: var(--danio-slate);
+
+        .attr-desc {
             font-size: 13px;
-            max-width: 60%;
-            text-align: right;
+            color: var(--danio-slate);
         }
+
     </style>
 </head>
 <body class="app-bg">
@@ -96,84 +163,88 @@
         <div class="nav-content">
             <a href="/workstation" class="brand">danio</a>
             <div class="nav-links">
-                <a href="/workstation" class="btn-primary-sm" style="margin-right: 20px;">Credit Ledger</a>
+                <a href="/workstation" class="btn-primary-sm">Credit Ledger</a>
                 <a href="/reader" class="btn-primary-sm">Review Agreement</a>
             </div>
         </div>
     </nav>
 
-    <main class="container">
-        <div class="doc-container">
-            <header style="margin-bottom: 60px; text-align: center;">
-                <span style="color: var(--danio-indigo); font-weight: 800; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">Documentation</span>
-                <h1 style="font-size: 36px; color: var(--danio-navy); margin-top: 12px;">Credit Intelligence Framework</h1>
-                <p style="color: var(--danio-slate); font-size: 16px; max-width: 600px; margin: 16px auto;">A definitive guide to the standardization, harmonization, and monitoring of institutional credit instruments.</p>
-            </header>
+    <main class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <header class="page-header">
+            <div style="margin-bottom: 8px;">
+                <span style="color: var(--danio-indigo); font-weight: 800; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;">User Manual v1.0</span>
+            </div>
+            <h1 class="hero-title">Credit Intelligence Framework</h1>
+            <p style="color: var(--danio-slate); font-size: 18px; max-width: 700px; margin: 20px 0 0 0; line-height: 1.5;">
+                A definitive guide to the standardization, harmonization, and monitoring of institutional credit instruments.
+            </p>
+        </header>
 
+        <div class="doc-layout">
+            <!-- Section 1 -->
             <section class="doc-section">
                 <h2>1. The Normalization Pipeline</h2>
-                <div class="pipeline-step">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
+                <div class="pipeline-grid">
+                    <div class="pipeline-card">
+                        <span class="step-num">STEP 01</span>
                         <h4>Ingestion</h4>
                         <p>Bespoke Credit Agreements in PDF format are uploaded to the secure danio vault for initial OCR processing.</p>
                     </div>
-                </div>
-                <div class="pipeline-step">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
+                    <div class="pipeline-card">
+                        <span class="step-num">STEP 02</span>
                         <h4>Harmonization</h4>
                         <p>Varied legal phrasing and commercial terms are resolved into a unified framework (e.g., standardizing "Spread over SOFR").</p>
                     </div>
-                </div>
-                <div class="pipeline-step">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
+                    <div class="pipeline-card">
+                        <span class="step-num">STEP 03</span>
                         <h4>SLO Generation</h4>
                         <p>The system generates a Standardized Loan Object—a machine-readable record of all facility attributes.</p>
                     </div>
-                </div>
-                <div class="pipeline-step">
-                    <div class="step-number">04</div>
-                    <div class="step-content">
+                    <div class="pipeline-card">
+                        <span class="step-num">STEP 04</span>
                         <h4>Ledger Integration</h4>
                         <p>Final SLOs are committed to the immutable Credit Ledger for real-time portfolio tracking and auditability.</p>
                     </div>
                 </div>
             </section>
 
+            <!-- Section 2 -->
             <section class="doc-section">
                 <h2>2. Glossary of Terms</h2>
-                <div class="glossary-grid">
-                    <div class="glossary-term">SLO (Standardized Loan Object)</div>
-                    <div class="glossary-def">The fundamental data unit representing a single credit facility mapped to a universal schema.</div>
-
-                    <div class="glossary-term">Agreement Normalization</div>
-                    <div class="glossary-def">Aligning diverse legal phrasing into a consistent commercial framework across jurisdictions.</div>
-
-                    <div class="glossary-term">Compliance Breach Alert</div>
-                    <div class="glossary-def">Real-time triggers activated when an SLO’s calculated metrics exceed extracted financial covenants.</div>
+                <div class="glossary-card">
+                    <div class="glossary-row">
+                        <div class="glossary-term">SLO (Standardized Loan Object)</div>
+                        <div class="glossary-def">The fundamental data unit representing a single credit facility mapped to a universal schema.</div>
+                    </div>
+                    <div class="glossary-row">
+                        <div class="glossary-term">Agreement Normalization</div>
+                        <div class="glossary-def">Aligning diverse legal phrasing into a consistent commercial framework across jurisdictions.</div>
+                    </div>
+                    <div class="glossary-row">
+                        <div class="glossary-term">Compliance Breach Alert</div>
+                        <div class="glossary-def">Real-time triggers activated when an SLO’s calculated metrics exceed extracted financial covenants.</div>
+                    </div>
                 </div>
             </section>
 
+            <!-- Section 3 -->
             <section class="doc-section">
                 <h2>3. Standard Attributes</h2>
-                <ul class="tech-list">
-                    <li>
-                        <span class="tech-label">Object ID</span>
-                        <span class="tech-desc">Unique alphanumeric tracker for the instrument lifecycle.</span>
-                    </li>
-                    <li>
-                        <span class="tech-label">Pricing Margin</span>
-                        <span class="tech-desc">Standardized spread over base rate (e.g., S+350bps).</span>
-                    </li>
-                    <li>
-                        <span class="tech-label">Leverage Covenant</span>
-                        <span class="tech-desc">Primary compliance threshold (Max Debt/EBITDA).</span>
-                    </li>
-                </ul>
+                <div class="attr-list">
+                    <div class="attr-item">
+                        <span class="attr-label">Object ID</span>
+                        <span class="attr-desc">Unique alphanumeric tracker for the instrument lifecycle.</span>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-label">Pricing Margin</span>
+                        <span class="attr-desc">Standardized spread over base rate (e.g., S+350bps).</span>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-label">Leverage Covenant</span>
+                        <span class="attr-desc">Primary compliance threshold (Max Debt/EBITDA).</span>
+                    </div>
+                </div>
             </section>
-
         </div>
     </main>
 </body>
